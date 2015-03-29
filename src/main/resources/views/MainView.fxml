@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="gridpane_scene" fx:controller="com.alliancedata.workforceanalytics.controllers.MainController"
+          prefWidth="640.0" prefHeight="480.0"
+          xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+    <columnConstraints>
+        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints valignment="CENTER" vgrow="ALWAYS"/>
+    </rowConstraints>
+
+    <Label fx:id="label_helloWorld" text="Hello, world!" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+</GridPane>
