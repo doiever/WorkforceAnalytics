@@ -16,11 +16,11 @@ public class Session
     private final ObjectProperty<DatabaseHandler> databaseHandler;
 
     // Constructors:
-    public Session(@NotNull String name, @NotNull Integer id, @NotNull DatabaseHandler handler)
+    public Session(String name, Integer id, DatabaseHandler databaseHandler)
     {
         this.name = new SimpleStringProperty(name);
         this.id = new SimpleIntegerProperty(id);
-        this.databaseHandler = new SimpleObjectProperty<>(handler);
+        this.databaseHandler = new SimpleObjectProperty<>(databaseHandler);
     }
 
     // Properties:
@@ -66,9 +66,8 @@ public class Session
         this.name.setValue(name);
     }
 
-    public void setId(@NotNull Integer id)
+    private void setId(@NotNull Integer id)
     {
-        // TODO: ensure unique session IDs across all sessions
         this.id.setValue(id);
     }
 
