@@ -42,6 +42,13 @@
             <version>${sqlite4java.version}</version>
             <type>dll</type>
         </dependency>
+
+        <!-- ControlsFX -->
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>8.20.8</version>
+        </dependency>
     </dependencies>
 
     <!-- Build plugins -->
@@ -67,7 +74,7 @@
                 </dependencies>
             </plugin>
 
-            <!-- Maven dependency plugin: Copies the sqlite4java library and binary files to the runtime lib directory -->
+            <!-- Maven dependency plugin: Copies library files to output lib directory -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -93,6 +100,13 @@
                                     <artifactId>sqlite4java-win32-x86</artifactId>
                                     <version>${sqlite4java.version}</version>
                                     <type>dll</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.controlsfx</groupId>
+                                    <artifactId>controlsfx</artifactId>
+                                    <version>8.20.8</version>
                                     <overWrite>true</overWrite>
                                     <outputDirectory>${project.build.directory}/lib</outputDirectory>
                                 </artifactItem>
