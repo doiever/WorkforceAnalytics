@@ -14,5 +14,5 @@ public class Constants
     public static final int DEFAULT_SCENE_HEIGHT = 480;
 
     // Relative path to View files:
-    public static final String MAIN_VIEW = "/views/MainView.fxml";
+    public static final String MAIN_VIEW = "/views/Main View.fxml";
 }
