@@ -6,57 +6,51 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
+import java.io.Serializable;
 
 /**
  *  Implementation of the system's Session Manager.
  *  The session manager remembers the user's current {@code Session} and previous {@code Session}.
  *  It also allows for the creation, selection, and deletion of {@code Session}s.
  */
-public class SessionManager
+public class SessionManager implements Serializable
 {
     // Fields:
-    private final ObjectProperty<Session> currentSession;
-    private final ObjectProperty<Session> previousSession;
+    private static final ObjectProperty<Session> currentSession = new SimpleObjectProperty<>();
+    private static final ObjectProperty<Session> previousSession= new SimpleObjectProperty<>();
 
-    // Constructors:
-    public SessionManager()
-    {
-        this.currentSession = new SimpleObjectProperty<>();
-        this.previousSession = new SimpleObjectProperty<>();
-    }
 
     // Properties:
     @NotNull
-    public ObjectProperty<Session> currentSessionProperty()
+    public static ObjectProperty<Session> currentSessionProperty()
     {
-        return this.currentSession;
+        return currentSession;
     }
 
     @NotNull
-    public ObjectProperty<Session> previousSessionProperty()
+    public static ObjectProperty<Session> previousSessionProperty()
     {
-        return this.previousSession;
+        return previousSession;
     }
 
     // Methods:
     @NotNull
-    public Session getCurrentSession()
+    public static Session getCurrentSession()
     {
-        return this.currentSession.getValue();
+        return currentSession.getValue();
     }
 
     @NotNull
-    public Session getPreviousSession()
+    public static Session getPreviousSession()
     {
-        return this.previousSession.getValue();
+        return previousSession.getValue();
     }
 
     @NotNull
-    public static Session createSession(String name, File databaseFile)
+    public static Session createSession(String name, String databaseFileName)
     {
         // TODO: Ensure unique ID across sessions
         int id = -1;
-        return new Session(name, id, new DatabaseHandler(databaseFile));
+        return new Session(name, id, new DatabaseHandler(databaseFileName));
     }
 }

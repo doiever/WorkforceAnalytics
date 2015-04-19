@@ -7,28 +7,35 @@ import com.almworks.sqlite4java.SQLiteQueue;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
 
 /**
- *  Implementation of a database handler.
- *  The database handler is a per-{@code Session} object which
- *  handles database reads and query executions.
+ *  Implementation of a Database Handler.
+ *  The Database Handler is a per-Session object which handles database interaction.
  */
-public class DatabaseHandler
+public class DatabaseHandler implements Serializable
 {
     // Fields:
-    private SQLiteConnection databaseConnection;
+    transient private SQLiteConnection databaseConnection;
     private final ObjectProperty<File> databaseFile;
 
     // Constructors:
-    public DatabaseHandler(@NotNull File databaseFile)
-    {
-        this.databaseFile = new SimpleObjectProperty<>(databaseFile);
-    }
-
     public DatabaseHandler(@NotNull String fileName)
     {
-        this.databaseFile = new SimpleObjectProperty<>(new File(fileName));
+        this.databaseFile = new SimpleObjectProperty<>();
+        File file = tryCreateFile(fileName);
+
+        if (file != null && file.exists())
+        {
+            databaseFile.setValue(file);
+        }
+        else
+        {
+            // TODO
+        }
     }
 
     // Properties:
@@ -110,5 +117,32 @@ public class DatabaseHandler
         return success;
     }
 
-    // TODO: fetch(), getData()
+    /**
+     * Attempts to create the specified file.
+     * @param fileName The full path of the file to create.
+     * @return An {@code File} object at the specified location.
+     */
+    private static File tryCreateFile(@NotNull String fileName)
+    {
+        boolean fileCreated = false;
+
+        try
+        {
+            File file = new File(fileName);
+            fileCreated = file.createNewFile();
+            return file;
+        }
+        catch (IOException ex)
+        {
+            // TODO
+            ex.printStackTrace();
+            return null;
+        }
+        catch (SecurityException ex)
+        {
+            // TODO
+            ex.printStackTrace();
+            return null;
+        }
+    }
 }
