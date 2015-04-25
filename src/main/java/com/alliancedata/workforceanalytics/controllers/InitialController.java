@@ -4,6 +4,8 @@ import com.alliancedata.workforceanalytics.Constants;
 import com.alliancedata.workforceanalytics.SessionManager;
 import com.alliancedata.workforceanalytics.models.Session;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +19,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
@@ -25,7 +30,9 @@ import java.util.ResourceBundle;
 public class InitialController implements Initializable
 {
 	// region Fields
-	public static Stage previousStage;
+	public static Stage initialStage;
+	private static Session previousSession;
+	private final StringProperty lastSessionTextProperty = new SimpleStringProperty("");
 	// endregion
 
     // region View components
@@ -39,22 +46,34 @@ public class InitialController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-		// TODO: Put stuff here that needs to run when the view is loaded
+		label_lastSession.textProperty().bind(lastSessionTextProperty);
+
+		// TODO: Load previous session
+		// SessionManager.previousSessionProperty().setValue(null);
+
+		// Update lastSessionTextProperty with previous session's date:
+		Date previousSessionDate = new Date(); // SessionManager.previousSessionProperty().getValue().getDate();
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String previousSessionDateString = dateFormat.format(previousSessionDate);
+		String previousSessionText = String.format("It looks like your last session was on %s.", previousSessionDateString);
+		lastSessionTextProperty.setValue(previousSessionText);
     }
 
 	public void button_startNewSession_onAction(ActionEvent event)
 	{
-		Session newSession = SessionManager.createSession("test session", "nope");
+		// Create a new session:
+		Session newSession = SessionManager.createSession();
 		SessionManager.currentSessionProperty().setValue(newSession);
-		this.loadMainView(event);
+
+		this.loadMainView();
 	}
 
 	public void button_usePreviousSession_onAction(ActionEvent event)
 	{
-		// TODO: Load previous session
-		// Session previousSession = herp derp doo
-		// SessionManager.currentSessionProperty().setValue(previousSession);
-		this.loadMainView(event);
+		// Use previous session as current session:
+		SessionManager.currentSessionProperty().setValue(previousSession);
+
+		this.loadMainView();
 	}
 
 	public void button_exit_onAction(ActionEvent event)
@@ -62,7 +81,10 @@ public class InitialController implements Initializable
 		Platform.exit();
 	}
 
-	public void loadMainView(ActionEvent event)
+	/**
+	 * Closes the Initial view and opens the Main view as a new stage.
+	 */
+	public void loadMainView()
 	{
 		FXMLLoader loader = new FXMLLoader();
 
@@ -75,7 +97,7 @@ public class InitialController implements Initializable
 			mainStage.setTitle(Constants.APPLICATION_NAME);
 			mainStage.setScene(scene);
 			mainStage.show();
-			previousStage.close();
+			initialStage.close();
 		}
 		catch (IOException ex)
 		{

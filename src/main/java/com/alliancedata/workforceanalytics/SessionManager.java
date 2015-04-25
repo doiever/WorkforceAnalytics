@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
+import java.nio.file.Paths;
 
 /**
  *  Implementation of the system's Session Manager.
@@ -91,11 +92,16 @@ public final class SessionManager implements Serializable
 	 * @return A new {@code Session} object.
 	 */
     @NotNull
-    public static Session createSession(String name, String databaseFileName)
+    public static Session createSession()
     {
-        // TODO: Ensure unique ID across sessions
-        int id = -1;
-        return new Session(name, id, new DatabaseHandler(databaseFileName));
+        // Increment latest sesson ID:
+        latestSessionId.setValue(latestSessionId.getValue() + 1);
+        final int sessionId = latestSessionId.getValue();
+
+        // Generate database file name:
+        final String databaseFileName = Paths.get(Constants.SESSIONS_DIRECTORY, Integer.toString(sessionId)).toString();
+
+        return new Session(sessionId, new DatabaseHandler(databaseFileName));
     }
 	// endregion
 }

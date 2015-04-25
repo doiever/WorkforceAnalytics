@@ -21,7 +21,7 @@
          <content>
             <VBox spacing="3.0" GridPane.rowIndex="1">
                <children>
-                  <Label fx:id="label_lastSession" alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="It looks like your last session was on yyyy-mm-dd." StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER" />
+                  <Label fx:id="label_lastSession" alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="It looks like your last session was on yyyy-MM-dd." StackPane.alignment="TOP_CENTER" VBox.vgrow="NEVER" />
                   <Label alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Would you like to start a new session or pick up where you left off last time?" />
                </children>
                <GridPane.margin>

@@ -19,8 +19,7 @@ public class Constants
 	// endregion
 
 	// region Sessions
-	public static final File SESSIONS_DIRECTORY = new File(System.getProperty("user.home") + "/.wfa/sessions");
-	public static final SessionManager SESSION_MANAGER = new SessionManager();
+	public static final String SESSIONS_DIRECTORY = System.getProperty("user.home") + "/.wfa/sessions";
 	// endregion
 
     // region Miscellaneous

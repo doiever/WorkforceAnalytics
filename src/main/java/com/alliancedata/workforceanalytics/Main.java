@@ -11,6 +11,8 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
+
 /**
  * Handles application initialization and displays the first View.
  */
@@ -19,16 +21,18 @@ public class Main extends Application
     public static void main(String[] args) throws Exception
     {
 	    // Ensure SESSIONS_DIRECTORY exists and is writable:
-	    if (!Constants.SESSIONS_DIRECTORY.exists())
+	    if (!new File(Constants.SESSIONS_DIRECTORY).exists())
 	    {
+			File sessionsDirectory = new File(Constants.SESSIONS_DIRECTORY);
+
 		    try
 		    {
-			    Constants.SESSIONS_DIRECTORY.mkdirs();
+			    sessionsDirectory.mkdirs();
 		    }
 		    catch (SecurityException ex)
 		    {
 			    StringBuilder messagebuilder = new StringBuilder("Unable to write to configuration directory located at \"");
-			    messagebuilder.append(Constants.SESSIONS_DIRECTORY.getAbsolutePath());
+			    messagebuilder.append(sessionsDirectory.getAbsolutePath());
 			    messagebuilder.append("\".");
 
 			    Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -57,7 +61,7 @@ public class Main extends Application
         Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.INITIAL_VIEW));
         Scene scene = new Scene(rootNode);
 
-	    InitialController.previousStage = stage;
+	    InitialController.initialStage = stage;
 
         stage.setTitle(Constants.APPLICATION_NAME);
 	    stage.setResizable(false);

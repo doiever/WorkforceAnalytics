@@ -15,38 +15,26 @@ import java.util.Date;
 public class Session implements Serializable
 {
     // region Fields
-    private final StringProperty name;
     private final IntegerProperty id;
+    private final ObjectProperty<Date> date;
     private final ObjectProperty<DatabaseHandler> databaseHandler;
-	private final ObjectProperty<Date> date;
 	// endregion
 
     // region Constructors
     /**
      * Creates a new {@code Session} object with the specified parameters.
-     * @param name The name of the Session
      * @param id The unique ID number of the Session
      * @param databaseHandler The {@code DatabaseHandler} object used for database interactions
      */
-    public Session(String name, Integer id, DatabaseHandler databaseHandler)
+    public Session(Integer id, DatabaseHandler databaseHandler)
     {
-        this.name = new SimpleStringProperty(name);
         this.id = new SimpleIntegerProperty(id);
+        this.date = new SimpleObjectProperty<>(Calendar.getInstance().getTime());
         this.databaseHandler = new SimpleObjectProperty<>(databaseHandler);
-	    this.date = new SimpleObjectProperty<>(Calendar.getInstance().getTime());
     }
 	// endregion
 
     // region Properties
-    @NotNull
-    /**
-     * Gets the Session's name property.
-     */
-    public StringProperty nameProperty()
-    {
-        return this.name;
-    }
-
     @NotNull
     /**
      * Gets the Session's id property.
@@ -77,15 +65,6 @@ public class Session implements Serializable
 
     // region Methods
     /**
-     * Gets the Session's name.
-     */
-    @NotNull
-    public String getName()
-    {
-        return this.name.getValue();
-    }
-
-    /**
      * Gets the Session's id.
      */
     @NotNull
@@ -111,24 +90,6 @@ public class Session implements Serializable
 	{
 		return this.date.getValue();
 	}
-
-    /**
-     * Sets the name of the Session.
-     * @param name The new name of the session
-     */
-    public void setName(@NotNull String name)
-    {
-        this.name.setValue(name);
-    }
-
-    /**
-     * Sets the id of the Session.
-     * @param id The new id of the session
-     */
-    private void setId(@NotNull Integer id)
-    {
-        this.id.setValue(id);
-    }
 
     /**
      * Sets the database handler of the session.
