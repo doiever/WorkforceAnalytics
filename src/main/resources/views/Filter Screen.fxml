@@ -133,6 +133,8 @@
                   <CheckBox fx:id="grid_JobChange" mnemonicParsing="false" text="Job Change Category_WFA" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
                   <CheckBox fx:id="grindHandT" mnemonicParsing="false" text="Hire and Termination" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                   <CheckBox fx:id="grid_AreaExper" mnemonicParsing="false" text="Area of Expertise_WFA" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                  <Button fx:id="grid_button_Gen" mnemonicParsing="false" text="Generate" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
+                  <Button fx:id="grid_button_Cancel" mnemonicParsing="false" text="Cancel" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
                </children>
             </GridPane>
          </children>
