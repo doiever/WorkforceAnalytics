@@ -4,6 +4,8 @@ import javafx.beans.property.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Implementation of a user Session.
@@ -12,12 +14,14 @@ import java.io.Serializable;
  */
 public class Session implements Serializable
 {
-    // Fields:
+    // region Fields
     private final StringProperty name;
     private final IntegerProperty id;
     private final ObjectProperty<DatabaseHandler> databaseHandler;
+	private final ObjectProperty<Date> date;
+	// endregion
 
-    // Constructors:
+    // region Constructors
     /**
      * Creates a new {@code Session} object with the specified parameters.
      * @param name The name of the Session
@@ -29,9 +33,11 @@ public class Session implements Serializable
         this.name = new SimpleStringProperty(name);
         this.id = new SimpleIntegerProperty(id);
         this.databaseHandler = new SimpleObjectProperty<>(databaseHandler);
+	    this.date = new SimpleObjectProperty<>(Calendar.getInstance().getTime());
     }
+	// endregion
 
-    // Properties:
+    // region Properties
     @NotNull
     /**
      * Gets the Session's name property.
@@ -59,33 +65,52 @@ public class Session implements Serializable
         return this.databaseHandler;
     }
 
-    // Functions:
-    @NotNull
+	@NotNull
+	/**
+	 * Gets the Session's date property
+	 */
+	public ObjectProperty<Date> dateProperty()
+	{
+		return this.date;
+	}
+	// endregion
+
+    // region Methods
     /**
      * Gets the Session's name.
      */
+    @NotNull
     public String getName()
     {
         return this.name.getValue();
     }
 
-    @NotNull
     /**
-     * Gets the Session's id property.
+     * Gets the Session's id.
      */
+    @NotNull
     public Integer getId()
     {
         return this.id.getValue();
     }
 
-    @NotNull
     /**
      * Gets the Session's database handler.
      */
+    @NotNull
     public DatabaseHandler getDatabaseHandler()
     {
         return this.databaseHandler.getValue();
     }
+
+	/**
+	 * Gets the Session's date.
+	 */
+	@NotNull
+	public Date getDate()
+	{
+		return this.date.getValue();
+	}
 
     /**
      * Sets the name of the Session.
@@ -113,4 +138,5 @@ public class Session implements Serializable
     {
         this.databaseHandler.setValue(databaseHandler);
     }
+	// endregion
 }
