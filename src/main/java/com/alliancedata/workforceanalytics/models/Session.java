@@ -1,10 +1,8 @@
 package com.alliancedata.workforceanalytics.models;
 
-import javafx.beans.property.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -15,9 +13,9 @@ import java.util.Date;
 public class Session implements Serializable
 {
     // region Fields
-    private final IntegerProperty id;
-    private final ObjectProperty<Date> date;
-    private final ObjectProperty<DatabaseHandler> databaseHandler;
+    private int id = -1;
+    private Date date = new Date();
+    private DatabaseHandler databaseHandler = null;
 	// endregion
 
     // region Constructors
@@ -28,58 +26,18 @@ public class Session implements Serializable
      */
     public Session(Integer id, DatabaseHandler databaseHandler)
     {
-        this.id = new SimpleIntegerProperty(id);
-        this.date = new SimpleObjectProperty<>(Calendar.getInstance().getTime());
-        this.databaseHandler = new SimpleObjectProperty<>(databaseHandler);
+        this.id = id;
+        this.databaseHandler = databaseHandler;
     }
-	// endregion
-
-    // region Properties
-    @NotNull
-    /**
-     * Gets the Session's id property.
-     */
-    public IntegerProperty idProperty()
-    {
-        return this.id;
-    }
-
-    @NotNull
-    /**
-     * Gets the Session's database handler property.
-     */
-    public ObjectProperty<DatabaseHandler> databaseHandlerProperty()
-    {
-        return this.databaseHandler;
-    }
-
-	@NotNull
-	/**
-	 * Gets the Session's date property
-	 */
-	public ObjectProperty<Date> dateProperty()
-	{
-		return this.date;
-	}
 	// endregion
 
     // region Methods
     /**
      * Gets the Session's id.
      */
-    @NotNull
-    public Integer getId()
+    public int getId()
     {
-        return this.id.getValue();
-    }
-
-    /**
-     * Gets the Session's database handler.
-     */
-    @NotNull
-    public DatabaseHandler getDatabaseHandler()
-    {
-        return this.databaseHandler.getValue();
+        return this.id;
     }
 
 	/**
@@ -88,16 +46,16 @@ public class Session implements Serializable
 	@NotNull
 	public Date getDate()
 	{
-		return this.date.getValue();
+		return this.date;
 	}
 
     /**
-     * Sets the database handler of the session.
-     * @param databaseHandler The new database handler for the session
+     * Gets the Session's database handler.
      */
-    public void setDatabaseHandler(@NotNull DatabaseHandler databaseHandler)
+    @NotNull
+    public DatabaseHandler getDatabaseHandler()
     {
-        this.databaseHandler.setValue(databaseHandler);
+        return this.databaseHandler;
     }
 	// endregion
 }

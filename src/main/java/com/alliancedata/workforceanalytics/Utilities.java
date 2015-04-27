@@ -3,7 +3,7 @@ package com.alliancedata.workforceanalytics;
 /**
  * Contains static application-wide helper methods.
  */
-public class Utility
+public class Utilities
 {
 	/**
 	 * Gets a file's extension as a String.

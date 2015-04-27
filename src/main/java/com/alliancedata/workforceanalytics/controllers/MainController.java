@@ -55,6 +55,7 @@ public class MainController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+	    // Set up bindings, listeners, and event handlers:
 	    titledPane_data.expandedProperty().setValue(true);
 	    this.dataBind();
     }

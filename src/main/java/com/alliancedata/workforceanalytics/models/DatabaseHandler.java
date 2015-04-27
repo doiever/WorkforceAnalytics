@@ -1,11 +1,10 @@
 package com.alliancedata.workforceanalytics.models;
 
+import com.alliancedata.workforceanalytics.Utilities;
 import com.almworks.sqlite4java.SQLiteConnection;
 import com.almworks.sqlite4java.SQLiteException;
 import com.almworks.sqlite4java.SQLiteJob;
 import com.almworks.sqlite4java.SQLiteQueue;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -18,48 +17,39 @@ import java.io.Serializable;
  */
 public class DatabaseHandler implements Serializable
 {
-    // Fields:
-    transient private SQLiteConnection databaseConnection;
-    private final ObjectProperty<File> databaseFile;
+    // region Fields
+    private transient SQLiteConnection connection;
+    private File databaseFile = null;
+	// endregion
 
-    // Constructors:
+    // region Constructors
     public DatabaseHandler(@NotNull String fileName)
     {
-        this.databaseFile = new SimpleObjectProperty<>();
-        File file = tryCreateFile(fileName);
+	    String databaseFileName = fileName;
 
-        if (file != null && file.exists())
+	    if (!Utilities.getFileExtension(databaseFileName).equalsIgnoreCase("sqlite3"))
+	    {
+			databaseFileName += ".sqlite3";
+	    }
+
+        File databaseFile = tryCreateFile(databaseFileName);
+
+        if (databaseFile != null && databaseFile.exists())
         {
-            databaseFile.setValue(file);
+            this.databaseFile = databaseFile;
         }
         else
         {
-            // TODO
+            // TODO: databaseFile was unable to be created.
         }
     }
+	// endregion
 
-    // Properties:
-    @NotNull
-    public ObjectProperty<File> databaseFileProperty()
-    {
-        return this.databaseFile;
-    }
-
-    // Methods:
+    // region Methods
     @NotNull
     public File getDatabaseFile()
     {
-        return this.databaseFile.getValue();
-    }
-
-    public void setDatabaseFile(@NotNull File databaseFile)
-    {
-        this.databaseFile.setValue(databaseFile);
-    }
-
-    public void setFile(@NotNull String fileName)
-    {
-        this.databaseFile.setValue(new File(fileName));
+        return this.databaseFile;
     }
 
     public boolean executeQuery(@NotNull String query)
@@ -145,4 +135,5 @@ public class DatabaseHandler implements Serializable
             return null;
         }
     }
+	// endregion
 }

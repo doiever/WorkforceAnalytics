@@ -1,7 +1,6 @@
 package com.alliancedata.workforceanalytics.controllers;
 
 import com.alliancedata.workforceanalytics.Constants;
-import com.alliancedata.workforceanalytics.SessionManager;
 import com.alliancedata.workforceanalytics.models.Session;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,7 +19,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -32,7 +30,7 @@ public class InitialController implements Initializable
 	// region Fields
 	public static Stage initialStage;
 	private static Session previousSession;
-	private final StringProperty lastSessionTextProperty = new SimpleStringProperty("");
+	private final StringProperty previousSessionTextProperty = new SimpleStringProperty("");
 	// endregion
 
     // region View components
@@ -46,24 +44,23 @@ public class InitialController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-		label_lastSession.textProperty().bind(lastSessionTextProperty);
+		label_lastSession.textProperty().bind(previousSessionTextProperty);
 
-		// TODO: Load previous session
-		// SessionManager.previousSessionProperty().setValue(null);
+	    // Update previousSessionTextProperty with previous session's date:
+	    Date previousSessionDate = Constants.SESSION_MANAGER.getPreviousSession().getDate();
+	    DateFormat dateFormat = DateFormat.getDateTimeInstance();
+	    String previousSessionDateString = dateFormat.format(previousSessionDate);
+	    String previousSessionText = String.format("It looks like your most recent session was started on %s.",
+		    previousSessionDateString);
 
-		// Update lastSessionTextProperty with previous session's date:
-		Date previousSessionDate = new Date(); // SessionManager.previousSessionProperty().getValue().getDate();
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String previousSessionDateString = dateFormat.format(previousSessionDate);
-		String previousSessionText = String.format("It looks like your last session was on %s.", previousSessionDateString);
-		lastSessionTextProperty.setValue(previousSessionText);
+		previousSessionTextProperty.setValue(previousSessionText);
     }
 
 	public void button_startNewSession_onAction(ActionEvent event)
 	{
 		// Create a new session:
-		Session newSession = SessionManager.createSession();
-		SessionManager.currentSessionProperty().setValue(newSession);
+		Session newSession = Constants.SESSION_MANAGER.createSession();
+		Constants.SESSION_MANAGER.setCurrentSession(newSession);
 
 		this.loadMainView();
 	}
@@ -71,7 +68,7 @@ public class InitialController implements Initializable
 	public void button_usePreviousSession_onAction(ActionEvent event)
 	{
 		// Use previous session as current session:
-		SessionManager.currentSessionProperty().setValue(previousSession);
+		Constants.SESSION_MANAGER.setCurrentSession(Constants.SESSION_MANAGER.getPreviousSession());
 
 		this.loadMainView();
 	}
@@ -82,7 +79,7 @@ public class InitialController implements Initializable
 	}
 
 	/**
-	 * Closes the Initial view and opens the Main view as a new stage.
+	 * Closes the Initial view and opens the Main view in a new stage.
 	 */
 	public void loadMainView()
 	{
@@ -95,14 +92,15 @@ public class InitialController implements Initializable
 			Scene scene = new Scene(rootNode);
 
 			mainStage.setTitle(Constants.APPLICATION_NAME);
+			mainStage.setOnCloseRequest(Constants.CLOSE_EVENT_HANDLER);
 			mainStage.setScene(scene);
 			mainStage.show();
 			initialStage.close();
 		}
 		catch (IOException ex)
 		{
+			// TODO: Can't find Constants.MAIN_VIEW file.
 			ex.printStackTrace();
-			// TODO
 		}
 	}
 }

@@ -1,7 +1,7 @@
 package com.alliancedata.workforceanalytics.models;
 
 import com.alliancedata.workforceanalytics.Enums;
-import com.alliancedata.workforceanalytics.Utility;
+import com.alliancedata.workforceanalytics.Utilities;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -168,7 +168,7 @@ public class DataImportModel implements Serializable
 	 */
 	public void addFile(File file)
 	{
-		if (file != null && file.length() > 0 && Utility.getFileExtension(file.getName()).equalsIgnoreCase("csv"))
+		if (file != null && file.length() > 0 && Utilities.getFileExtension(file.getName()).equalsIgnoreCase("csv"))
 		{
 			if (file.getName().toLowerCase().startsWith("headcount"))
 			{
@@ -193,7 +193,7 @@ public class DataImportModel implements Serializable
 	 */
 	public void removeFile(File file)
 	{
-		if (file != null && file.length() > 0 && Utility.getFileExtension(file.getName()).equalsIgnoreCase("csv"))
+		if (file != null && file.length() > 0 && Utilities.getFileExtension(file.getName()).equalsIgnoreCase("csv"))
 		{
 			if (file.getName().toLowerCase().startsWith("headcount"))
 			{
