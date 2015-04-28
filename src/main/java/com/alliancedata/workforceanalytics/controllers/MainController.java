@@ -255,11 +255,6 @@ public class MainController implements Initializable
 						String token = tokenizer.nextToken();
 						row.add(token);
 					}
-					try {
-						Thread.sleep(5);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
 
 					data.add(row);
 				}
