@@ -3,9 +3,21 @@ package com.alliancedata.workforceanalytics.controllers;
 import com.alliancedata.workforceanalytics.Constants;
 import com.alliancedata.workforceanalytics.Enums;
 import com.alliancedata.workforceanalytics.LinkedListValueFactory;
+import com.alliancedata.workforceanalytics.Utilities;
 import com.alliancedata.workforceanalytics.models.DataImportModel;
+import com.sun.javafx.collections.ObservableListWrapper;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -31,6 +43,8 @@ public class MainController implements Initializable
 {
 	// region Fields
     private DataImportModel dataImportModel = new DataImportModel();
+	private StringProperty statusTextProperty = new SimpleStringProperty("Idle");
+	private BooleanProperty isLoadingData = new SimpleBooleanProperty(false);
 	// endregion
 
     // region View components
@@ -50,14 +64,15 @@ public class MainController implements Initializable
 	@FXML public VBox vbox_data;
     @FXML public TitledPane titledPane_data;
 	@FXML public ListView<File> listView_fileList;
+	@FXML public ProgressBar progressBar;
 	// endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
 	    // Set up bindings, listeners, and event handlers:
-	    titledPane_data.expandedProperty().setValue(true);
-	    this.dataBind();
+	    dataBind();
+	    this.titledPane_data.expandedProperty().setValue(true);
     }
 
     public void hyperlink_importData_OnAction(ActionEvent event)
@@ -73,32 +88,87 @@ public class MainController implements Initializable
 	    if (selectedFiles == null || selectedFiles.size() <= 0) return;
 
 	    ArrayList<File> files = new ArrayList<>(selectedFiles);
+		this.dataImportModel.setFiles(files);
 
-	    // TODO: offload to separate thread:
-	    this.placeDataFiles(files);
-	    this.createColumns();
-	    this.getData();
+	    this.isLoadingData.setValue(true);
+	    this.statusTextProperty.setValue("Reading data...");
+
+	    // Load data in the background:
+	    Task<Void> getDataTask = new Task<Void>() {
+		    @Override
+		    protected Void call() throws Exception {
+			    dataImportModel.setColumns(createHeadcountColumns(), Enums.FileType.Headcount);
+			    dataImportModel.setColumns(createActivityColumns(), Enums.FileType.Activity);
+			    dataImportModel.setData(getHeadcountData(), Enums.FileType.Headcount);
+			    dataImportModel.setData(getActivityData(), Enums.FileType.Activity);
+
+			    return null;
+		    }
+	    };
+
+	    this.progressBar.progressProperty().bind(getDataTask.progressProperty());
+
+	    // Update UI once background tasks finish:
+	    getDataTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+		    @Override
+		    public void handle(WorkerStateEvent event) {
+			    Platform.runLater(new Runnable() {
+				    @Override
+				    public void run() {
+					    int headcountRowCount = dataImportModel.getHeadcountData().size();
+					    int activityRowCount = dataImportModel.getActivityData().size();
+					    int headcountFileCount = dataImportModel.getHeadcountFiles().size();
+					    int activityFileCount = dataImportModel.getActivityFiles().size();
+					    String statusText = String.format("Read %d rows from %d headcount file%s and %d rows from %d activity file%s.",
+						    headcountRowCount, headcountFileCount, headcountFileCount > 1 ? "s" : "",
+						    activityRowCount, activityFileCount, activityFileCount > 1 ? "s" : "");
+					    statusTextProperty.setValue(statusText);
+					    bindColumns();
+					    isLoadingData.setValue(false);
+				    }
+			    });
+		    }
+	    });
+
+	    // Failure while reading data:
+	    getDataTask.setOnFailed(new EventHandler<WorkerStateEvent>() {
+		    @Override
+		    public void handle(WorkerStateEvent event) {
+			    String text = getDataTask.getException() == null ? getDataTask.getMessage() : getDataTask.getException().getMessage();
+				Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "Data Error", null, "An error occurred while reading data.", text);
+		    }
+	    });
+
+	    // getDataTask.run();
+	    new Thread(getDataTask).start();
     }
 
 	private void dataBind()
 	{
 		// Bind compontent content to data model:
-		vbox_data.visibleProperty().bindBidirectional(this.dataImportModel.hasDataProperty());
-		tableView_headcountData.itemsProperty().bindBidirectional(this.dataImportModel.headcountDataProperty());
-		tableView_activityData.itemsProperty().bindBidirectional(this.dataImportModel.activityDataProperty());
-		listView_fileList.itemsProperty().bindBidirectional(this.dataImportModel.allFilesProperty());
+		this.vbox_data.visibleProperty().bindBidirectional(new SimpleBooleanProperty(true));
+		this.tableView_headcountData.itemsProperty().bindBidirectional(this.dataImportModel.headcountDataProperty());
+		this.tableView_activityData.itemsProperty().bindBidirectional(this.dataImportModel.activityDataProperty());
+		this.listView_fileList.itemsProperty().bindBidirectional(this.dataImportModel.allFilesProperty());
+		this.label_status.textProperty().bindBidirectional(this.statusTextProperty);
+		this.progressBar.visibleProperty().bindBidirectional(isLoadingData);
+	}
+
+	private void bindColumns()
+	{
+		// Since we can't bind a TableView's columns in the traditional JavaFX way (there is no
+		// ColumnsProperty), we have to bind each TableView's list of columns manually *after*
+		// the column data has been read from the files and TableColumn objects are created.
+
 		Bindings.bindContentBidirectional(tableView_headcountData.getColumns(), this.dataImportModel.getHeadcountColumns());
 		Bindings.bindContentBidirectional(tableView_activityData.getColumns(), this.dataImportModel.getActivityColumns());
 	}
 
-	private void placeDataFiles(@NotNull ArrayList<File> files)
+	@NotNull
+	private ObservableList<TableColumn<LinkedList<String>, ?>> createHeadcountColumns()
 	{
-		this.dataImportModel.addFiles(files);
-	}
+		ObservableList<TableColumn<LinkedList<String>, ?>> columns = new ObservableListWrapper<>(FXCollections.observableArrayList());
 
-	private void createColumns()
-	{
-		// Create headcount columns:
 		for (File file : this.dataImportModel.getHeadcountFiles())
 		{
 			int columnIndex = 0;
@@ -114,16 +184,24 @@ public class MainController implements Initializable
 					String columnName = tokenizer.nextToken().trim();
 					TableColumn<LinkedList<String>, String> column = new TableColumn<>(columnName);
 					column.setCellValueFactory(new LinkedListValueFactory(columnIndex++));
-					this.dataImportModel.addColumn(column, Enums.FileType.Headcount);
+					columns.add(column);
 				}
 			}
 			catch (IOException ex)
 			{
+				// TODO: Unable to read from a file
 				ex.printStackTrace();
 			}
 		}
 
-		// Create activity columns:
+		return columns;
+	}
+
+	@NotNull
+	private ObservableList<TableColumn<LinkedList<String>, ?>> createActivityColumns()
+	{
+		ObservableList<TableColumn<LinkedList<String>, ?>> columns = new ObservableListWrapper<>(FXCollections.observableArrayList());
+
 		for (File file : this.dataImportModel.getActivityFiles())
 		{
 			int columnIndex = 0;
@@ -139,19 +217,24 @@ public class MainController implements Initializable
 					String columnName = tokenizer.nextToken().trim();
 					TableColumn<LinkedList<String>, String> column = new TableColumn<>(columnName);
 					column.setCellValueFactory(new LinkedListValueFactory(columnIndex++));
-					this.dataImportModel.addColumn(column, Enums.FileType.Activity);
+					columns.add(column);
 				}
 			}
 			catch (IOException ex)
 			{
+				// TODO: Unable to read from a file
 				ex.printStackTrace();
 			}
 		}
+
+		return columns;
 	}
 
-	private void getData()
+	@NotNull
+	private ObservableList<LinkedList<String>> getHeadcountData()
 	{
-		// Get headcount data:
+		ObservableList<LinkedList<String>> data = new ObservableListWrapper<>(FXCollections.observableArrayList());
+
 		for (File file : this.dataImportModel.getHeadcountFiles())
 		{
 			try (BufferedReader reader = new BufferedReader(new FileReader(file)))
@@ -172,17 +255,30 @@ public class MainController implements Initializable
 						String token = tokenizer.nextToken();
 						row.add(token);
 					}
+					try {
+						Thread.sleep(5);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 
-					this.dataImportModel.addRow(row, Enums.FileType.Headcount);
+					data.add(row);
 				}
 			}
 			catch (IOException ex)
 			{
+				// TODO: Unable to read from a file
 				ex.printStackTrace();
 			}
 		}
 
-		// Get activity data:
+		return data;
+	}
+
+	@NotNull
+	private ObservableList<LinkedList<String>> getActivityData()
+	{
+		ObservableList<LinkedList<String>> data = new ObservableListWrapper<>(FXCollections.observableArrayList());
+
 		for (File file : this.dataImportModel.getActivityFiles())
 		{
 			try (BufferedReader reader = new BufferedReader(new FileReader(file)))
@@ -204,16 +300,16 @@ public class MainController implements Initializable
 						row.add(token);
 					}
 
-					this.dataImportModel.addRow(row, Enums.FileType.Activity);
+					data.add(row);
 				}
 			}
 			catch (IOException ex)
 			{
+				// TODO: Unable to read from a file
 				ex.printStackTrace();
 			}
 		}
 
-		this.dataImportModel.hasDataProperty().setValue(this.dataImportModel.getHeadcountData().size() > 0
-			|| this.dataImportModel.getActivityData().size() > 0);
+		return data;
 	}
 }

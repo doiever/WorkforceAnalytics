@@ -19,12 +19,12 @@ import java.util.List;
 public class DataImportModel implements Serializable
 {
     // region Fields
+    private ObservableList<TableColumn<LinkedList<String>, ?>> headcountColumns = FXCollections.observableArrayList();
+	private ObservableList<TableColumn<LinkedList<String>, ?>> activityColumns  = FXCollections.observableArrayList();
 	private final BooleanProperty hasDataProperty = new SimpleBooleanProperty(false);
 	private final Property<ObservableList<File>> allFilesProperty = new SimpleObjectProperty<>(FXCollections.observableArrayList());
 	private final ListProperty<File> headcountFilesProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
 	private final ListProperty<File> activityFilesProperty  = new SimpleListProperty<>(FXCollections.observableArrayList());
-	private final ObservableList<TableColumn<LinkedList<String>, ?>> headcountColumns = FXCollections.observableArrayList();
-	private final ObservableList<TableColumn<LinkedList<String>, ?>> activityColumns  = FXCollections.observableArrayList();;
 	private final Property<ObservableList<LinkedList<String>>> headcountDataProperty = new SimpleObjectProperty<>(FXCollections.observableArrayList());
 	private final Property<ObservableList<LinkedList<String>>> activityDataProperty  = new SimpleObjectProperty<>(FXCollections.observableArrayList());
     //                     Rows           Per-row values
@@ -120,112 +120,72 @@ public class DataImportModel implements Serializable
 	}
 
 	/**
-	 * Clears the headcount and activity file list, then places each file into the appropriate file list.
+	 * Clears the headcount and activity file lists, then places each file in the {@code files} parameter
+	 * into the appropriate file list.
 	 * @param files The list containing files to use.
 	 */
-	public void setFiles(List<File> files)
+	public void setFiles(@NotNull List<File> files)
 	{
 		// Clear file lists:
 		this.headcountFilesProperty.clear();
 		this.activityFilesProperty.clear();
+		this.allFilesProperty.getValue().clear();
 
 		// Place each file according to its type:
 		for (File file : files)
 		{
-			this.addFile(file);
+			if (file != null && file.length() > 0 && Utilities.getFileExtension(file.getName()).equalsIgnoreCase("csv"))
+			{
+				if (file.getName().toLowerCase().startsWith("headcount"))
+				{
+					this.headcountFilesProperty.add(file);
+					this.allFilesProperty.getValue().add(file);
+				}
+				else if (file.getName().toLowerCase().startsWith("activity"))
+				{
+					this.activityFilesProperty.add(file);
+					this.allFilesProperty.getValue().add(file);
+				}
+				else
+				{
+					// TODO: Log unknown file type
+				}
+
+			}
 		}
 	}
 
 	/**
-	 * Appends files to the appropriate file list.
-	 * @param files The list containing files to append.
+	 * Clears the corresponding (to {@code fileType}) column list and sets it to the provided {@code columns} parameter.
+	 * @param columns The list of columns to use.
+	 * @param fileType The file type for which columns will be cleared.
 	 */
-	public void addFiles(List<File> files)
-	{
-		// Place each file according to its type:
-		for (File file : files)
-		{
-			this.addFile(file);
-		}
-	}
-
-	/**
-	 * Removes files from the appropriate file list.
-	 * @param files The list containing files to remove.
-	 */
-	public void removeFiles(List<File> files)
-	{
-		// Remove each file:
-		for (File file : files)
-		{
-			this.removeFile(file);
-		}
-	}
-
-	/**
-	 * Appends a file to the appropriate file list.
-	 * @param file The file to add.
-	 */
-	public void addFile(File file)
-	{
-		if (file != null && file.length() > 0 && Utilities.getFileExtension(file.getName()).equalsIgnoreCase("csv"))
-		{
-			if (file.getName().toLowerCase().startsWith("headcount"))
-			{
-				headcountFilesProperty.add(file);
-			}
-			else if (file.getName().toLowerCase().startsWith("activity"))
-			{
-				activityFilesProperty.add(file);
-			}
-			else
-			{
-				// TODO: Log unknown file type
-			}
-		}
-
-		this.allFilesProperty.getValue().add(file);
-	}
-
-	/**
-	 * Removes a file from the appropriate file list. If the file list does not contains {@code file}, no changes are made.
-	 * @param file The file to remove.
-	 */
-	public void removeFile(File file)
-	{
-		if (file != null && file.length() > 0 && Utilities.getFileExtension(file.getName()).equalsIgnoreCase("csv"))
-		{
-			if (file.getName().toLowerCase().startsWith("headcount"))
-			{
-				headcountFilesProperty.remove(file);
-			}
-			else if (file.getName().toLowerCase().startsWith("activity"))
-			{
-				activityFilesProperty.remove(file);
-			}
-			else
-			{
-				// TODO: Log unknown file type
-			}
-		}
-
-		this.allFilesProperty.getValue().remove(file);
-	}
-
-	/**
-	 * Appends a column to the corresponding column list.
-	 * @param column The {@code TableColumn<LinkedList<String>, String>} to add.
-	 * @param fileType The {@code FileType} corresponding to the table which contains the column.
-	 */
-	public void addColumn(@NotNull TableColumn<LinkedList<String>, String> column, Enums.FileType fileType)
+	public void setColumns(ObservableList<TableColumn<LinkedList<String>, ?>> columns, Enums.FileType fileType)
 	{
 		if (fileType == Enums.FileType.Headcount)
 		{
-			this.headcountColumns.add(column);
+			this.headcountColumns = columns;
 		}
 		else if (fileType == Enums.FileType.Activity)
 		{
-			this.activityColumns.add(column);
+			this.activityColumns = columns;
+		}
+	}
+
+	/**
+	 * Clears the corresponding (to {@code fileType}) data list and sets it to the provided {@code data} parameter.
+	 * @param data The data to use.
+	 * @param fileType The file type for which data will be cleared.
+	 */
+	public void setData(ObservableList<LinkedList<String>> data, Enums.FileType fileType)
+	{
+		if (fileType == Enums.FileType.Headcount)
+		{
+			this.headcountDataProperty.setValue(data);
+		}
+		else if (fileType == Enums.FileType.Activity)
+		{
+			this.activityDataProperty.setValue(data);
 		}
 	}
 
@@ -243,6 +203,23 @@ public class DataImportModel implements Serializable
 		else if (fileType == Enums.FileType.Activity)
 		{
 			this.activityDataProperty.getValue().add(row);
+		}
+	}
+
+	/**
+	 * Appends a column to the corresponding column list.
+	 * @param column The {@code TableColumn<LinkedList<String>, String>} to add.
+	 * @param fileType The {@code FileType} corresponding to the table which contains the column.
+	 */
+	public void addColumn(@NotNull TableColumn<LinkedList<String>, String> column, Enums.FileType fileType)
+	{
+		if (fileType == Enums.FileType.Headcount)
+		{
+			this.headcountColumns.add(column);
+		}
+		else if (fileType == Enums.FileType.Activity)
+		{
+			this.activityColumns.add(column);
 		}
 	}
 	// endregion

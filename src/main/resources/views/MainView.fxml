@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -8,16 +7,16 @@
 
 <GridPane fx:id="gridPane_main" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alliancedata.workforceanalytics.controllers.MainController">
    <columnConstraints>
-      <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
-      <ColumnConstraints halignment="LEFT" maxWidth="1.7976931348623157E308" />
+      <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
+      <ColumnConstraints halignment="LEFT" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints maxHeight="1.7976931348623157E308" valignment="TOP" vgrow="NEVER" />
-      <RowConstraints maxHeight="1.7976931348623157E308" valignment="TOP" vgrow="ALWAYS" />
-      <RowConstraints maxHeight="1.7976931348623157E308" valignment="BOTTOM" vgrow="NEVER" />
+      <RowConstraints valignment="TOP" vgrow="NEVER" />
+      <RowConstraints valignment="TOP" vgrow="ALWAYS" />
+      <RowConstraints valignment="BOTTOM" vgrow="NEVER" />
    </rowConstraints>
    <children>
-      <MenuBar fx:id="menuBar_main" layoutY="2.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.vgrow="NEVER">
+      <MenuBar fx:id="menuBar_main" layoutY="2.0" maxHeight="1.7976931348623157E308">
         <menus>
           <Menu fx:id="menu_file" mnemonicParsing="false" text="File">
             <items>
@@ -49,21 +48,21 @@
             <Insets left="5.0" top="5.0" />
          </padding>
       </MenuBar>
-      <ToolBar fx:id="toolBar_main" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.vgrow="NEVER">
+      <ToolBar fx:id="toolBar_main" GridPane.columnIndex="1" GridPane.vgrow="NEVER">
         <items>
-	        <Button maxHeight="1.7976931348623157E308" mnemonicParsing="false" text="Print...">
+	        <Button mnemonicParsing="false" text="Print...">
 		        <graphic>
 			        <Glyph fontFamily="FontAwesome" icon="print" />
 		        </graphic>
 	        </Button>
-          <Button fx:id="button_generateReport" maxHeight="1.7976931348623157E308" mnemonicParsing="false" text="Generate reports">
+          <Button fx:id="button_generateReport" mnemonicParsing="false" text="Generate reports">
 	          <graphic>
 		          <Glyph fontFamily="FontAwesome" icon="file_text" />
 	          </graphic>
 		  </Button>
         </items>
       </ToolBar>
-      <SplitPane dividerPositions="0.18" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnSpan="2" GridPane.rowIndex="1">
+      <SplitPane dividerPositions="0.18" GridPane.columnSpan="2" GridPane.rowIndex="1">
          <items>
             <Accordion SplitPane.resizableWithParent="false">
               <panes>
@@ -114,9 +113,9 @@
                   </TitledPane>
               </panes>
             </Accordion>
-            <VBox fx:id="vbox_data" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" StackPane.alignment="CENTER">
+            <VBox fx:id="vbox_data" StackPane.alignment="CENTER">
                <children>
-                  <ToolBar maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
+                  <ToolBar VBox.vgrow="NEVER">
                     <items>
                         <Label maxWidth="1.7976931348623157E308" text="Click Start over to clear all files. Otherwise, click Use this data to proceed." wrapText="true" HBox.hgrow="ALWAYS">
                            <padding>
@@ -135,7 +134,7 @@
                       </Button>
                     </items>
                   </ToolBar>
-                  <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+                  <TabPane side="BOTTOM" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
                     <tabs>
                         <Tab text="File list">
                            <content>
@@ -144,12 +143,12 @@
                         </Tab>
                       <Tab closable="false" text="Headcount data">
                            <content>
-                              <TableView fx:id="tableView_headcountData" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tableMenuButtonVisible="true" />
+                              <TableView fx:id="tableView_headcountData" tableMenuButtonVisible="true" />
                            </content>
                         </Tab>
                       <Tab closable="false" text="Activity data">
                            <content>
-                              <TableView fx:id="tableView_activityData" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tableMenuButtonVisible="true" />
+                              <TableView fx:id="tableView_activityData" tableMenuButtonVisible="true" />
                            </content>
                         </Tab>
                     </tabs>
@@ -164,9 +163,10 @@
             <Insets left="-1.0" right="-1.0" top="-1.0" />
          </GridPane.margin>
       </SplitPane>
-      <HBox fx:id="hbox_statusBar" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+      <HBox fx:id="hbox_statusBar" spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
          <children>
-            <Label fx:id="label_status" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Idle" HBox.hgrow="ALWAYS" />
+            <Label fx:id="label_status" maxWidth="1.7976931348623157E308" text="Idle" HBox.hgrow="ALWAYS" />
+            <ProgressBar fx:id="progressBar" minWidth="150.0" progress="0.0" />
          </children>
          <GridPane.margin>
             <Insets />
