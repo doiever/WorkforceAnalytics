@@ -15,7 +15,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -33,28 +32,28 @@ public class InitialController implements Initializable
 	private final StringProperty previousSessionTextProperty = new SimpleStringProperty("");
 	// endregion
 
-    // region View components
-    @FXML public GridPane gridPane_main;
+	// region View components
+	@FXML public GridPane gridPane_main;
 	@FXML public Label label_lastSession;
 	@FXML public Button button_usePreviousSession;
 	@FXML public Button button_startNewSession;
 	@FXML public Button button_exit;
 	// endregion
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
+	@Override
+	public void initialize(URL location, ResourceBundle resources)
+	{
 		label_lastSession.textProperty().bind(previousSessionTextProperty);
 
-	    // Update previousSessionTextProperty with previous session's date:
-	    Date previousSessionDate = Constants.SESSION_MANAGER.getPreviousSession().getDate();
-	    DateFormat dateFormat = DateFormat.getDateTimeInstance();
-	    String previousSessionDateString = dateFormat.format(previousSessionDate);
-	    String previousSessionText = String.format("It looks like your most recent session was started on %s.",
-		    previousSessionDateString);
+		// Update previousSessionTextProperty with previous session's date:
+		Date previousSessionDate = Constants.SESSION_MANAGER.getPreviousSession().getDate();
+		DateFormat dateFormat = DateFormat.getDateTimeInstance();
+		String previousSessionDateString = dateFormat.format(previousSessionDate);
+		String previousSessionText = String.format("It looks like your most recent session was started on %s.",
+			previousSessionDateString);
 
 		previousSessionTextProperty.setValue(previousSessionText);
-    }
+	}
 
 	public void button_startNewSession_onAction(ActionEvent event)
 	{

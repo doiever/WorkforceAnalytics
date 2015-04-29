@@ -1,7 +1,6 @@
 package com.alliancedata.workforceanalytics.models;
 
-import com.alliancedata.workforceanalytics.Enums;
-import com.alliancedata.workforceanalytics.Utilities;
+import com.alliancedata.workforceanalytics.*;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,16 +18,15 @@ import java.util.List;
  */
 public class DataImportModel implements Serializable
 {
-    // region Fields
-    private final BooleanProperty hasDataProperty = new SimpleBooleanProperty(false);
+	// region Fields
+	private final BooleanProperty hasDataProperty = new SimpleBooleanProperty(false);
 	private final Property<ObservableList<File>> allFilesProperty = new SimpleObjectProperty<>(FXCollections.observableArrayList());
-    private ObservableSet<TableColumn<LinkedList<String>, ?>> headcountColumns = FXCollections.observableSet();
+	private ObservableSet<TableColumn<LinkedList<String>, ?>> headcountColumns = FXCollections.observableSet();
 	private ObservableSet<TableColumn<LinkedList<String>, ?>> activityColumns  = FXCollections.observableSet();
 	private final ListProperty<File> headcountFilesProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
 	private final ListProperty<File> activityFilesProperty  = new SimpleListProperty<>(FXCollections.observableArrayList());
 	private final Property<ObservableList<LinkedList<String>>> headcountDataProperty = new SimpleObjectProperty<>(FXCollections.observableArrayList());
 	private final Property<ObservableList<LinkedList<String>>> activityDataProperty  = new SimpleObjectProperty<>(FXCollections.observableArrayList());
-    //                     Rows           Per-row values
 	// endregion
 
 	// region Properties
@@ -44,11 +42,11 @@ public class DataImportModel implements Serializable
 		return this.allFilesProperty;
 	}
 
-    @NotNull
-    public ListProperty headcountFilesProperty()
-    {
-        return this.headcountFilesProperty;
-    }
+	@NotNull
+	public ListProperty headcountFilesProperty()
+	{
+		return this.headcountFilesProperty;
+	}
 
 	@NotNull
 	public ListProperty activityFilesProperty()
@@ -69,12 +67,12 @@ public class DataImportModel implements Serializable
 	}
 	// endregion
 
-    // region Methods
-    @NotNull
-    public Boolean hasData()
-    {
-	    return this.hasDataProperty.getValue();
-    }
+	// region Methods
+	@NotNull
+	public Boolean hasData()
+	{
+		return this.hasDataProperty.getValue();
+	}
 
 	@NotNull
 	public ObservableList<File> getAllFiles()

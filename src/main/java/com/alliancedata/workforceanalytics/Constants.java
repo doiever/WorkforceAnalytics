@@ -3,7 +3,6 @@ package com.alliancedata.workforceanalytics;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.stage.WindowEvent;
-
 import java.io.File;
 
 /**
@@ -17,9 +16,9 @@ public final class Constants
 	public static final int DEFAULT_SCENE_HEIGHT = 768;
 	// endregion
 
-    // region Views
-    public static final String INITIAL_VIEW = "/views/InitialView.fxml";
-    public static final String MAIN_VIEW = "/views/MainView.fxml";
+	// region Views
+	public static final String INITIAL_VIEW = "/views/InitialView.fxml";
+	public static final String MAIN_VIEW = "/views/MainView.fxml";
 	// endregion
 
 	// region Sessions
@@ -29,9 +28,9 @@ public final class Constants
 	public static final SessionManager SESSION_MANAGER = SessionManager.getInstance();
 	// endregion
 
-    // region Miscellaneous
-    public static final String RUNTIME_LIBRARY_PATH = "target/lib";
-    public static final File INITIAL_IMPORT_DATA_DIRECTORY = new File(System.getProperty("user.home") + "/Desktop");
+	// region Miscellaneous
+	public static final String RUNTIME_LIBRARY_PATH = "target/lib";
+	public static final File INITIAL_IMPORT_DATA_DIRECTORY = new File(System.getProperty("user.home") + "/Desktop");
 	public static final EventHandler<WindowEvent> CLOSE_EVENT_HANDLER = new EventHandler<WindowEvent>() {
 		@Override
 		public void handle(WindowEvent event) {

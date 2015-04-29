@@ -3,7 +3,6 @@ package com.alliancedata.workforceanalytics;
 import com.alliancedata.workforceanalytics.models.DatabaseHandler;
 import com.alliancedata.workforceanalytics.models.Session;
 import org.jetbrains.annotations.NotNull;
-
 import java.io.*;
 import java.nio.file.Paths;
 
@@ -15,8 +14,8 @@ import java.nio.file.Paths;
  */
 public final class SessionManager implements Serializable
 {
-    // region Fields
-    private static transient SessionManager instance = null;
+	// region Fields
+	private static transient SessionManager instance = null;
 	private Session previousSession = null;
 	private Session currentSession = null;
 	private Integer latestSessionId = 0;
@@ -80,7 +79,7 @@ public final class SessionManager implements Serializable
 	}
 	// endregion
 
-    // region Methods
+	// region Methods
 	/**
 	 * Gets the singleton {@code SessionManager} instance, creating a new one if the
 	 * one does not already exist.
@@ -102,21 +101,21 @@ public final class SessionManager implements Serializable
 	 * Gets the current session.
 	 * @return A {@code Session} object referring to the user's current session.
 	 */
-    @NotNull
-    public Session getCurrentSession()
-    {
-        return this.currentSession;
-    }
+	@NotNull
+	public Session getCurrentSession()
+	{
+		return this.currentSession;
+	}
 
 	/**
 	 * Gets the previous session.
 	 * @return A {@code Session} object referring to the user's previous session,
 	 * or {@code null} if there is no previous session..
 	 */
-    public Session getPreviousSession()
-    {
-        return this.previousSession;
-    }
+	public Session getPreviousSession()
+	{
+		return this.previousSession;
+	}
 
 	/**
 	 * Gets the latest session ID.
@@ -147,18 +146,18 @@ public final class SessionManager implements Serializable
 	 * Creates a new Session with the specified parameters.
 	 * @return A new {@code Session} object.
 	 */
-    @NotNull
-    public Session createSession()
-    {
-        // Increment latest sesson ID:
-        this.latestSessionId++;
-        final int sessionId = this.latestSessionId;
+	@NotNull
+	public Session createSession()
+	{
+		// Increment latest sesson ID:
+		this.latestSessionId++;
+		final int sessionId = this.latestSessionId;
 
-        // Generate database file name:
-        final String databaseFileName = Paths.get(Constants.SESSIONS_DIRECTORY, Integer.toString(sessionId)).toString();
+		// Generate database file name:
+		final String databaseFileName = Paths.get(Constants.SESSIONS_DIRECTORY, Integer.toString(sessionId)).toString();
 
-        return new Session(sessionId, new DatabaseHandler(databaseFileName));
-    }
+		return new Session(sessionId, new DatabaseHandler(databaseFileName));
+	}
 
 	/**
 	 * Internal-use read method for deserialization.

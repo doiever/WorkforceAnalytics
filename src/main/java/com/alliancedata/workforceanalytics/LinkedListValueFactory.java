@@ -4,12 +4,11 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
-
 import java.util.LinkedList;
 
 /**
  * ValueFactory class for generating cells deriving from a {@code LinkedList<String>} instead of a concrete
- * data model.
+ * POJO.
  */
 public class LinkedListValueFactory implements Callback<TableColumn.CellDataFeatures<LinkedList<String>, String>, ObservableValue<String>>
 {

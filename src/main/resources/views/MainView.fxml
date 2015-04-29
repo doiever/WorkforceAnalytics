@@ -7,174 +7,174 @@
 <?import org.controlsfx.glyphfont.*?>
 
 <GridPane fx:id="gridPane_main" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alliancedata.workforceanalytics.controllers.MainController">
-   <columnConstraints>
-      <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
-      <ColumnConstraints halignment="LEFT" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints valignment="TOP" vgrow="NEVER" />
-      <RowConstraints valignment="TOP" vgrow="ALWAYS" />
-      <RowConstraints valignment="BOTTOM" vgrow="NEVER" />
-   </rowConstraints>
-   <children>
-      <MenuBar fx:id="menuBar_main" layoutY="2.0" maxHeight="1.7976931348623157E308">
-        <menus>
-          <Menu fx:id="menu_file" mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Add Data" />
-                  <MenuItem mnemonicParsing="false" text="Save Report" />
-                  <MenuItem mnemonicParsing="false" text="Open Report" />
-                  <MenuItem mnemonicParsing="false" text="Print" />
-                  <MenuItem mnemonicParsing="false" text="Exit" />
-            </items>
-          </Menu>
-          <Menu fx:id="menu_menu" mnemonicParsing="false" text="Menu">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Generate Report" />
-                  <MenuItem mnemonicParsing="false" text="Add to Quick Bar" />
-                  <MenuItem mnemonicParsing="false" text="Options" />
-            </items>
-          </Menu>
-          <Menu fx:id="menu_help" mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="User Guide" />
-                  <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin>
-         <padding>
-            <Insets left="5.0" top="5.0" />
-         </padding>
-      </MenuBar>
-      <ToolBar fx:id="toolBar_main" GridPane.columnIndex="1" GridPane.vgrow="NEVER">
-        <items>
-	        <Button mnemonicParsing="false" text="Print...">
-		        <graphic>
-			        <Glyph fontFamily="FontAwesome" icon="print" />
-		        </graphic>
-	        </Button>
-          <Button fx:id="button_generateReport" mnemonicParsing="false" text="Generate reports">
-	          <graphic>
-		          <Glyph fontFamily="FontAwesome" icon="file_text" />
-	          </graphic>
-		  </Button>
-        </items>
-      </ToolBar>
-      <SplitPane dividerPositions="0.18" GridPane.columnSpan="2" GridPane.rowIndex="1">
-         <items>
-            <Accordion SplitPane.resizableWithParent="false">
-              <panes>
-                  <TitledPane fx:id="titledPane_data" text="Data">
-                     <content>
-                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
-                           <children>
-                              <Hyperlink fx:id="hyperlink_importData" onAction="#hyperlink_importData_OnAction" text="Import data from files">
-	                              <graphic>
-		                              <Glyph fontFamily="FontAwesome" icon="database" />
-	                              </graphic>
-	                          </Hyperlink>
-                              <Hyperlink fx:id="hyperlink_filterData" disable="true" text="Filter data" />
-                              <Hyperlink disable="true" text="Data summary" />
-                           </children>
-                        </VBox>
-                     </content>
-                  </TitledPane>
-                  <TitledPane layoutX="10.0" layoutY="10.0" text="Trends">
-                     <content>
-                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
-                           <children>
-                              <Hyperlink text="Find trends" />
-                              <Hyperlink text="Find a specific trend" />
-                           </children>
-                        </VBox>
-                     </content>
-                  </TitledPane>
-                  <TitledPane layoutX="10.0" layoutY="35.0" text="Reporting">
-                     <content>
-                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
-                           <children>
-                              <Hyperlink text="Generate a report" />
-                           </children>
-                        </VBox>
-                     </content>
-                  </TitledPane>
-                  <TitledPane layoutX="10.0" layoutY="406.0" text="Export">
-                     <content>
-                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
-                           <children>
-                              <Hyperlink text="Export reports" />
-                              <Hyperlink text="Export data" />
-                              <Hyperlink text="Print reports" />
-                           </children>
-                        </VBox>
-                     </content>
-                  </TitledPane>
-              </panes>
-            </Accordion>
-            <VBox fx:id="vbox_data" StackPane.alignment="CENTER">
-               <children>
-                  <ToolBar VBox.vgrow="NEVER">
-                    <items>
-                        <Label maxWidth="1.7976931348623157E308" text="Click Start over to clear all files. Otherwise, click Use this data to proceed." wrapText="true" HBox.hgrow="ALWAYS">
-                           <padding>
-                              <Insets left="5.0" right="5.0" />
-                           </padding>
-                        </Label>
-                        <Button fx:id="button_startOver" cancelButton="true" mnemonicParsing="false" text="Start over">
-                           <graphic>
-                              <Glyph fontFamily="FontAwesome" icon="ban" style="-fx-text-fill: darkred;" />
-                           </graphic>
-                        </Button>
-                      <Button fx:id="button_useThisData" defaultButton="true" mnemonicParsing="false" text="Use this data" onAction="#button_useThisData_onAction">
-                          <graphic>
-                              <Glyph fontFamily="FontAwesome" icon="check" style="-fx-text-fill: forestgreen;" />
-                          </graphic>
-                      </Button>
-                    </items>
-                  </ToolBar>
-                  <TabPane side="BOTTOM" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
-                    <tabs>
-                        <Tab text="File list">
-                           <content>
-                              <ListView fx:id="listView_fileList" />
-                           </content>
-                        </Tab>
-                      <Tab closable="false" text="Headcount data">
-                           <content>
-                              <TableView fx:id="tableView_headcountData" tableMenuButtonVisible="true" />
-                           </content>
-                        </Tab>
-                      <Tab closable="false" text="Activity data">
-                           <content>
-                              <TableView fx:id="tableView_activityData" tableMenuButtonVisible="true" />
-                           </content>
-                        </Tab>
-                    </tabs>
-                     <padding>
-                        <Insets bottom="-1.0" />
-                     </padding>
-                  </TabPane>
-               </children>
-            </VBox>
-         </items>
-         <GridPane.margin>
-            <Insets left="-1.0" right="-1.0" top="-1.0" />
-         </GridPane.margin>
-      </SplitPane>
-      <HBox fx:id="hbox_statusBar" spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
-         <children>
-            <Label fx:id="label_status" maxWidth="1.7976931348623157E308" text="Idle" HBox.hgrow="ALWAYS" />
-            <ProgressBar fx:id="progressBar" minWidth="150.0" progress="0.0" />
-         </children>
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin>
-         <padding>
-            <Insets bottom="3.0" left="5.0" right="5.0" top="4.0" />
-         </padding>
-      </HBox>
-   </children>
+	<columnConstraints>
+		<ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
+		<ColumnConstraints halignment="LEFT" />
+	</columnConstraints>
+	<rowConstraints>
+		<RowConstraints valignment="TOP" vgrow="NEVER" />
+		<RowConstraints valignment="TOP" vgrow="ALWAYS" />
+		<RowConstraints valignment="BOTTOM" vgrow="NEVER" />
+	</rowConstraints>
+	<children>
+		<MenuBar fx:id="menuBar_main" layoutY="2.0" maxHeight="1.7976931348623157E308">
+			<menus>
+				<Menu fx:id="menu_file" mnemonicParsing="false" text="File">
+					<items>
+						<MenuItem mnemonicParsing="false" text="Add Data" />
+						<MenuItem mnemonicParsing="false" text="Save Report" />
+						<MenuItem mnemonicParsing="false" text="Open Report" />
+						<MenuItem mnemonicParsing="false" text="Print" />
+						<MenuItem mnemonicParsing="false" text="Exit" />
+					</items>
+				</Menu>
+				<Menu fx:id="menu_menu" mnemonicParsing="false" text="Menu">
+					<items>
+						<MenuItem mnemonicParsing="false" text="Generate Report" />
+						<MenuItem mnemonicParsing="false" text="Add to Quick Bar" />
+						<MenuItem mnemonicParsing="false" text="Options" />
+					</items>
+				</Menu>
+				<Menu fx:id="menu_help" mnemonicParsing="false" text="Help">
+					<items>
+						<MenuItem mnemonicParsing="false" text="User Guide" />
+						<MenuItem mnemonicParsing="false" text="About" />
+					</items>
+				</Menu>
+			</menus>
+			<GridPane.margin>
+				<Insets />
+			</GridPane.margin>
+			<padding>
+				<Insets left="5.0" top="5.0" />
+			</padding>
+		</MenuBar>
+		<ToolBar fx:id="toolBar_main" GridPane.columnIndex="1" GridPane.vgrow="NEVER">
+			<items>
+				<Button mnemonicParsing="false" text="Print...">
+					<graphic>
+						<Glyph fontFamily="FontAwesome" icon="print" />
+					</graphic>
+				</Button>
+				<Button fx:id="button_generateReport" mnemonicParsing="false" text="Generate reports">
+					<graphic>
+						<Glyph fontFamily="FontAwesome" icon="file_text" />
+					</graphic>
+				</Button>
+			</items>
+		</ToolBar>
+		<SplitPane dividerPositions="0.18" GridPane.columnSpan="2" GridPane.rowIndex="1">
+			<items>
+				<Accordion SplitPane.resizableWithParent="false">
+					<panes>
+						<TitledPane fx:id="titledPane_data" text="Data">
+							<content>
+								<VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+									<children>
+										<Hyperlink fx:id="hyperlink_importData" onAction="#hyperlink_importData_OnAction" text="Import data from files">
+											<graphic>
+												<Glyph fontFamily="FontAwesome" icon="database" />
+											</graphic>
+										</Hyperlink>
+										<Hyperlink fx:id="hyperlink_filterData" disable="true" text="Filter data" />
+										<Hyperlink disable="true" text="Data summary" />
+									</children>
+								</VBox>
+							</content>
+						</TitledPane>
+						<TitledPane layoutX="10.0" layoutY="10.0" text="Trends">
+							<content>
+								<VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+									<children>
+										<Hyperlink text="Find trends" />
+										<Hyperlink text="Find a specific trend" />
+									</children>
+								</VBox>
+							</content>
+						</TitledPane>
+						<TitledPane layoutX="10.0" layoutY="35.0" text="Reporting">
+							<content>
+								<VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+									<children>
+										<Hyperlink text="Generate a report" />
+									</children>
+								</VBox>
+							</content>
+						</TitledPane>
+						<TitledPane layoutX="10.0" layoutY="406.0" text="Export">
+							<content>
+								<VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+									<children>
+										<Hyperlink text="Export reports" />
+										<Hyperlink text="Export data" />
+										<Hyperlink text="Print reports" />
+									</children>
+								</VBox>
+							</content>
+						</TitledPane>
+					</panes>
+				</Accordion>
+				<VBox fx:id="vbox_data" StackPane.alignment="CENTER">
+					<children>
+						<ToolBar VBox.vgrow="NEVER">
+							<items>
+								<Label maxWidth="1.7976931348623157E308" text="Click Start over to clear all files. Otherwise, click Use this data to proceed." wrapText="true" HBox.hgrow="ALWAYS">
+									<padding>
+										<Insets left="5.0" right="5.0" />
+									</padding>
+								</Label>
+								<Button fx:id="button_startOver" cancelButton="true" mnemonicParsing="false" text="Start over">
+									<graphic>
+										<Glyph fontFamily="FontAwesome" icon="ban" style="-fx-text-fill: darkred;" />
+									</graphic>
+								</Button>
+								<Button fx:id="button_useThisData" defaultButton="true" mnemonicParsing="false" text="Use this data" onAction="#button_useThisData_onAction">
+									<graphic>
+										<Glyph fontFamily="FontAwesome" icon="check" style="-fx-text-fill: forestgreen;" />
+									</graphic>
+								</Button>
+							</items>
+						</ToolBar>
+						<TabPane side="BOTTOM" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+							<tabs>
+								<Tab text="File list">
+									<content>
+										<ListView fx:id="listView_fileList" />
+									</content>
+								</Tab>
+								<Tab closable="false" text="Headcount data">
+									<content>
+										<TableView fx:id="tableView_headcountData" tableMenuButtonVisible="true" />
+									</content>
+								</Tab>
+								<Tab closable="false" text="Activity data">
+									<content>
+										<TableView fx:id="tableView_activityData" tableMenuButtonVisible="true" />
+									</content>
+								</Tab>
+							</tabs>
+							<padding>
+								<Insets bottom="-1.0" />
+							</padding>
+						</TabPane>
+					</children>
+				</VBox>
+			</items>
+			<GridPane.margin>
+				<Insets left="-1.0" right="-1.0" top="-1.0" />
+			</GridPane.margin>
+		</SplitPane>
+		<HBox fx:id="hbox_statusBar" spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
+			<children>
+				<Label fx:id="label_status" maxWidth="1.7976931348623157E308" text="Idle" HBox.hgrow="ALWAYS" />
+				<ProgressBar fx:id="progressBar" minWidth="150.0" progress="0.0" />
+			</children>
+			<GridPane.margin>
+				<Insets />
+			</GridPane.margin>
+			<padding>
+				<Insets bottom="3.0" left="5.0" right="5.0" top="4.0" />
+			</padding>
+		</HBox>
+	</children>
 </GridPane>

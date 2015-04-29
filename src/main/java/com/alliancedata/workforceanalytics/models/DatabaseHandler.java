@@ -1,7 +1,6 @@
 package com.alliancedata.workforceanalytics.models;
 
-import com.alliancedata.workforceanalytics.Constants;
-import com.alliancedata.workforceanalytics.Utilities;
+import com.alliancedata.workforceanalytics.*;
 import com.almworks.sqlite4java.SQLiteConnection;
 import com.almworks.sqlite4java.SQLiteException;
 import com.almworks.sqlite4java.SQLiteJob;
@@ -19,42 +18,42 @@ import java.util.StringJoiner;
  */
 public class DatabaseHandler implements Serializable
 {
-    // region Fields
-    private transient SQLiteConnection connection;
-    private File databaseFile = null;
+	// region Fields
+	private transient SQLiteConnection connection;
+	private File databaseFile = null;
 	private boolean hasHeadcountData = false;
 	// endregion
 
-    // region Constructors
-    public DatabaseHandler(@NotNull String fileName)
-    {
-	    String databaseFileName = fileName;
+	// region Constructors
+	public DatabaseHandler(@NotNull String fileName)
+	{
+		String databaseFileName = fileName;
 
-	    // Append sqlite3 extension if necessary:
-	    if (!Utilities.getFileExtension(databaseFileName).equalsIgnoreCase("sqlite3"))
-	    {
+		// Append sqlite3 extension if necessary:
+		if (!Utilities.getFileExtension(databaseFileName).equalsIgnoreCase("sqlite3"))
+		{
 			databaseFileName += ".sqlite3";
-	    }
+		}
 
-        File databaseFile = tryCreateFile(databaseFileName);
+		File databaseFile = tryCreateFile(databaseFileName);
 
-        if (databaseFile != null && databaseFile.exists())
-        {
-            this.databaseFile = databaseFile;
-        }
-        else
-        {
-            // TODO: databaseFile was unable to be created.
-        }
-    }
+		if (databaseFile != null && databaseFile.exists())
+		{
+			this.databaseFile = databaseFile;
+		}
+		else
+		{
+			// TODO: databaseFile was unable to be created.
+		}
+	}
 	// endregion
 
-    // region Methods
-    @NotNull
-    public File getDatabaseFile()
-    {
-        return this.databaseFile;
-    }
+	// region Methods
+	@NotNull
+	public File getDatabaseFile()
+	{
+		return this.databaseFile;
+	}
 
 	/**
 	 * Writes schema and data to the handler's database file.
@@ -65,8 +64,8 @@ public class DatabaseHandler implements Serializable
 	 * @return {@code true} if tables were successfully created and populated; {@code false} otherwise.
 	 */
 	public boolean createDatabase(@NotNull LinkedList<String> headcountColumns, @NotNull LinkedList<String> activityColumns,
-							      @NotNull LinkedList<LinkedList<String>> headcountData,
-							      @NotNull LinkedList<LinkedList<String>> activityData)
+	                              @NotNull LinkedList<LinkedList<String>> headcountData,
+	                              @NotNull LinkedList<LinkedList<String>> activityData)
 	{
 		// Build schema creation and data population queries:
 		String createSchemaQuery = buildCreateSchemaQuery(headcountColumns, activityColumns);
@@ -79,89 +78,89 @@ public class DatabaseHandler implements Serializable
 		return schemaCreated && populated;
 	}
 
-    public boolean executeQuery(@NotNull String query)
-    {
-        Boolean success = null;
-        SQLiteQueue queue = new SQLiteQueue(this.getDatabaseFile());
+	public boolean executeQuery(@NotNull String query)
+	{
+		Boolean success = null;
+		SQLiteQueue queue = new SQLiteQueue(this.getDatabaseFile());
 
-        try
-        {
-            queue.start();
+		try
+		{
+			queue.start();
 
-            SQLiteJob<Boolean> queryJob = new SQLiteJob<Boolean>() {
-                @Override
-                protected Boolean job(SQLiteConnection connection) throws Throwable {
-                    try
-                    {
-                        connection.exec(query);
-                    }
-                    catch (SQLiteException ex)
-                    {
-                        // TODO
-                        ex.printStackTrace();
-                        return false;
-                    }
+			SQLiteJob<Boolean> queryJob = new SQLiteJob<Boolean>() {
+				@Override
+				protected Boolean job(SQLiteConnection connection) throws Throwable {
+					try
+					{
+						connection.exec(query);
+					}
+					catch (SQLiteException ex)
+					{
+						// TODO
+						ex.printStackTrace();
+						return false;
+					}
 
-                    return true;
-                }
-            };
+					return true;
+				}
+			};
 
-            success = queue.execute(queryJob).complete();
-        }
-        catch (IllegalStateException ex)
-        {
-            // TODO
-            ex.printStackTrace();
-            success = false;
-        }
-        finally
-        {
-            try
-            {
-                queue.stop(true).join();
-            }
-            catch (InterruptedException ex)
-            {
-                // TODO
-                ex.printStackTrace();
-            }
-            finally
-            {
-                queue.stop(false);
-            }
-        }
+			success = queue.execute(queryJob).complete();
+		}
+		catch (IllegalStateException ex)
+		{
+			// TODO
+			ex.printStackTrace();
+			success = false;
+		}
+		finally
+		{
+			try
+			{
+				queue.stop(true).join();
+			}
+			catch (InterruptedException ex)
+			{
+				// TODO
+				ex.printStackTrace();
+			}
+			finally
+			{
+				queue.stop(false);
+			}
+		}
 
-        return success;
-    }
+		return success;
+	}
 
-    /**
-     * Attempts to create the specified file.
-     * @param fileName The full path of the file to create.
-     * @return An {@code File} object at the specified location.
-     */
-    private static File tryCreateFile(@NotNull String fileName)
-    {
-        boolean fileCreated = false;
+	/**
+	 * Attempts to create the specified file.
+	 * @param fileName The full path of the file to create.
+	 * @return An {@code File} object at the specified location.
+	 */
+	private static File tryCreateFile(@NotNull String fileName)
+	{
+		boolean fileCreated = false;
 
-        try
-        {
-            File file = new File(fileName);
-            fileCreated = file.createNewFile();
-            return file;
-        }
-        catch (IOException ex)
-        {
-            // TODO
-            ex.printStackTrace();
-            return null;
-        }
-        catch (SecurityException ex)
-        {
-            // TODO
-            ex.printStackTrace();
-            return null;
-        }
-    }
+		try
+		{
+			File file = new File(fileName);
+			fileCreated = file.createNewFile();
+			return file;
+		}
+		catch (IOException ex)
+		{
+			// TODO
+			ex.printStackTrace();
+			return null;
+		}
+		catch (SecurityException ex)
+		{
+			// TODO
+			ex.printStackTrace();
+			return null;
+		}
+	}
 
 	/**
 	 * Builds a SQL query to create the database's tables. This will build a {@code DROP TABLE/CREATE TABLE} query (instead of an
