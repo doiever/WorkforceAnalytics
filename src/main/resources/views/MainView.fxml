@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -122,12 +123,12 @@
                               <Insets left="5.0" right="5.0" />
                            </padding>
                         </Label>
-                        <Button cancelButton="true" mnemonicParsing="false" text="Start over">
+                        <Button fx:id="button_startOver" cancelButton="true" mnemonicParsing="false" text="Start over">
                            <graphic>
                               <Glyph fontFamily="FontAwesome" icon="ban" style="-fx-text-fill: darkred;" />
                            </graphic>
                         </Button>
-                      <Button defaultButton="true" mnemonicParsing="false" text="Use this data">
+                      <Button fx:id="button_useThisData" defaultButton="true" mnemonicParsing="false" text="Use this data" onAction="#button_useThisData_onAction">
                           <graphic>
                               <Glyph fontFamily="FontAwesome" icon="check" style="-fx-text-fill: forestgreen;" />
                           </graphic>

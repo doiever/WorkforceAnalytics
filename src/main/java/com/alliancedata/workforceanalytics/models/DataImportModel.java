@@ -5,11 +5,12 @@ import com.alliancedata.workforceanalytics.Utilities;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 import javafx.scene.control.TableColumn;
 import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.io.Serializable;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,10 +20,10 @@ import java.util.List;
 public class DataImportModel implements Serializable
 {
     // region Fields
-    private ObservableList<TableColumn<LinkedList<String>, ?>> headcountColumns = FXCollections.observableArrayList();
-	private ObservableList<TableColumn<LinkedList<String>, ?>> activityColumns  = FXCollections.observableArrayList();
-	private final BooleanProperty hasDataProperty = new SimpleBooleanProperty(false);
+    private final BooleanProperty hasDataProperty = new SimpleBooleanProperty(false);
 	private final Property<ObservableList<File>> allFilesProperty = new SimpleObjectProperty<>(FXCollections.observableArrayList());
+    private ObservableSet<TableColumn<LinkedList<String>, ?>> headcountColumns = FXCollections.observableSet();
+	private ObservableSet<TableColumn<LinkedList<String>, ?>> activityColumns  = FXCollections.observableSet();
 	private final ListProperty<File> headcountFilesProperty = new SimpleListProperty<>(FXCollections.observableArrayList());
 	private final ListProperty<File> activityFilesProperty  = new SimpleListProperty<>(FXCollections.observableArrayList());
 	private final Property<ObservableList<LinkedList<String>>> headcountDataProperty = new SimpleObjectProperty<>(FXCollections.observableArrayList());
@@ -31,7 +32,6 @@ public class DataImportModel implements Serializable
 	// endregion
 
 	// region Properties
-	// Use these for databinding.
 	@NotNull
 	public BooleanProperty hasDataProperty()
 	{
@@ -70,7 +70,6 @@ public class DataImportModel implements Serializable
 	// endregion
 
     // region Methods
-	// Use these to maintain property integrity while getting/setting data.
     @NotNull
     public Boolean hasData()
     {
@@ -96,13 +95,13 @@ public class DataImportModel implements Serializable
 	}
 
 	@NotNull
-	public ObservableList<TableColumn<LinkedList<String>, ?>> getHeadcountColumns()
+	public ObservableSet<TableColumn<LinkedList<String>, ?>> getHeadcountColumns()
 	{
 		return this.headcountColumns;
 	}
 
 	@NotNull
-	public ObservableList<TableColumn<LinkedList<String>, ?>> getActivityColumns()
+	public ObservableSet<TableColumn<LinkedList<String>, ?>> getActivityColumns()
 	{
 		return this.activityColumns;
 	}
@@ -160,15 +159,17 @@ public class DataImportModel implements Serializable
 	 * @param columns The list of columns to use.
 	 * @param fileType The file type for which columns will be cleared.
 	 */
-	public void setColumns(ObservableList<TableColumn<LinkedList<String>, ?>> columns, Enums.FileType fileType)
+	public void setColumns(LinkedHashSet<TableColumn<LinkedList<String>, ?>> columns, Enums.FileType fileType)
 	{
+		ObservableSet<TableColumn<LinkedList<String>, ?>> observableColumns = FXCollections.observableSet(columns);
+
 		if (fileType == Enums.FileType.Headcount)
 		{
-			this.headcountColumns = columns;
+			this.headcountColumns = observableColumns;
 		}
 		else if (fileType == Enums.FileType.Activity)
 		{
-			this.activityColumns = columns;
+			this.activityColumns = observableColumns;
 		}
 	}
 

@@ -65,6 +65,8 @@ public class MainController implements Initializable
     @FXML public TitledPane titledPane_data;
 	@FXML public ListView<File> listView_fileList;
 	@FXML public ProgressBar progressBar;
+	@FXML public Button button_useThisData;
+	@FXML public Button button_startOver;
 	// endregion
 
     @Override
@@ -75,6 +77,29 @@ public class MainController implements Initializable
 	    this.titledPane_data.expandedProperty().setValue(true);
     }
 
+	@FXML
+	public void button_useThisData_onAction(ActionEvent actionEvent)
+	{
+		// Create database with data from selected files:
+		LinkedList<String> headcountColumns = new LinkedList<String>();
+		LinkedList<String> activityColumns = new LinkedList<String>();
+		LinkedList<LinkedList<String>> headcountData = new LinkedList<LinkedList<String>>(this.dataImportModel.getHeadcountData());
+		LinkedList<LinkedList<String>> activityData = new LinkedList<LinkedList<String>>(this.dataImportModel.getActivityData());
+
+		this.dataImportModel.getHeadcountColumns().forEach(column -> headcountColumns.add(column.getText()));
+		this.dataImportModel.getActivityColumns().forEach(column -> activityColumns.add(column.getText()));
+
+		boolean success = Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().createDatabase(headcountColumns,
+			activityColumns, headcountData, activityData);
+
+		if (!success)
+		{
+			Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "Database Error", null, "Unable to write to the database file.",
+				Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().getDatabaseFile().getAbsolutePath());
+		}
+	}
+
+	@FXML
     public void hyperlink_importData_OnAction(ActionEvent event)
     {
         // Get data files from user:
@@ -160,20 +185,26 @@ public class MainController implements Initializable
 		// ColumnsProperty), we have to bind each TableView's list of columns manually *after*
 		// the column data has been read from the files and TableColumn objects are created.
 
-		Bindings.bindContentBidirectional(tableView_headcountData.getColumns(), this.dataImportModel.getHeadcountColumns());
-		Bindings.bindContentBidirectional(tableView_activityData.getColumns(), this.dataImportModel.getActivityColumns());
+		ObservableList<TableColumn<LinkedList<String>, ?>> observableHeadcountColumns = FXCollections.observableArrayList();
+		observableHeadcountColumns.addAll(this.dataImportModel.getHeadcountColumns());
+		ObservableList<TableColumn<LinkedList<String>, ?>> observableActivityColumns = FXCollections.observableArrayList();
+		observableActivityColumns.addAll(this.dataImportModel.getActivityColumns());
+
+		Bindings.bindContentBidirectional(tableView_headcountData.getColumns(), observableHeadcountColumns);
+		Bindings.bindContentBidirectional(tableView_activityData.getColumns(), observableActivityColumns);
 	}
 
 	@NotNull
-	private ObservableList<TableColumn<LinkedList<String>, ?>> createHeadcountColumns()
+	private LinkedHashSet<TableColumn<LinkedList<String>, ?>> createHeadcountColumns()
 	{
-		ObservableList<TableColumn<LinkedList<String>, ?>> columns = new ObservableListWrapper<>(FXCollections.observableArrayList());
+		LinkedHashSet<TableColumn<LinkedList<String>, ?>> columns = new LinkedHashSet<>();
+		LinkedHashSet<String> columnNames = new LinkedHashSet<>();
 
 		for (File file : this.dataImportModel.getHeadcountFiles())
 		{
 			int columnIndex = 0;
 
-			// Read column names and types:
+			// Read column names:
 			try (BufferedReader reader = new BufferedReader(new FileReader(file)))
 			{
 				String line = reader.readLine();
@@ -182,9 +213,13 @@ public class MainController implements Initializable
 				while (tokenizer.hasMoreTokens())
 				{
 					String columnName = tokenizer.nextToken().trim();
-					TableColumn<LinkedList<String>, String> column = new TableColumn<>(columnName);
-					column.setCellValueFactory(new LinkedListValueFactory(columnIndex++));
-					columns.add(column);
+					if (!columnNames.contains(columnName))
+					{
+						columnNames.add(columnName);
+						TableColumn<LinkedList<String>, String> column = new TableColumn<>(columnName);
+						column.setCellValueFactory(new LinkedListValueFactory(columnIndex++));
+						columns.add(column);
+					}
 				}
 			}
 			catch (IOException ex)
@@ -198,15 +233,16 @@ public class MainController implements Initializable
 	}
 
 	@NotNull
-	private ObservableList<TableColumn<LinkedList<String>, ?>> createActivityColumns()
+	private LinkedHashSet<TableColumn<LinkedList<String>, ?>> createActivityColumns()
 	{
-		ObservableList<TableColumn<LinkedList<String>, ?>> columns = new ObservableListWrapper<>(FXCollections.observableArrayList());
+		LinkedHashSet<TableColumn<LinkedList<String>, ?>> columns = new LinkedHashSet<TableColumn<LinkedList<String>, ?>>();
+		LinkedHashSet<String> columnNames = new LinkedHashSet<>();
 
 		for (File file : this.dataImportModel.getActivityFiles())
 		{
 			int columnIndex = 0;
 
-			// Read column names and types:
+			// Read column names:
 			try (BufferedReader reader = new BufferedReader(new FileReader(file)))
 			{
 				String line = reader.readLine();
@@ -215,9 +251,13 @@ public class MainController implements Initializable
 				while (tokenizer.hasMoreTokens())
 				{
 					String columnName = tokenizer.nextToken().trim();
-					TableColumn<LinkedList<String>, String> column = new TableColumn<>(columnName);
-					column.setCellValueFactory(new LinkedListValueFactory(columnIndex++));
-					columns.add(column);
+					if (!columnNames.contains(columnName))
+					{
+						columnNames.add(columnName);
+						TableColumn<LinkedList<String>, String> column = new TableColumn<>(columnName);
+						column.setCellValueFactory(new LinkedListValueFactory(columnIndex++));
+						columns.add(column);
+					}
 				}
 			}
 			catch (IOException ex)
