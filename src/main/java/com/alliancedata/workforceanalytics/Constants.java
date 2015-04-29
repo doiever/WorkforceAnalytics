@@ -46,4 +46,6 @@ public final class Constants
 	};
 	public static final String PRIMARY_KEY_ATTRIBUTES = "PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE";
 	// endregion
+
+
 }

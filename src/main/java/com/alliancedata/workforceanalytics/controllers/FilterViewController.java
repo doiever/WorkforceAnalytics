@@ -1,5 +1,6 @@
 package com.alliancedata.workforceanalytics.controllers;
 
+import java.io.IOException;
 import java.sql.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -71,13 +72,87 @@ public class FilterViewController {
 
     }
 
-    public void FilterViewParameters(String TableName){
+    private void SetOptionsAllInvisible(){
 
-        String SQL;
+        grid_Eff.setVisible(false);
+        grid_Dept.setVisible(false);
+        grid_CostCenter.setVisible(false);
+        grid_Local.setVisible(false);
+        grid_Job.setVisible(false);
+        grid_LOB.setVisible(false);
 
+        grid_Acq.setVisible(false);
+        grid_Product.setVisible(false);
+        grid_SLT.setVisible(false);
+        grid_Headcount.setVisible(false);
+        grid_Action.setVisible(false);
+        grid_Reason.setVisible(false);
 
+        grid_Skillset.setVisible(false);
+        grid_YOS.setVisible(false);
+        grid_EffPer.setVisible(false);
+        grid_RptLevel.setVisible(false);
+        grid_Super.setVisible(false);
+        grid_Tenure.setVisible(false);
+
+        grid_Direct.setVisible(false);
+        grid_TotalReport.setVisible(false);
+        grid_DeptLevel.setVisible(false);
+        grid_OrgUnit.setVisible(false);
+        grid_WFH.setVisible(false);
 
         grid_JobChange.setVisible(false);
+        grindHandT.setVisible(false);
+        grid_AreaExper.setVisible(false);
+
+    }
+
+    public void FilterViewParameters(String TableName) {
+
+        try {
+
+            //Set all options in the view to invisible
+            //We will turn them on as we find them.
+            SetOptionsAllInvisible();
+
+            if (!db.isOpen())   db.open();
+
+            //Initial query statement
+            //String SQL = "PRAGMA table_info(" + TableName + ")";
+            String SQL = "SELECT * FROM "+TableName;
+            SQLiteStatement stmt = db.prepare(SQL);
+            int ColumnAmount = stmt.columnCount();
+
+            //Set options in view to visible as we find them.
+            for (int i = 0; i < ColumnAmount; i++) {
+
+                String CurrentColumnName = stmt.getColumnName(i).toString();
+
+                switch (CurrentColumnName) {
+
+                    case:   grid_Acq.setVisible(false);
+                    break;
+                    case:grid_Action.setVisible(false);
+                    break;
+                    case:
+                    default: {
+
+                        UnsupportedOperationException e = new UnsupportedOperationException();
+                        throw e;
+
+                    }
+
+                }
+
+            }
+
+            stmt.dispose();
+
+        } catch (Exception e) {
+
+            System.out.println(e);
+
+        }
 
     }
 
