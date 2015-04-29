@@ -16,6 +16,7 @@
 
     <!-- Custom properties usable within this file -->
     <properties>
+	    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sqlite4java.version>1.0.392</sqlite4java.version>
     </properties>
 
@@ -54,6 +55,7 @@
     <!-- Build plugins -->
     <build>
         <finalName>workforce-analytics</finalName>
+
         <plugins>
             <!-- JavaFX+Maven plugin -->
             <plugin>
@@ -116,10 +118,11 @@
                 </executions>
             </plugin>
 
-            <!-- Maven compiler plugin: Sets the JDK version to 1.8 -->
+            <!-- Maven compiler plugin: Sets project JDK version to 1.8 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+	            <version>3.2</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
