@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.sql.*;
 import java.io.File;
 import java.util.ArrayList;
+
+import com.alliancedata.workforceanalytics.Constants;
 import com.almworks.sqlite4java.SQLiteConnection;
 import com.almworks.sqlite4java.SQLiteConstants;
 import com.almworks.sqlite4java.SQLiteException;
@@ -65,6 +67,7 @@ public class FilterViewController {
     @FXML public CheckBox grid_AreaExper;
 
     SQLiteConnection db;
+    Constants c;
 
     public FilterViewController(SQLiteConnection database){
 
