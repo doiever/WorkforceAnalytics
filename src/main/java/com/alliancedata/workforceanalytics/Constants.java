@@ -47,6 +47,7 @@ public final class Constants
 	public static final String PRIMARY_KEY_ATTRIBUTES = "PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE";
 	// endregion
 
+	//im
 	//region Activity Column Categories
 	public static final String ID = "ID";
 	public static final String HEADCOUNT_ID = "Headcount ID";
