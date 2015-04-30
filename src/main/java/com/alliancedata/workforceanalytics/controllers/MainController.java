@@ -1,7 +1,10 @@
 package com.alliancedata.workforceanalytics.controllers;
 
-import com.alliancedata.workforceanalytics.*;
-import com.alliancedata.workforceanalytics.models.*;
+import com.alliancedata.workforceanalytics.Constants;
+import com.alliancedata.workforceanalytics.Enums;
+import com.alliancedata.workforceanalytics.LinkedListValueFactory;
+import com.alliancedata.workforceanalytics.Utilities;
+import com.alliancedata.workforceanalytics.models.DataImportModel;
 import com.sun.javafx.collections.ObservableListWrapper;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -18,7 +21,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.print.Printer;
 import javafx.print.PrinterJob;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -32,6 +34,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import org.jetbrains.annotations.NotNull;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -394,9 +397,12 @@ public class MainController implements Initializable
     public void hyperlink_printdoc(ActionEvent actionEvent) {
 
         PrinterJob p = PrinterJob.createPrinterJob();
+	    Window owner = ((Node)actionEvent.getTarget()).getScene().getWindow();
 
-        p.showPrintDialog(((Node)actionEvent.getTarget()).getScene().getWindow());
-
+        if (p.showPrintDialog(owner))
+        {
+	        p.printPage(vbox_data);
+        }
     }
 
     //Sidd
