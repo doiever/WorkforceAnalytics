@@ -1,15 +1,16 @@
 package com.alliancedata.workforceanalytics.models;
 
-import com.alliancedata.workforceanalytics.*;
+import com.alliancedata.workforceanalytics.Constants;
+import com.alliancedata.workforceanalytics.Utilities;
 import com.almworks.sqlite4java.*;
 import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.StringJoiner;
-import java.util.concurrent.ExecutionException;
 
 /**
  *  Implementation of a Database Handler.
@@ -131,6 +132,7 @@ public class DatabaseHandler implements Serializable
 		return success;
 	}
 
+	@NotNull
 	public LinkedHashSet<String> getColumnNames(@NotNull String tableName)
 	{
 		final String query = "PRAGMA table_info(" + tableName + ");";
@@ -173,66 +175,56 @@ public class DatabaseHandler implements Serializable
 		return columns;
 	}
 
-	public LinkedList<LinkedList<String>> executeQuery(@NotNull String query)
+	/**
+	 * Executes a query against the specified session's database and returns the results as a list of lists of Strings.
+	 * @param session The session from which the target database is obtained and queried against.
+	 * @param query The query to execute.
+	 * @return A {@code LinkedList<LinkedList<String>>} containing data.
+	 */
+	@NotNull
+	public static LinkedList<LinkedList<String>> executeQuery(@NotNull Session session, @NotNull String query)
 	{
-		Boolean success = null;
-		SQLiteQueue queue = new SQLiteQueue(this.getDatabaseFile());
-		LinkedList<LinkedList<String>> results = new LinkedList<>();
+		LinkedList<LinkedList<String>> data = new LinkedList<>();
+		SQLiteQueue queue = null;
+
+		SQLiteJob<LinkedList<LinkedList<String>>> queryJob = new SQLiteJob<LinkedList<LinkedList<String>>>() {
+			@Override
+			protected LinkedList<LinkedList<String>> job(SQLiteConnection connection) throws Throwable {
+				final LinkedList<LinkedList<String>> finalData = new LinkedList<>();
+				SQLiteStatement statement = connection.prepare(query);
+
+				while (statement.step())
+				{
+					LinkedList<String> row = new LinkedList<>();
+
+					for (int i = 0; i < statement.columnCount(); i++)
+					{
+						row.add(statement.columnString(i));
+					}
+
+					finalData.add(row);
+				}
+
+				return finalData;
+			}
+		};
 
 		try
 		{
+			queue = new SQLiteQueue(session.getDatabaseHandler().getDatabaseFile());
 			queue.start();
 
-			SQLiteJob<LinkedList<LinkedList<String>>> queryJob = new SQLiteJob<LinkedList<LinkedList<String>>>() {
-				@Override
-				protected LinkedList<LinkedList<String>> job(SQLiteConnection connection) throws Throwable {
-					try
-					{
-						connection.exec(query);
-					}
-					catch (SQLiteException ex)
-					{
-						// TODO
-						ex.printStackTrace();
-					}
-					return this.get();
-				}
-			};
-
-			results = queryJob.get();
-		}
-		catch (IllegalStateException ex)
-		{
-			// TODO
-			ex.printStackTrace();
-			success = false;
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-		catch (ExecutionException e)
-		{
-			e.printStackTrace();
+			data = queue.execute(queryJob).complete();
 		}
 		finally
 		{
-			try
+			if (queue != null)
 			{
-				queue.stop(true).join();
-			}
-			catch (InterruptedException ex)
-			{
-				// TODO
-				ex.printStackTrace();
-			}
-			finally
-			{
-				queue.stop(false);
+				queue.stop(true);
 			}
 		}
 
-		return results;
+		return data;
 	}
 
 	/**

@@ -381,23 +381,22 @@ public class MainController implements Initializable
 
     }
 
-    public void hyperlink_filterData_OnAction(ActionEvent actionEvent) {
-
+    public void hyperlink_filterData_OnAction(ActionEvent event)
+    {
         loadFilterView();
 
     }
 
-    public void hyperlink_ExitSystem(ActionEvent actionEvent) {
-
+    public void hyperlink_ExitSystem(ActionEvent event)
+    {
         System.exit(0);
-
     }
 
-    //Sebastian
-    public void hyperlink_printdoc(ActionEvent actionEvent) {
+    public void hyperlink_printdoc(ActionEvent event)
+    {
 
         PrinterJob p = PrinterJob.createPrinterJob();
-	    Window owner = ((Node)actionEvent.getTarget()).getScene().getWindow();
+	    Window owner = ((Node)event.getTarget()).getScene().getWindow();
 
         if (p.showPrintDialog(owner))
         {
@@ -405,36 +404,33 @@ public class MainController implements Initializable
         }
     }
 
-    //Sidd
-    public void hyperlink_SaveCSV(ActionEvent actionEvent) {
-
-
+    public void hyperlink_SaveCSV(ActionEvent event)
+    {
 
     }
 
-    //Jake
-    public void hyperlink_UserGuide(ActionEvent actionEvent) {
-
-
-
+    public void hyperlink_UserGuide(ActionEvent event)
+    {
 
     }
 
-    //Jake
-    public void hyperlink_About(ActionEvent actionEvent) {
-
-
+    public void hyperlink_About(ActionEvent event)
+    {
 
     }
 
-    public void hyperlink_FindTrends(ActionEvent actionEvent) {
-    }
-
-    public void hyperlink_FindSpecificTrend(ActionEvent actionEvent) {
+    public void hyperlink_FindTrends(ActionEvent event)
+    {
 
     }
 
-    public void hyperlink_DataSummary(ActionEvent actionEvent) {
+    public void hyperlink_FindSpecificTrend(ActionEvent event)
+    {
+
+    }
+
+    public void hyperlink_DataSummary(ActionEvent event)
+    {
 
     }
 }
