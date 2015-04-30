@@ -204,7 +204,7 @@ public class FilterViewController {
 
             //Initial query statement
             //String SQL = "PRAGMA table_info(" + TableName + ")";
-            String SQL = "SELECT * FROM "+TableName;
+            String SQL = "SELECT * FROM "+TableName+" LIMIT 1;";
             SQLiteStatement stmt = db.prepare(SQL);
             int ColumnAmount = stmt.columnCount();
             boolean Set = true;
