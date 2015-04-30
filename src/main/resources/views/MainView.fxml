@@ -35,8 +35,8 @@
 				</Menu>
 				<Menu fx:id="menu_help" mnemonicParsing="false" text="Help">
 					<items>
-						<MenuItem mnemonicParsing="false" text="User Guide" />
-						<MenuItem mnemonicParsing="false" text="About" />
+						<MenuItem mnemonicParsing="false" text="User Guide" onAction="#hyperlink_UserGuide"/>
+						<MenuItem mnemonicParsing="false" text="About" onAction="#hyperlink_About"/>
 					</items>
 				</Menu>
 			</menus>
@@ -49,7 +49,7 @@
 		</MenuBar>
 		<ToolBar fx:id="toolBar_main" GridPane.columnIndex="1" GridPane.vgrow="NEVER">
 			<items>
-				<Button mnemonicParsing="false" text="Print...">
+				<Button mnemonicParsing="false" text="Print..." onAction="#hyperlink_printdoc">
 					<graphic>
 						<Glyph fontFamily="FontAwesome" icon="print" />
 					</graphic>

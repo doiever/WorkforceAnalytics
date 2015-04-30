@@ -401,4 +401,16 @@ public class MainController implements Initializable
 
     }
 
+    public void hyperlink_UserGuide(ActionEvent actionEvent) {
+
+
+
+
+    }
+
+    public void hyperlink_About(ActionEvent actionEvent) {
+
+
+
+    }
 }
