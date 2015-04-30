@@ -18,6 +18,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.print.Printer;
+import javafx.print.PrinterJob;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -380,4 +382,23 @@ public class MainController implements Initializable
         loadFilterView();
 
     }
+
+    public void hyperlink_ExitSystem(ActionEvent actionEvent) {
+
+        System.exit(0);
+
+    }
+
+    public void hyperlink_printdoc(ActionEvent actionEvent) {
+
+        PrinterJob p = PrinterJob.createPrinterJob();
+
+    }
+
+    public void hyperlink_SaveCSV(ActionEvent actionEvent) {
+
+
+
+    }
+
 }

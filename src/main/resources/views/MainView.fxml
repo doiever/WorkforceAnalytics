@@ -21,17 +21,15 @@
 			<menus>
 				<Menu fx:id="menu_file" mnemonicParsing="false" text="File">
 					<items>
-						<MenuItem mnemonicParsing="false" text="Add Data" />
-						<MenuItem mnemonicParsing="false" text="Save Report" />
-						<MenuItem mnemonicParsing="false" text="Open Report" />
-						<MenuItem mnemonicParsing="false" text="Print" />
-						<MenuItem mnemonicParsing="false" text="Exit" />
+						<MenuItem mnemonicParsing="false" text="Add Data" onAction="#hyperlink_importData_OnAction"/>
+						<MenuItem mnemonicParsing="false" text="Save Report" onAction="#hyperlink_SaveCSV"/>
+						<MenuItem mnemonicParsing="false" text="Print" onAction="#hyperlink_printdoc"/>
+						<MenuItem mnemonicParsing="false" text="Exit" onAction="#hyperlink_ExitSystem"/>
 					</items>
 				</Menu>
 				<Menu fx:id="menu_menu" mnemonicParsing="false" text="Menu">
 					<items>
 						<MenuItem mnemonicParsing="false" text="Generate Report" onAction="#hyperlink_filterData_OnAction" />
-						<MenuItem mnemonicParsing="false" text="Add to Quick Bar" />
 						<MenuItem mnemonicParsing="false" text="Options" />
 					</items>
 				</Menu>
