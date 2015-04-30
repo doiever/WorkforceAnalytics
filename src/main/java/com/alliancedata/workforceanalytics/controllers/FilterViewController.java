@@ -92,6 +92,13 @@ public class FilterViewController implements Initializable
     public static final String L6_DEPARTMENT_NAME = "L6 Dept Name";
     public static final String ORG_UNIT_WFA = "Org Unit_WFA";
     public static final String WFH_WFA = "WFH_WFA";
+    public static final String LOCALITY = "";
+            HireAndTermination
+            EffectivePeriods
+            ReasonDescription
+            AreaExpertiseWFA
+
+
 
     //::////////////////////////////////////////////////////////////////////////////////
     //::VIEW COMPONENTS
@@ -192,6 +199,211 @@ public class FilterViewController implements Initializable
 
     }
 
+    private void SetGroupLocality(String ColumnName){
+
+        grid_Local.setVisible(true);
+
+        switch(ColumnName){
+
+            case COUNTRY:
+            case STATE:
+            case WORK_LOCATION:
+            case REGION_WFA:
+
+        }
+
+    }
+
+    private void SetGroupDepartmentAndCode(String ColumnName){
+
+        grid_Dept.setVisible(true);
+
+        switch(ColumnName){
+
+            case DEPT_CODE:
+            case DEPARTMENT:
+
+        }
+
+    }
+
+    private void SetGroupPayPosition(String ColumnName){
+
+        grid_Pay.setVisible(true);
+
+        switch(ColumnName){
+
+            case PAY_STATUS:
+            case REG_TEMP:
+            case PAY_TYPE_WFA:
+
+        }
+
+    }
+
+    private void SetGroupJob(String ColumnName){
+
+        grid_Job.setVisible(true);
+
+        switch(ColumnName) {
+
+            case JOB_COOE:
+            case JOB_LEVEL_WFA:
+
+        }
+
+    }
+
+    private void SetGroupHireAndTermination(String ColumnName){
+
+        grindHandT.setVisible(true);
+
+        switch(ColumnName){
+
+            case TERMINATION_CATEGORY_WFA:
+            case HIRE_CATEGORY:
+
+        }
+
+
+    }
+
+    private void SetGroupAcquisition(String ColumnName){
+
+        grid_Acq.setVisible(true);
+
+        switch(ColumnName){
+
+            case ACQUISITION_DATE:
+            case ACQUISITION_NAME:
+
+        }
+
+    }
+
+    private void SetGroupProducts(String ColumnName){
+
+        grid_Product.setVisible(true);
+
+        switch(ColumnName){
+
+            case PRODUCT_LOB_WFA:
+            case PRODUCT_GROUP_WFA:
+            case PRODUCT_WFA:
+
+        }
+
+    }
+
+    private void SetGroupEffectivePeriod(String ColumnName){
+
+        grid_EffPer.setVisible(true);
+
+        switch(ColumnName){
+
+            case EFF_YEAR:
+            case EFF_YEAR_QUARTER:
+            case EFF_YEAR_MONTH:
+
+        }
+
+    }
+
+    private void SetGroupYOS(String ColumnName){
+
+        grid_YOS.setVisible(true);
+
+        switch(ColumnName){
+
+            case YOS:
+            case YOS_WFA:
+
+        }
+
+    }
+
+    private void SetGroupTenure(String ColumnName){
+
+        grid_Tenure.setVisible(true);
+
+        switch(ColumnName){
+
+            case ADS_TENURE:
+            case ADS_TENURE_WFA:
+
+        }
+
+    }
+
+    private void SetGroupSupervisor(String ColumnName){
+
+        grid_Super.setVisible(true);
+
+        switch(ColumnName){
+
+            case L0_SUPV_ID:
+            case L1_SUPV_ID:
+            case L2_SUPV_ID:
+            case L3_SUPV_ID:
+            case L4_SUPV_ID:
+            case L5_SUPV_ID:
+            case L6_SUPV_ID:
+            case L7_SUPV_ID:
+            case L8_SUPV_ID:
+            case L9_SUPV_ID:
+            case L10_SUPV_ID:
+            case L11_SUPV_ID:
+            case SUPV_ID_CHAIN:
+
+        }
+
+    }
+
+    private void SetGroupDirectReports(String ColumnName){
+
+        grid_Direct.setVisible(true);
+
+        switch(ColumnName){
+
+
+            case DIRECT_REPORTS:
+            case DIRECT_REPORTS_WFA:
+
+        }
+
+    }
+
+    private void SetGroupTotalReports(String ColumnName){
+
+        grid_TotalReport.setVisible(true);
+
+        switch(ColumnName){
+
+            case TOTAL_REPORTS:
+            case TOTAL_REPORTS_WFA:
+
+        }
+
+    }
+
+    private void SetGroupDeptLevel(String ColumnName){
+
+        grid_DeptLevel.setVisible(true);
+
+        switch(ColumnName){
+
+            case L0_DEPARTMENT_NAME:
+            case L1_DEPARTMENT_NAME:
+            case L2_DEPARTMENT_NAME:
+            case L3_DEPARTMENT_NAME:
+            case L4_DEPARTMENT_NAME:
+            case L5_DEPARTMENT_NAME:
+            case L6_DEPARTMENT_NAME:
+
+        }
+
+    }
+
     public void FilterViewParameters(String TableName) {
 
         try {
@@ -210,81 +422,83 @@ public class FilterViewController implements Initializable
             {
                 switch (columnName)
                 {
-                    case ID:                          grid_ID.setVisible(true);                break;
-                    case HEADCOUNT_ID:                grid_Headcount.setVisible(true);         break;
-                    case PAY_STATUS:                  grid_Pay.setVisible(true);               break;
-                    case REG_TEMP:                                                            continue;
-                    case ORGANIZATION_RELATION:       grid_Org.setVisible(true);               break;
-                    case COMP_TYPE:                   grid_CompType.setVisible(true);          break;
-                    case STD_HOURS_PER_WEEK:          grid_STD.setVisible(true);               break;
-                    case FTE_STD_WFA:                 grid_FTE.setVisible(true);               break;
-                    case EFFECTIVE_DATE:              grid_Eff.setVisible(true);               break;
-                    case COSTCENTER:                  grid_CostCenter.setVisible(true);        break;
-                    case LOB_WFA:                     grid_LOB.setVisible(true);               break;
-                    case DEPT_CODE:                                                           continue;
-                    case DEPARTMENT:                  grid_Dept.setVisible(true);              break;
-                    case COUNTRY:                                                             continue;
-                    case STATE:                                                               continue;
-                    case WORK_LOCATION:                                                       continue;
-                    case REGION_WFA:                                                          continue;
-                    case JOB_COOE:                    grid_Job.setVisible(true);               break;
-                    case JOB_LEVEL_WFA:                                                       continue;
-                    case START_DATE:                                                          continue;
-                    case REHIRE_DATE:                                                         continue;
-                    case SERVICE_DATE:                                                        continue;
-                    case TERM_DATE:                                                           continue;
-                    case LAST_DATE_WORKED:                                                    continue;
-                    case ACQUISITION_DATE:            grid_Acq.setVisible(true);               break; //two acquisition
-                    case ACQUISITION_NAME:            grid_Acq.setVisible(true);               break; //two acquisition
-                    case PRODUCT_LOB_WFA:             grid_Product.setVisible(true);           break; // two products
-                    case PRODUCT_GROUP_WFA:           grid_Product.setVisible(true);           break; // two products
-                    case PRODUCT_WFA:                 grid_Product.setVisible(true);           break; // two products
-                    case AREA_OF_EXPERTISE_WFA:                                               continue;
-                    case SLT_INDICATOR:               grid_SLT.setVisible(true);               break;
-                    case PAY_TYPE_WFA:                                                        continue;
-                    case HEADCOUNT:                   grid_Headcount.setVisible(true);         break;
-                    case ACTION_DESCRIPTION:          grid_Action.setVisible(true);            break;
-                    case REASON_DESCRIPTION:          grid_Reason.setVisible(true);            break;
-                    case TERMINATION_CATEGORY_WFA:                                            continue;
-                    case HIRE_CATEGORY:                                                       continue;
-                    case JOB_CHANGE_CATEGORY:         grid_JobChange.setVisible(true);         break;
-                    case SKILLSET_WFA:                grid_Skillset.setVisible(true);          break;
-                    case EFF_YEAR:                    grid_Eff.setVisible(true);               break; // three dates
-                    case EFF_YEAR_QUARTER:            grid_Eff.setVisible(true);               break; // three dates
-                    case EFF_YEAR_MONTH:              grid_Eff.setVisible(true);               break; // three dates
-                    case YOS:                         grid_YOS.setVisible(true);               break; //two YOS
-                    case YOS_WFA:                     grid_YOS.setVisible(true);               break; //two YOS
-                    case ADS_TENURE:                  grid_Tenure.setVisible(true);            break; //two tenure
-                    case ADS_TENURE_WFA:              grid_Tenure.setVisible(true);            break; //two tenure
-                    case L0_SUPV_ID:                                                          continue;
-                    case L1_SUPV_ID:                                                          continue;
-                    case L2_SUPV_ID:                                                          continue;
-                    case L3_SUPV_ID:                                                          continue;
-                    case L4_SUPV_ID:                                                          continue;
-                    case L5_SUPV_ID:                                                          continue;
-                    case L6_SUPV_ID:                                                          continue;
-                    case L7_SUPV_ID:                                                          continue;
-                    case L8_SUPV_ID:                                                          continue;
-                    case L9_SUPV_ID:                                                          continue;
-                    case L10_SUPV_ID:                                                         continue;
-                    case L11_SUPV_ID:                                                         continue;
-                    case SUPV_ID_CHAIN:               grid_Super.setVisible(true);             break;
-                    case RpT_LEVEL:                   grid_RptLevel.setVisible(true);          break;
-                    case DIRECT_REPORTS:              grid_Direct.setVisible(true);            break;//two directs
-                    case DIRECT_REPORTS_WFA:          grid_Direct.setVisible(true);            break;//two directs
-                    case TOTAL_REPORTS:               grid_TotalReport.setVisible(true);       break;//two total reports
-                    case TOTAL_REPORTS_WFA:           grid_TotalReport.setVisible(true);       break;//two total reports
-                    case L0_DEPARTMENT_NAME:          grid_DeptLevel.setVisible(true);         break;//7 dept level
-                    case L1_DEPARTMENT_NAME:          grid_DeptLevel.setVisible(true);         break;//7 dept level
-                    case L2_DEPARTMENT_NAME:          grid_DeptLevel.setVisible(true);         break;//7 dept level
-                    case L3_DEPARTMENT_NAME:          grid_DeptLevel.setVisible(true);         break;//7 dept level
-                    case L4_DEPARTMENT_NAME:          grid_DeptLevel.setVisible(true);         break;//7 dept level
-                    case L5_DEPARTMENT_NAME:          grid_DeptLevel.setVisible(true);         break;//7 dept level
-                    case L6_DEPARTMENT_NAME:          grid_DeptLevel.setVisible(true);         break;//7 dept level
-                    case ORG_UNIT_WFA:                grid_OrgUnit.setVisible(true);           break;
-                    case WFH_WFA:                     grid_WFH.setVisible(true);               break;
-                    default:
+                    case ID:                          grid_ID.setVisible(true);                     break;
+                    case HEADCOUNT_ID:                grid_Headcount.setVisible(true);              break;
+                    case PAY_STATUS:                  SetGroupPayPosition(columnName);              break;
+                    case REG_TEMP:                    SetGroupPayPosition(columnName);              continue;
+                    case ORGANIZATION_RELATION:       grid_Org.setVisible(true);                    break;
+                    case COMP_TYPE:                   grid_CompType.setVisible(true);               break;
+                    case STD_HOURS_PER_WEEK:          grid_STD.setVisible(true);                    break;
+                    case FTE_STD_WFA:                 grid_FTE.setVisible(true);                    break;
+                    case EFFECTIVE_DATE:              grid_Eff.setVisible(true);                    break;
+                    case COSTCENTER:                  grid_CostCenter.setVisible(true);             break;
+                    case LOB_WFA:                     grid_LOB.setVisible(true);                    break;
+                    case DEPT_CODE:                   SetGroupDepartmentAndCode(columnName);        continue;
+                    case DEPARTMENT:                  SetGroupDepartmentAndCode(columnName);        break;
+                    case COUNTRY:                     SetGroupLocality(columnName);                 continue;
+                    case STATE:                       SetGroupLocality(columnName);                 continue;
+                    case WORK_LOCATION:               SetGroupLocality(columnName);                 continue;
+                    case REGION_WFA:                  SetGroupLocality(columnName);                 continue;
+                    case JOB_COOE:                    SetGroupJob(columnName);                      break;
+                    case JOB_LEVEL_WFA:               SetGroupJob(columnName);                      continue;
+                    case START_DATE:                  SetGroupHireAndTermination(columnName);       continue;
+                    case REHIRE_DATE:                 SetGroupHireAndTermination(columnName);       continue;
+                    case SERVICE_DATE:                SetGroupHireAndTermination(columnName);       continue;
+                    case TERM_DATE:                   SetGroupHireAndTermination(columnName);       continue;
+                    case LAST_DATE_WORKED:            SetGroupHireAndTermination(columnName);       continue;
+                    case ACQUISITION_DATE:            SetGroupAcquisition(columnName);              break; //two acquisition
+                    case ACQUISITION_NAME:            SetGroupAcquisition(columnName);              break; //two acquisition
+                    case PRODUCT_LOB_WFA:             SetGroupProducts(columnName);                 break; // two products
+                    case PRODUCT_GROUP_WFA:           SetGroupProducts(columnName);                 break; // two products
+                    case PRODUCT_WFA:                 SetGroupProducts(columnName);                 break; // two products
+                    case AREA_OF_EXPERTISE_WFA:       grid_AreaExper.setVisible(true);              continue;
+                    case SLT_INDICATOR:               grid_SLT.setVisible(true);                    break;
+                    case PAY_TYPE_WFA:                SetGroupPayPosition(columnName);              continue;
+                    case HEADCOUNT:                   grid_Headcount.setVisible(true);              break;
+                    case ACTION_DESCRIPTION:          grid_Action.setVisible(true);                 break;
+                    case REASON_DESCRIPTION:          grid_Reason.setVisible(true);                 break;
+                    case TERMINATION_CATEGORY_WFA:    SetGroupHireAndTermination(columnName);       continue;
+                    case HIRE_CATEGORY:               SetGroupHireAndTermination(columnName);       continue;
+                    case JOB_CHANGE_CATEGORY:         grid_JobChange.setVisible(true);              break;
+                    case SKILLSET_WFA:                grid_Skillset.setVisible(true);               break;
+                    case EFF_YEAR:                    SetGroupEffectivePeriod(columnName);          break; // three dates
+                    case EFF_YEAR_QUARTER:            SetGroupEffectivePeriod(columnName);          break; // three dates
+                    case EFF_YEAR_MONTH:              SetGroupEffectivePeriod(columnName);          break; // three dates
+                    case YOS:                         SetGroupYOS(columnName);                      break; //two YOS
+                    case YOS_WFA:                     SetGroupYOS(columnName);                      break; //two YOS
+                    case ADS_TENURE:                  SetGroupTenure(columnName);                   break; //two tenure
+                    case ADS_TENURE_WFA:              SetGroupTenure(columnName);                   break; //two tenure
+                    case L0_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+                    case L1_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+                    case L2_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+                    case L3_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+                    case L4_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+                    case L5_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+                    case L6_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+                    case L7_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+                    case L8_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+                    case L9_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+                    case L10_SUPV_ID:                 SetGroupSupervisor(columnName);               break;
+                    case L11_SUPV_ID:                 SetGroupSupervisor(columnName);               break;
+                    case SUPV_ID_CHAIN:               SetGroupSupervisor(columnName);               break;
+                    case RpT_LEVEL:                   grid_RptLevel.setVisible(true);               break;
+                    case DIRECT_REPORTS:              SetGroupDirectReports(columnName);            break;//two directs
+                    case DIRECT_REPORTS_WFA:          SetGroupDirectReports(columnName);            break;//two directs
+                    case TOTAL_REPORTS:               SetGroupTotalReports(columnName);             break;//two total reports
+                    case TOTAL_REPORTS_WFA:           SetGroupTotalReports(columnName);             break;//two total reports
+                    case L0_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
+                    case L1_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
+                    case L2_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
+                    case L3_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
+                    case L4_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
+                    case L5_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
+                    case L6_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
+                    case ORG_UNIT_WFA:                grid_OrgUnit.setVisible(true);                break;
+                    case WFH_WFA:                     grid_WFH.setVisible(true);                    break;
+                    default:                                                                        break;
+
                 }
+
             }
 
         }
