@@ -6,138 +6,174 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane prefHeight="484.0" prefWidth="727.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alliancedata.workforceanalytics.controllers.FilterViewController">
-   <content>
-      <GridPane hgap="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="472.0" prefWidth="717.0">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="129.0" minHeight="0.0" prefHeight="61.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="345.0" minHeight="10.0" prefHeight="185.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="257.0" minHeight="3.0" prefHeight="192.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+<GridPane prefHeight="600.0" prefWidth="800.0" vgap="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alliancedata.workforceanalytics.controllers.FilterViewController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="ALWAYS" />
+      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints vgrow="NEVER" />
+      <RowConstraints vgrow="SOMETIMES" />
+      <RowConstraints vgrow="NEVER" />
+   </rowConstraints>
+   <children>
+      <DatePicker fx:id="datePicker_endDate" promptText="End date" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+         <GridPane.margin>
+            <Insets top="10.0" />
+         </GridPane.margin>
+      </DatePicker>
+      <DatePicker promptText="Start date" GridPane.halignment="CENTER">
+         <GridPane.margin>
+            <Insets top="10.0" />
+         </GridPane.margin>
+      </DatePicker>
+      <ScrollPane focusTraversable="false" GridPane.columnSpan="3" GridPane.rowIndex="1">
+         <content>
+            <GridPane hgap="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="472.0" prefWidth="717.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="345.0" minHeight="10.0" prefHeight="185.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="257.0" minHeight="3.0" prefHeight="192.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <CheckBox fx:id="grid_ID" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="ID" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Pay" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="100.0" text="Pay Position" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_CompType" mnemonicParsing="false" text="Comp Type" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_STD" mnemonicParsing="false" text="STD Hours/Week" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_FTE" mnemonicParsing="false" text="FTE Std_WFA" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Org" mnemonicParsing="false" text="Org Relation" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                     </children>
+                  </GridPane>
+                  <GridPane GridPane.columnIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <CheckBox fx:id="grid_Eff" mnemonicParsing="false" text="Eff Date" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Dept" mnemonicParsing="false" text="Department" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_CostCenter" mnemonicParsing="false" text="CostCenter-PS11" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Local" mnemonicParsing="false" text="Locality" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Job" mnemonicParsing="false" text="Job" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_LOB" mnemonicParsing="false" text="LOB_WFA" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                     </children>
+                  </GridPane>
+                  <GridPane GridPane.columnIndex="2">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <CheckBox fx:id="grid_Acq" mnemonicParsing="false" text="Acquisitions" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Product" mnemonicParsing="false" text="Products" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_SLT" mnemonicParsing="false" text="SLT Indicator" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Headcount" mnemonicParsing="false" text="Headcount" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Action" mnemonicParsing="false" text="Action Descr" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Reason" mnemonicParsing="false" text="Reason Descr" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                     </children>
+                  </GridPane>
+                  <GridPane GridPane.rowIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <CheckBox fx:id="grid_Skillset" mnemonicParsing="false" text="Skillset_WFA" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_YOS" mnemonicParsing="false" text="YOS" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_EffPer" mnemonicParsing="false" text="Effective Periods" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_RptLevel" mnemonicParsing="false" text="Rpt Level" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Super" mnemonicParsing="false" text="Supervisor" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Tenure" mnemonicParsing="false" text="Tenure" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                     </children>
+                  </GridPane>
+                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <CheckBox fx:id="grid_Direct" mnemonicParsing="false" text="Direct Reports" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_TotalReport" mnemonicParsing="false" text="Total Reports" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_DeptLevel" mnemonicParsing="false" text="Dept Level" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_OrgUnit" mnemonicParsing="false" text="Org Unit_WFA" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_WFH" mnemonicParsing="false" text="WFH_WFA" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                     </children>
+                  </GridPane>
+                  <GridPane GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <CheckBox fx:id="grid_JobChange" mnemonicParsing="false" text="Job Change Category_WFA" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grindHandT" mnemonicParsing="false" text="Hire and Termination" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_AreaExper" mnemonicParsing="false" text="Area of Expertise_WFA" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                     </children>
+                  </GridPane>
+               </children>
+            </GridPane>
+         </content>
+      </ScrollPane>
+      <HBox alignment="CENTER_RIGHT" spacing="5.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
          <children>
-            <Label prefHeight="17.0" prefWidth="61.0" text="Start Date" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Label text="End Date" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <CheckBox mnemonicParsing="false" prefHeight="17.0" prefWidth="79.0" text="All Dates" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-            <TextField prefHeight="25.0" prefWidth="95.0" GridPane.valignment="BOTTOM" />
-            <TextField GridPane.columnIndex="1" GridPane.valignment="BOTTOM" />
-            <GridPane GridPane.rowIndex="1">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <CheckBox fx:id="grid_ID" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="ID" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_Pay" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="100.0" text="Pay Position" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_CompType" mnemonicParsing="false" text="Comp Type" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_STD" mnemonicParsing="false" text="STD Hours/Week" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_FTE" mnemonicParsing="false" text="FTE Std_WFA" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_Org" mnemonicParsing="false" text="Org Relation" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-               </children>
-            </GridPane>
-            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <CheckBox fx:id="grid_Eff" mnemonicParsing="false" text="Eff Date" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_Dept" mnemonicParsing="false" text="Department" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_CostCenter" mnemonicParsing="false" text="CostCenter-PS11" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_Local" mnemonicParsing="false" text="Locality" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_Job" mnemonicParsing="false" text="Job" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_LOB" mnemonicParsing="false" text="LOB_WFA" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-               </children>
-            </GridPane>
-            <GridPane GridPane.columnIndex="2" GridPane.rowIndex="1">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <CheckBox fx:id="grid_Acq" mnemonicParsing="false" text="Acquisitions" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_Product" mnemonicParsing="false" text="Products" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_SLT" mnemonicParsing="false" text="SLT Indicator" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_Headcount" mnemonicParsing="false" text="Headcount" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_Action" mnemonicParsing="false" text="Action Descr" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_Reason" mnemonicParsing="false" text="Reason Descr" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-               </children>
-            </GridPane>
-            <GridPane GridPane.rowIndex="2">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <CheckBox fx:id="grid_Skillset" mnemonicParsing="false" text="Skillset_WFA" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_YOS" mnemonicParsing="false" text="YOS" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_EffPer" mnemonicParsing="false" text="Effective Periods" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_RptLevel" mnemonicParsing="false" text="Rpt Level" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_Super" mnemonicParsing="false" text="Supervisor" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_Tenure" mnemonicParsing="false" text="Tenure" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-               </children>
-            </GridPane>
-            <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <CheckBox fx:id="grid_Direct" mnemonicParsing="false" text="Direct Reports" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_TotalReport" mnemonicParsing="false" text="Total Reports" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_DeptLevel" mnemonicParsing="false" text="Dept Level" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_OrgUnit" mnemonicParsing="false" text="Org Unit_WFA" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_WFH" mnemonicParsing="false" text="WFH_WFA" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-               </children>
-            </GridPane>
-            <GridPane GridPane.columnIndex="2" GridPane.rowIndex="2">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <CheckBox fx:id="grid_JobChange" mnemonicParsing="false" text="Job Change Category_WFA" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grindHandT" mnemonicParsing="false" text="Hire and Termination" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                  <CheckBox fx:id="grid_AreaExper" mnemonicParsing="false" text="Area of Expertise_WFA" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-                  <Button fx:id="grid_button_Gen" mnemonicParsing="false" text="Generate" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
-                  <Button fx:id="grid_button_Cancel" mnemonicParsing="false" text="Cancel" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" />
-               </children>
-            </GridPane>
+            <Button fx:id="grid_button_Cancel" mnemonicParsing="false" text="Cancel" GridPane.rowIndex="2">
+               <HBox.margin>
+                  <Insets bottom="10.0" />
+               </HBox.margin></Button>
+            <Button fx:id="grid_button_Gen" mnemonicParsing="false" text="Generate" GridPane.rowIndex="2">
+               <HBox.margin>
+                  <Insets bottom="10.0" />
+               </HBox.margin></Button>
          </children>
-      </GridPane>
-   </content>
-</ScrollPane>
+         <GridPane.margin>
+            <Insets right="10.0" />
+         </GridPane.margin>
+      </HBox>
+      <CheckBox mnemonicParsing="false" prefHeight="17.0" prefWidth="79.0" text="All Dates" GridPane.columnIndex="2">
+         <GridPane.margin>
+            <Insets top="10.0" />
+         </GridPane.margin>
+      </CheckBox>
+   </children>
+</GridPane>

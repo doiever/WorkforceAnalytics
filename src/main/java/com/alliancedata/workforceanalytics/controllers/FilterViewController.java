@@ -3,7 +3,9 @@ package com.alliancedata.workforceanalytics.controllers;
 import com.alliancedata.workforceanalytics.Constants;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -132,9 +134,12 @@ public class FilterViewController implements Initializable
     @FXML public CheckBox grid_JobChange;
     @FXML public CheckBox grindHandT;
     @FXML public CheckBox grid_AreaExper;
+	@FXML public DatePicker datePicker_endDate;
+	@FXML public Button grid_button_Cancel;
+	@FXML public Button grid_button_Gen;
 
 
-    //::////////////////////////////////////////////////////////////////////////////////
+	//::////////////////////////////////////////////////////////////////////////////////
     //::DEFINITIONS
     //::////////////////////////////////////////////////////////////////////////////////
 
