@@ -22,7 +22,7 @@
 				<Menu fx:id="menu_file" mnemonicParsing="false" text="File">
 					<items>
 						<MenuItem mnemonicParsing="false" text="Add Data" onAction="#hyperlink_importData_OnAction"/>
-						<MenuItem mnemonicParsing="false" text="Save Report" onAction="#hyperlink_SaveCSV"/>
+						<MenuItem mnemonicParsing="false" text="Export Report" onAction="#hyperlink_SaveCSV"/>
 						<MenuItem mnemonicParsing="false" text="Print" onAction="#hyperlink_printdoc"/>
 						<MenuItem mnemonicParsing="false" text="Exit" onAction="#hyperlink_ExitSystem"/>
 					</items>
@@ -49,12 +49,12 @@
 		</MenuBar>
 		<ToolBar fx:id="toolBar_main" GridPane.columnIndex="1" GridPane.vgrow="NEVER">
 			<items>
-				<Button mnemonicParsing="false" text="Print..." onAction="#hyperlink_printdoc">
+				<Button mnemonicParsing="false" text="Print" onAction="#hyperlink_printdoc">
 					<graphic>
 						<Glyph fontFamily="FontAwesome" icon="print" />
 					</graphic>
 				</Button>
-				<Button fx:id="button_generateReport" mnemonicParsing="false" text="Generate reports" onAction="#hyperlink_filterData_OnAction">
+				<Button fx:id="button_generateReport" mnemonicParsing="false" text="Generate Reports" onAction="#hyperlink_filterData_OnAction">
 					<graphic>
 						<Glyph fontFamily="FontAwesome" icon="file_text" />
 					</graphic>
@@ -69,12 +69,12 @@
 							<content>
 								<VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
 									<children>
-										<Hyperlink fx:id="hyperlink_importData" onAction="#hyperlink_importData_OnAction" text="Import data from files">
+										<Hyperlink fx:id="hyperlink_importData" onAction="#hyperlink_importData_OnAction" text="Import Data from File(s)">
 											<graphic>
 												<Glyph fontFamily="FontAwesome" icon="database" />
 											</graphic>
 										</Hyperlink>
-										<Hyperlink fx:id="hyperlink_filterData" text="Filter data" onAction="#hyperlink_filterData_OnAction" />
+										<Hyperlink fx:id="hyperlink_filterData" text="Generate Report" onAction="#hyperlink_filterData_OnAction" />
 										<Hyperlink disable="true" text="Data summary" />
 									</children>
 								</VBox>
@@ -84,17 +84,8 @@
 							<content>
 								<VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
 									<children>
-										<Hyperlink text="Find trends" />
-										<Hyperlink text="Find a specific trend" />
-									</children>
-								</VBox>
-							</content>
-						</TitledPane>
-						<TitledPane layoutX="10.0" layoutY="35.0" text="Reporting">
-							<content>
-								<VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
-									<children>
-										<Hyperlink text="Generate a report" />
+										<Hyperlink text="Find Trends" disable="true" onAction="#hyperlink_FindTrends"/>
+										<Hyperlink text="Find a Specific Trend" disable="true" onAction="#hyperlink_FindSpecificTrend"/>
 									</children>
 								</VBox>
 							</content>
@@ -103,9 +94,8 @@
 							<content>
 								<VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
 									<children>
-										<Hyperlink text="Export reports" />
-										<Hyperlink text="Export data" />
-										<Hyperlink text="Print reports" />
+										<Hyperlink text="Export Report" onAction="#hyperlink_SaveCSV"/>
+										<Hyperlink text="Print Reports" onAction="#hyperlink_printdoc"/>
 									</children>
 								</VBox>
 							</content>
@@ -121,12 +111,12 @@
 										<Insets left="5.0" right="5.0" />
 									</padding>
 								</Label>
-								<Button fx:id="button_startOver" cancelButton="true" mnemonicParsing="false" text="Start over">
+								<Button fx:id="button_startOver" cancelButton="true" mnemonicParsing="false" text="Start Over">
 									<graphic>
 										<Glyph fontFamily="FontAwesome" icon="ban" style="-fx-text-fill: darkred;" />
 									</graphic>
 								</Button>
-								<Button fx:id="button_useThisData" defaultButton="true" mnemonicParsing="false" text="Use this data" onAction="#button_useThisData_onAction">
+								<Button fx:id="button_useThisData" defaultButton="true" mnemonicParsing="false" text="Use This Data" onAction="#button_useThisData_onAction">
 									<graphic>
 										<Glyph fontFamily="FontAwesome" icon="check" style="-fx-text-fill: forestgreen;" />
 									</graphic>

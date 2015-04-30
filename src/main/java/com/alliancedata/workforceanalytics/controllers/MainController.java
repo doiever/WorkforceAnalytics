@@ -413,4 +413,11 @@ public class MainController implements Initializable
 
 
     }
+
+    public void hyperlink_FindTrends(ActionEvent actionEvent) {
+    }
+
+    public void hyperlink_FindSpecificTrend(ActionEvent actionEvent) {
+
+    }
 }
