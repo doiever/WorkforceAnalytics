@@ -1,14 +1,12 @@
 package com.alliancedata.workforceanalytics.models;
 
 import com.alliancedata.workforceanalytics.*;
-import com.almworks.sqlite4java.SQLiteConnection;
-import com.almworks.sqlite4java.SQLiteException;
-import com.almworks.sqlite4java.SQLiteJob;
-import com.almworks.sqlite4java.SQLiteQueue;
+import com.almworks.sqlite4java.*;
 import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.StringJoiner;
 import java.util.concurrent.ExecutionException;
@@ -133,60 +131,46 @@ public class DatabaseHandler implements Serializable
 		return success;
 	}
 
-	public LinkedList<String> getColumnNames(@NotNull String tableName)
+	public LinkedHashSet<String> getColumnNames(@NotNull String tableName)
 	{
 		final String query = "PRAGMA table_info(" + tableName + ");";
+		LinkedHashSet<String> columns = new LinkedHashSet<>();
+		SQLiteQueue queue = null;
 
-		Boolean success = null;
-		SQLiteQueue queue = new SQLiteQueue(this.getDatabaseFile());
-		LinkedList<String> results = new LinkedList<>();
+		SQLiteJob<LinkedHashSet<String>> getColumnNamesJob = new SQLiteJob<LinkedHashSet<String>>() {
+			@Override
+			protected LinkedHashSet<String> job(SQLiteConnection connection) throws Throwable {
+				final LinkedHashSet<String> finalColumns = new LinkedHashSet<>();
+				SQLiteStatement statement = connection.prepare(query);
+
+				while (statement.step())
+				{
+					for (int i = 0; i < statement.columnCount(); i++)
+					{
+						finalColumns.add(statement.columnString(1));
+					}
+				}
+
+				return finalColumns;
+			}
+		};
 
 		try
 		{
+			queue = new SQLiteQueue(this.getDatabaseFile());
 			queue.start();
 
-			SQLiteJob<LinkedList<String>> queryJob = new SQLiteJob<LinkedList<String>>() {
-				@Override
-				protected LinkedList<String> job(SQLiteConnection connection) throws Throwable {
-					try
-					{
-						connection.exec(query);
-					}
-					catch (SQLiteException ex)
-					{
-						// TODO
-						ex.printStackTrace();
-					}
-					return this.get();
-				}
-			};
-
-			results = queryJob.complete();
-		}
-		catch (IllegalStateException ex)
-		{
-			// TODO
-			ex.printStackTrace();
-			success = false;
+			columns = queue.execute(getColumnNamesJob).complete();
 		}
 		finally
 		{
-			try
+			if (queue != null)
 			{
-				queue.stop(true).join();
-			}
-			catch (InterruptedException ex)
-			{
-				// TODO
-				ex.printStackTrace();
-			}
-			finally
-			{
-				queue.stop(false);
+				queue.stop(true);
 			}
 		}
 
-		return results;
+		return columns;
 	}
 
 	public LinkedList<LinkedList<String>> executeQuery(@NotNull String query)

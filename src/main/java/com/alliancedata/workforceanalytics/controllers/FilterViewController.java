@@ -7,7 +7,7 @@ import javafx.scene.control.CheckBox;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
 import java.util.ResourceBundle;
 
 public class FilterViewController implements Initializable
@@ -196,7 +196,7 @@ public class FilterViewController implements Initializable
             trueOptionsAllInvisible();
 
             //Initial query statement
-	        @NotNull LinkedList<String> columns = Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().getColumnNames(TableName);
+	        @NotNull LinkedHashSet<String> columns = Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().getColumnNames(TableName);
 
             int columnCount = columns.size();
 
@@ -278,12 +278,7 @@ public class FilterViewController implements Initializable
                     case L6_DEPARTMENT_NAME:          grid_DeptLevel.setVisible(true);         break;//7 dept level
                     case ORG_UNIT_WFA:                grid_OrgUnit.setVisible(true);           break;
                     case WFH_WFA:                     grid_WFH.setVisible(true);               break;
-                    default: {
-
-                        UnsupportedOperationException e = new UnsupportedOperationException();
-                        throw e;
-
-                    }
+                    default:
                 }
             }
 
