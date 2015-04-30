@@ -75,7 +75,7 @@
 											</graphic>
 										</Hyperlink>
 										<Hyperlink fx:id="hyperlink_filterData" text="Generate Report" onAction="#hyperlink_filterData_OnAction" />
-										<Hyperlink disable="true" text="Data summary" />
+										<Hyperlink disable="true" text="Data Summary" onAction="#hyperlink_DataSummary"/>
 									</children>
 								</VBox>
 							</content>

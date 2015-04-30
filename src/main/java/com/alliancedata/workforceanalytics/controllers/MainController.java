@@ -375,6 +375,7 @@ public class MainController implements Initializable
 	    {
 		    ex.printStackTrace();
 	    }
+
     }
 
     public void hyperlink_filterData_OnAction(ActionEvent actionEvent) {
@@ -389,18 +390,23 @@ public class MainController implements Initializable
 
     }
 
+    //Sebastian
     public void hyperlink_printdoc(ActionEvent actionEvent) {
 
         PrinterJob p = PrinterJob.createPrinterJob();
 
+        p.showPrintDialog(((Node)actionEvent.getTarget()).getScene().getWindow());
+
     }
 
+    //Sidd
     public void hyperlink_SaveCSV(ActionEvent actionEvent) {
 
 
 
     }
 
+    //Jake
     public void hyperlink_UserGuide(ActionEvent actionEvent) {
 
 
@@ -408,6 +414,7 @@ public class MainController implements Initializable
 
     }
 
+    //Jake
     public void hyperlink_About(ActionEvent actionEvent) {
 
 
@@ -418,6 +425,10 @@ public class MainController implements Initializable
     }
 
     public void hyperlink_FindSpecificTrend(ActionEvent actionEvent) {
+
+    }
+
+    public void hyperlink_DataSummary(ActionEvent actionEvent) {
 
     }
 }
