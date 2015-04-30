@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.StringJoiner;
+import java.util.concurrent.ExecutionException;
 
 /**
  *  Implementation of a Database Handler.
@@ -19,7 +20,6 @@ import java.util.StringJoiner;
 public class DatabaseHandler implements Serializable
 {
 	// region Fields
-	public transient SQLiteConnection connection;
 	private File databaseFile = null;
 	private boolean hasHeadcountData = false;
 	// endregion
@@ -72,13 +72,13 @@ public class DatabaseHandler implements Serializable
 		String populateQuery = buildPopulateQuery(headcountData, activityData);
 
 		// Execute queries to create and populate tables:
-		boolean schemaCreated = executeQuery(createSchemaQuery);
-		boolean populated = executeQuery(populateQuery);
+		boolean schemaCreated = executeLameQuery(createSchemaQuery);
+		boolean populated = executeLameQuery(populateQuery);
 
 		return schemaCreated && populated;
 	}
 
-	public boolean executeQuery(@NotNull String query)
+	public boolean executeLameQuery(@NotNull String query)
 	{
 		Boolean success = null;
 		SQLiteQueue queue = new SQLiteQueue(this.getDatabaseFile());
@@ -131,6 +131,124 @@ public class DatabaseHandler implements Serializable
 		}
 
 		return success;
+	}
+
+	public LinkedList<String> getColumnNames(@NotNull String tableName)
+	{
+		final String query = "PRAGMA table_info(" + tableName + ");";
+
+		Boolean success = null;
+		SQLiteQueue queue = new SQLiteQueue(this.getDatabaseFile());
+		LinkedList<String> results = new LinkedList<>();
+
+		try
+		{
+			queue.start();
+
+			SQLiteJob<LinkedList<String>> queryJob = new SQLiteJob<LinkedList<String>>() {
+				@Override
+				protected LinkedList<String> job(SQLiteConnection connection) throws Throwable {
+					try
+					{
+						connection.exec(query);
+					}
+					catch (SQLiteException ex)
+					{
+						// TODO
+						ex.printStackTrace();
+					}
+					return this.get();
+				}
+			};
+
+			results = queryJob.complete();
+		}
+		catch (IllegalStateException ex)
+		{
+			// TODO
+			ex.printStackTrace();
+			success = false;
+		}
+		finally
+		{
+			try
+			{
+				queue.stop(true).join();
+			}
+			catch (InterruptedException ex)
+			{
+				// TODO
+				ex.printStackTrace();
+			}
+			finally
+			{
+				queue.stop(false);
+			}
+		}
+
+		return results;
+	}
+
+	public LinkedList<LinkedList<String>> executeQuery(@NotNull String query)
+	{
+		Boolean success = null;
+		SQLiteQueue queue = new SQLiteQueue(this.getDatabaseFile());
+		LinkedList<LinkedList<String>> results = new LinkedList<>();
+
+		try
+		{
+			queue.start();
+
+			SQLiteJob<LinkedList<LinkedList<String>>> queryJob = new SQLiteJob<LinkedList<LinkedList<String>>>() {
+				@Override
+				protected LinkedList<LinkedList<String>> job(SQLiteConnection connection) throws Throwable {
+					try
+					{
+						connection.exec(query);
+					}
+					catch (SQLiteException ex)
+					{
+						// TODO
+						ex.printStackTrace();
+					}
+					return this.get();
+				}
+			};
+
+			results = queryJob.get();
+		}
+		catch (IllegalStateException ex)
+		{
+			// TODO
+			ex.printStackTrace();
+			success = false;
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		catch (ExecutionException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				queue.stop(true).join();
+			}
+			catch (InterruptedException ex)
+			{
+				// TODO
+				ex.printStackTrace();
+			}
+			finally
+			{
+				queue.stop(false);
+			}
+		}
+
+		return results;
 	}
 
 	/**

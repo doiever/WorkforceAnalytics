@@ -27,6 +27,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.Window;
 import org.jetbrains.annotations.NotNull;
 import java.io.BufferedReader;
@@ -359,19 +360,19 @@ public class MainController implements Initializable
             Scene scene = new Scene(rootNode);
 
             mainStage.setTitle(Constants.APPLICATION_NAME);
-            mainStage.setOnCloseRequest(Constants.CLOSE_EVENT_HANDLER);
+	        mainStage.initStyle(StageStyle.UTILITY);
             mainStage.setScene(scene);
             mainStage.show();
-
-            FilterViewController fvc = new FilterViewController();
-            fvc.FilterViewParameters("Activity");
-
         }
         catch (IOException ex)
         {
             // TODO: Can't find Constants.MAIN_VIEW file.
             ex.printStackTrace();
         }
+	    catch (Exception ex)
+	    {
+		    ex.printStackTrace();
+	    }
     }
 
     public void hyperlink_filterData_OnAction(ActionEvent actionEvent) {
