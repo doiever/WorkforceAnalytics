@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.alliancedata.workforceanalytics.Constants;
+import com.alliancedata.workforceanalytics.models.DatabaseHandler;
 import com.almworks.sqlite4java.SQLiteConnection;
 import com.almworks.sqlite4java.SQLiteStatement;
 import javafx.fxml.FXML;
@@ -137,16 +138,14 @@ public class FilterViewController {
     //::CLASS DATA
     //::////////////////////////////////////////////////////////////////////////////////
 
-    SQLiteConnection db;
+    SQLiteConnection db = Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().connection;
     Constants c;
 
     //::////////////////////////////////////////////////////////////////////////////////
     //::DEFINITIONS
     //::////////////////////////////////////////////////////////////////////////////////
 
-    public FilterViewController(SQLiteConnection database){
-
-        db = database;
+    public FilterViewController(){
 
     }
 

@@ -30,7 +30,7 @@
 				</Menu>
 				<Menu fx:id="menu_menu" mnemonicParsing="false" text="Menu">
 					<items>
-						<MenuItem mnemonicParsing="false" text="Generate Report" />
+						<MenuItem mnemonicParsing="false" text="Generate Report" onAction="#hyperlink_filterData_OnAction" />
 						<MenuItem mnemonicParsing="false" text="Add to Quick Bar" />
 						<MenuItem mnemonicParsing="false" text="Options" />
 					</items>
@@ -56,7 +56,7 @@
 						<Glyph fontFamily="FontAwesome" icon="print" />
 					</graphic>
 				</Button>
-				<Button fx:id="button_generateReport" mnemonicParsing="false" text="Generate reports">
+				<Button fx:id="button_generateReport" mnemonicParsing="false" text="Generate reports" onAction="#hyperlink_filterData_OnAction">
 					<graphic>
 						<Glyph fontFamily="FontAwesome" icon="file_text" />
 					</graphic>
@@ -76,7 +76,7 @@
 												<Glyph fontFamily="FontAwesome" icon="database" />
 											</graphic>
 										</Hyperlink>
-										<Hyperlink fx:id="hyperlink_filterData" disable="true" text="Filter data" />
+										<Hyperlink fx:id="hyperlink_filterData" text="Filter data" onAction="#hyperlink_filterData_OnAction" />
 										<Hyperlink disable="true" text="Data summary" />
 									</children>
 								</VBox>

@@ -16,13 +16,17 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.jetbrains.annotations.NotNull;
 import java.io.BufferedReader;
@@ -343,4 +347,36 @@ public class MainController implements Initializable
 
 		return data;
 	}
+
+    public void loadFilterView()
+    {
+        FXMLLoader loader = new FXMLLoader();
+
+        try
+        {
+            Stage mainStage = new Stage();
+            Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.FILTER_VIEW));
+            Scene scene = new Scene(rootNode);
+
+            mainStage.setTitle(Constants.APPLICATION_NAME);
+            mainStage.setOnCloseRequest(Constants.CLOSE_EVENT_HANDLER);
+            mainStage.setScene(scene);
+            mainStage.show();
+
+            FilterViewController fvc = new FilterViewController();
+            fvc.FilterViewParameters("Activity");
+
+        }
+        catch (IOException ex)
+        {
+            // TODO: Can't find Constants.MAIN_VIEW file.
+            ex.printStackTrace();
+        }
+    }
+
+    public void hyperlink_filterData_OnAction(ActionEvent actionEvent) {
+
+        loadFilterView();
+
+    }
 }

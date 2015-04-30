@@ -19,7 +19,7 @@ import java.util.StringJoiner;
 public class DatabaseHandler implements Serializable
 {
 	// region Fields
-	private transient SQLiteConnection connection;
+	public transient SQLiteConnection connection;
 	private File databaseFile = null;
 	private boolean hasHeadcountData = false;
 	// endregion
