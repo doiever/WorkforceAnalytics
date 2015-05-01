@@ -80,7 +80,7 @@
 												<Glyph fontFamily="FontAwesome" icon="filter" />
 											</graphic>
 										</Hyperlink>
-										<Hyperlink fx:id="hyperlink_viewDataSummary" disable="true" maxWidth="1.7976931348623157E308" onAction="#hyperlink_DataSummary_onAction" text="View data summary...">
+										<Hyperlink fx:id="hyperlink_viewDataSummary" maxWidth="1.7976931348623157E308" onAction="#hyperlink_viewDataSummary_onAction" text="View data summary...">
 											<graphic>
 												<Glyph fontFamily="FontAwesome" icon="cube" />
 											</graphic>

@@ -744,7 +744,7 @@ public class MainController implements Initializable
 
     }
 
-    public void hyperlink_DataSummary_onAction(ActionEvent event)
+    public void hyperlink_viewDataSummary_onAction(ActionEvent event)
     {
 		loadDataSummaryView();
     }
