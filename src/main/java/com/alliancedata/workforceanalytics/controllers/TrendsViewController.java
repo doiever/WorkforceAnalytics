@@ -2,17 +2,22 @@ package com.alliancedata.workforceanalytics.controllers;
 
 import com.alliancedata.workforceanalytics.Constants;
 import com.alliancedata.workforceanalytics.models.DatabaseHandler;
+import javafx.fxml.FXML;
+import javafx.scene.text.TextFlow;
 
+import java.awt.*;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
 public class TrendsViewController {
 
+    @FXML public TextArea textflow_trendreporting;
+
     //:://////////////////////////////////////////////////////
     //::DEFINITIONS
     //:://////////////////////////////////////////////////////
 
-    public String FindTrendQuitting(){
+    public void FindTrendTermination(){
 
         String TableName = "Activity";
         String SQL;
@@ -90,7 +95,7 @@ public class TrendsViewController {
         Report += "The highest amount of termination was "+HighestTerminationAtLocation+" that occurred at location classified as "+HighestTerminationLocation+"\n";
         Report += "The most common reason for termination was "+ReasonDescription+", the amount of employees terminated for this reason was "+HighestAmountReason+"\n";
 
-        return Report;
+        textflow_trendreporting.setText(Report);
 
     }
 
