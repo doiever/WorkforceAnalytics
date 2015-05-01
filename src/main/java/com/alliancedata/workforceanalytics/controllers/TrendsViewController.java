@@ -38,7 +38,7 @@ public class TrendsViewController {
 
         for(int i=0; i<rawData.size(); i++){
 
-            for(int j=0; k<rawData.get(i).size(); j++){
+            for(int j=0; j<rawData.get(i).size(); j++){
 
                 int CurrentValue = Integer.parseInt(rawData.get(i+1).get(j));
                 String CurrentLocation = rawData.get(i).get(j);
