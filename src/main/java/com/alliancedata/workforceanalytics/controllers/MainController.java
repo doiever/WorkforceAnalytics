@@ -5,7 +5,6 @@ import com.alliancedata.workforceanalytics.Enums;
 import com.alliancedata.workforceanalytics.LinkedListValueFactory;
 import com.alliancedata.workforceanalytics.Utilities;
 import com.alliancedata.workforceanalytics.models.DataImportModel;
-import com.alliancedata.workforceanalytics.models.DatabaseHandler;
 import com.sun.javafx.collections.ObservableListWrapper;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -207,8 +206,8 @@ public class MainController implements Initializable
 		this.toolbar_confirmData.managedProperty().bind(this.toolbar_confirmData.visibleProperty());
 		this.toolbar_confirmData.visibleProperty().bind(this.hasCreatedDatabase.not());
 		this.hyperlink_importData.disableProperty().bind(this.hasCreatedDatabase);
-		this.hyperlink_exportReport.disableProperty().bind(this.hasGeneratedReport);
-		this.hyperlink_printReport.disableProperty().bind(this.hasGeneratedReport);
+		this.hyperlink_exportReport.disableProperty().bind(this.hasGeneratedReport.not());
+		this.hyperlink_printReport.disableProperty().bind(this.hasGeneratedReport.not());
 		this.tab_reportData.disableProperty().bind(this.hasGeneratedReport.not());
 	}
 
@@ -630,47 +629,68 @@ public class MainController implements Initializable
 
     public void hyperlink_SaveCSV(ActionEvent event)
     {
+	    Window owner = gridPane_main.getScene().getWindow();
 
-	// Make File to save from user
-	Window owner = gridPane_main.getScene().getWindow();
-	FileChooser fileChooser = new FileChooser();
-	fileChooser.setTitle("Export Report");
-	fileChooser.setInitialDirectory(Constants.INITIAL_EXPORT_DATA_DIRECTORY);
+		// Get File to save to from user:
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Export Report");
+		fileChooser.setInitialDirectory(Constants.INITIAL_EXPORT_DATA_DIRECTORY);
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV file (*.csv)", "*.csv"));
 
-	FileChooser.ExtensionFilter EF = new FileChooser.ExtensionFilter("CSV file (*.csv)", "*.csv");
-	fileChooser.getExtensionFilters().add(EF);
+		File file = fileChooser.showSaveDialog(owner);
 
-	File file = fileChooser.showSaveDialog(owner);
-
-	if(file != null){
-		LinkedList<LinkedList<String>> SF = DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), "SELECT * FROM Activity;");
-		SaveFile(SF, file);
+		if (file != null)
+		{
+			ObservableList<LinkedList<String>> data = FilterViewController.reportModel.getData();
+			exportReport(data, file);
+		}
 	}
-	}
 
+	/**
+	 * Exports a dataset as a CSV file.
+	 * @param data  The data to export
+	 * @param file  The file to write to
+	 */
+	private void exportReport(ObservableList<LinkedList<String>> data, File file)
+	{
+		FileWriter fileWriter = null;
 
-	//Save file method
-	private void SaveFile(LinkedList<LinkedList<String>> content,File file){
-		try{
-			FileWriter fileWriter = null;
+		try
+		{
 			fileWriter = new FileWriter(file);
 
-			LinkedHashSet<String> CN = Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().getColumnNames("Activity");
-			String Header = String.join(",", CN);
+			ObservableList<String> columnNames = FilterViewController.reportModel.getColumnNames();
+			String columns = String.join(",", columnNames);
 
-			fileWriter.write(Header);
-			fileWriter.write('\n');
+			fileWriter.write(columns + "\n");
 
-			for(LinkedList<String> row : content){
-				String rowString = String.join(",",row);
-				fileWriter.write(rowString);
+			for (LinkedList<String> rowData : data)
+			{
+				String row = String.join(",", rowData);
+				fileWriter.write(row);
 				fileWriter.write('\n');
 			}
 
 			fileWriter.flush();
-			fileWriter.close();
-		}catch(IOException ex){
-			ex.printStackTrace();
+		}
+		catch (IOException ex)
+		{
+			Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "File Error", null, "Unable to write to disk!",
+				"Please ensure the file you've specified is writable and isn't currently in use.\n\n" + ex.getMessage());
+		}
+		finally
+		{
+			if (fileWriter != null)
+			{
+				try
+				{
+					fileWriter.close();
+				}
+				catch (Exception ex)
+				{
+					fileWriter = null;
+				}
+			}
 		}
 	}
 
