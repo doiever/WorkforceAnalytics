@@ -12,7 +12,8 @@ public class AboutController implements Initializable
 {
     // region View components
     @FXML public Button button_ok;
-	// endregion
+
+    // endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources)

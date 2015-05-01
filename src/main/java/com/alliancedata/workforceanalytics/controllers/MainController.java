@@ -768,7 +768,7 @@ public class MainController implements Initializable
 			Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.TREND_VIEW));
 			Scene scene = new Scene(rootNode);
 
-			dataSummaryStage.setTitle("Data Summary");
+			dataSummaryStage.setTitle("Trends: Termination");
 			dataSummaryStage.initStyle(StageStyle.UTILITY);
 			dataSummaryStage.setScene(scene);
 			dataSummaryStage.initOwner(mainWindow);
@@ -824,4 +824,18 @@ public class MainController implements Initializable
 	public void option_views(ActionEvent actionEvent) {
 		loadOptionView();
 	}
+
+	public void Button_Trends_Termination_Cancel(ActionEvent actionEvent) {
+
+		Stage stage = (Stage)button_termination_cancel.getScene().getWindow();
+		stage.close();
+
+	}
+
+	public void Button_Trends_Termination_Analyze(ActionEvent actionEvent) {
+
+		FindTrendTermination();
+
+	}
+
 }

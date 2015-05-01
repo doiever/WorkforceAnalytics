@@ -2,11 +2,16 @@ package com.alliancedata.workforceanalytics.controllers;
 
 import com.alliancedata.workforceanalytics.Constants;
 import com.alliancedata.workforceanalytics.models.DatabaseHandler;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 
 import java.awt.*;
+import java.awt.TextArea;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -15,6 +20,8 @@ import java.util.ResourceBundle;
 public class TrendsViewController implements Initializable {
 
     @FXML public TextArea textflow_trendreporting;
+    @FXML public javafx.scene.control.Button button_termination_cancel;
+    @FXML public Button button_termination_analyze;
 
     //:://////////////////////////////////////////////////////
     //::DEFINITIONS
@@ -106,4 +113,18 @@ public class TrendsViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+
+    public void Button_Trends_Termination_Cancel(ActionEvent actionEvent) {
+
+        Stage stage = (Stage)button_termination_cancel.getScene().getWindow();
+        stage.close();
+
+    }
+
+    public void Button_Trends_Termination_Analyze(ActionEvent actionEvent) {
+
+        FindTrendTermination();
+
+    }
+
 }
