@@ -70,13 +70,21 @@
 							<content>
 								<VBox spacing="5.0">
 									<children>
-										<Hyperlink fx:id="hyperlink_importData" maxWidth="1.7976931348623157E308" onAction="#hyperlink_importData_OnAction" text="Import data from files...">
+										<Hyperlink fx:id="hyperlink_importData" maxWidth="1.7976931348623157E308" onAction="#hyperlink_importData_OnAction" text="Import data">
 											<graphic>
 												<Glyph fontFamily="FontAwesome" icon="database" />
 											</graphic>
 										</Hyperlink>
-										<Hyperlink fx:id="hyperlink_generateReport" maxWidth="1.7976931348623157E308" onAction="#hyperlink_filterData_OnAction" text="Generate report" />
-										<Hyperlink fx:id="hyperlink_viewDataSummary" disable="true" maxWidth="1.7976931348623157E308" onAction="#hyperlink_DataSummary" text="View data summary" />
+										<Hyperlink fx:id="hyperlink_generateReport" maxWidth="1.7976931348623157E308" onAction="#hyperlink_filterData_OnAction" text="Filter data...">
+											<graphic>
+												<Glyph fontFamily="FontAwesome" icon="filter" />
+											</graphic>
+										</Hyperlink>
+										<Hyperlink fx:id="hyperlink_viewDataSummary" disable="true" maxWidth="1.7976931348623157E308" onAction="#hyperlink_DataSummary" text="View data summary...">
+											<graphic>
+												<Glyph fontFamily="FontAwesome" icon="cube" />
+											</graphic>
+										</Hyperlink>
 									</children>
 								</VBox>
 							</content>
@@ -85,8 +93,8 @@
 							<content>
 								<VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
 									<children>
-										<Hyperlink disable="true" onAction="#hyperlink_FindTrends" text="Find Trends" />
-										<Hyperlink disable="true" onAction="#hyperlink_FindSpecificTrend" text="Find a Specific Trend" />
+										<Hyperlink disable="true" onAction="#hyperlink_FindTrends" text="Find trends..." />
+										<Hyperlink disable="true" onAction="#hyperlink_FindSpecificTrend" text="Find a specific trend..." />
 									</children>
 								</VBox>
 							</content>
@@ -95,8 +103,8 @@
 							<content>
 								<VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
 									<children>
-										<Hyperlink onAction="#hyperlink_SaveCSV" text="Export Report" />
-										<Hyperlink onAction="#hyperlink_printdoc" text="Print Reports" />
+										<Hyperlink fx:id="hyperlink_exportReport" onAction="#hyperlink_SaveCSV" text="Export report" />
+										<Hyperlink fx:id="hyperlink_printReport" onAction="#hyperlink_printdoc" text="Print report" />
 									</children>
 								</VBox>
 							</content>
@@ -112,12 +120,12 @@
 										<Insets left="5.0" right="5.0" />
 									</padding>
 								</Label>
-								<Button fx:id="button_startOver" cancelButton="true" mnemonicParsing="false" onAction="#button_startOver_OnAction" text="Start Over">
+								<Button fx:id="button_startOver" cancelButton="true" mnemonicParsing="false" onAction="#button_startOver_OnAction" text="Start over">
 									<graphic>
 										<Glyph fontFamily="FontAwesome" icon="ban" style="-fx-text-fill: darkred;" />
 									</graphic>
 								</Button>
-								<Button fx:id="button_useThisData" defaultButton="true" mnemonicParsing="false" onAction="#button_useThisData_onAction" text="Use This Data">
+								<Button fx:id="button_useThisData" defaultButton="true" mnemonicParsing="false" onAction="#button_useThisData_onAction" text="Use this data">
 									<graphic>
 										<Glyph fontFamily="FontAwesome" icon="check" style="-fx-text-fill: forestgreen;" />
 									</graphic>
@@ -141,6 +149,11 @@
 										<TableView fx:id="tableView_activityData" tableMenuButtonVisible="true" />
 									</content>
 								</Tab>
+                        <Tab fx:id="tab_reportData" closable="false" disable="true" text="Report">
+                           <content>
+                              <TableView fx:id="tableView_reportData" tableMenuButtonVisible="true" />
+                           </content>
+                        </Tab>
 							</tabs>
 							<padding>
 								<Insets bottom="-1.0" />

@@ -1,6 +1,9 @@
 package com.alliancedata.workforceanalytics.controllers;
 
-import com.alliancedata.workforceanalytics.*;
+import com.alliancedata.workforceanalytics.Constants;
+import com.alliancedata.workforceanalytics.Enums;
+import com.alliancedata.workforceanalytics.LinkedListValueFactory;
+import com.alliancedata.workforceanalytics.Utilities;
 import com.alliancedata.workforceanalytics.models.DataImportModel;
 import com.alliancedata.workforceanalytics.models.DatabaseHandler;
 import com.sun.javafx.collections.ObservableListWrapper;
@@ -31,7 +34,6 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.*;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
@@ -49,6 +51,7 @@ public class MainController implements Initializable
 	private BooleanProperty isLoadingData = new SimpleBooleanProperty(false);
 	public static BooleanProperty isUsingPreviousSession = new SimpleBooleanProperty(false);
 	public BooleanProperty hasCreatedDatabase = new SimpleBooleanProperty(false);
+	public BooleanProperty hasGeneratedReport = new SimpleBooleanProperty(false);
 	// endregion
 
 	// region View components
@@ -78,6 +81,10 @@ public class MainController implements Initializable
 	@FXML public TabPane tabPane_data;
 	@FXML public ProgressIndicator progressIndicator;
 	@FXML public ToolBar toolbar_confirmData;
+	@FXML public TableView<LinkedList<String>> tableView_reportData;
+	@FXML public Hyperlink hyperlink_exportReport;
+	@FXML public Hyperlink hyperlink_printReport;
+	@FXML public Tab tab_reportData;
 	// endregion
 
 	@Override
@@ -200,6 +207,9 @@ public class MainController implements Initializable
 		this.toolbar_confirmData.managedProperty().bind(this.toolbar_confirmData.visibleProperty());
 		this.toolbar_confirmData.visibleProperty().bind(this.hasCreatedDatabase.not());
 		this.hyperlink_importData.disableProperty().bind(this.hasCreatedDatabase);
+		this.hyperlink_exportReport.disableProperty().bind(this.hasGeneratedReport);
+		this.hyperlink_printReport.disableProperty().bind(this.hasGeneratedReport);
+		this.tab_reportData.disableProperty().bind(this.hasGeneratedReport.not());
 	}
 
 	@FXML
@@ -494,6 +504,7 @@ public class MainController implements Initializable
 	        filterStage.setScene(scene);
 	        filterStage.initOwner(mainWindow);
 	        filterStage.initModality(Modality.WINDOW_MODAL);
+	        FilterViewController.mainController = this;
 	        filterStage.show();
         }
         catch (IOException ex)
@@ -505,8 +516,37 @@ public class MainController implements Initializable
 	    {
 		    ex.printStackTrace();
 	    }
-
     }
+
+	public void bindReportTableView()
+	{
+		ObservableList<String> reportColumnNames = FilterViewController.reportModel.getColumnNames();
+		ObservableList<LinkedList<String>> reportData = FilterViewController.reportModel.getData();
+
+		// Create TableColumns:
+		LinkedHashSet<TableColumn<LinkedList<String>, ?>> columns = new LinkedHashSet<>();
+		int columnIndex = 0;
+
+		for (String columnName : reportColumnNames)
+		{
+			TableColumn<LinkedList<String>, String> column = new TableColumn<>(columnName);
+			column.setCellValueFactory(new LinkedListValueFactory(columnIndex++));
+			columns.add(column);
+		}
+
+		// Bind columns to TableView:
+		ObservableList<TableColumn<LinkedList<String>, ?>> observableColumns = FXCollections.observableArrayList(columns);
+		Bindings.bindContentBidirectional(tableView_reportData.getColumns(), observableColumns);
+
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				tableView_reportData.getItems().addAll(reportData);
+			}
+		});
+
+		this.hasGeneratedReport.setValue(true);
+	}
 
 	public void loadAboutView()
 	{
@@ -564,13 +604,11 @@ public class MainController implements Initializable
 		{
 			ex.printStackTrace();
 		}
-
 	}
 
     public void hyperlink_filterData_OnAction(ActionEvent event)
     {
         loadFilterView();
-
     }
 
     public void hyperlink_ExitSystem(ActionEvent event)
@@ -589,8 +627,6 @@ public class MainController implements Initializable
 	        p.printPage(vbox_data);
         }
     }
-
-
 
     public void hyperlink_SaveCSV(ActionEvent event)
     {

@@ -28,7 +28,7 @@
 				<ChoiceBox fx:id="choiceBox_tables" prefWidth="150.0" />
 			</children>
 			<GridPane.margin>
-				<Insets left="5.0" />
+				<Insets left="5.0" top="10.0" />
 			</GridPane.margin>
 		</HBox>
 		<ScrollPane fx:id="scrollPane_columns" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" maxWidth="1.7976931348623157E308" GridPane.columnSpan="3" GridPane.rowIndex="1">
@@ -44,7 +44,7 @@
 					<HBox.margin>
 						<Insets bottom="10.0" />
 					</HBox.margin></Button>
-				<Button fx:id="button_generateReport" defaultButton="true" mnemonicParsing="false" text="Generate" GridPane.rowIndex="2">
+				<Button fx:id="button_generateReport" defaultButton="true" mnemonicParsing="false" onAction="#button_generate_onAction" text="Generate" GridPane.rowIndex="2">
 					<HBox.margin>
 						<Insets bottom="10.0" />
 					</HBox.margin></Button>

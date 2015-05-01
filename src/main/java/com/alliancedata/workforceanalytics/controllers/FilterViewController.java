@@ -1,6 +1,8 @@
 package com.alliancedata.workforceanalytics.controllers;
 
 import com.alliancedata.workforceanalytics.Constants;
+import com.alliancedata.workforceanalytics.models.DatabaseHandler;
+import com.alliancedata.workforceanalytics.models.Report;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.value.ChangeListener;
@@ -18,7 +20,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -29,6 +30,8 @@ public class FilterViewController implements Initializable
 	// region Fields
 	private ListProperty<String> tableList = new SimpleListProperty<>(FXCollections.observableArrayList());
 	private LinkedHashMap<String, LinkedList<HBox>> columnHBoxes = new LinkedHashMap<>();
+	public static Report reportModel = new Report();
+	public static MainController mainController;
 	// endregion
 
 	// region View components
@@ -43,50 +46,46 @@ public class FilterViewController implements Initializable
 	public void initialize(URL location, ResourceBundle resources)
 	{
 		this.dataBind();
-		this.tableList.getValue().add("All tables");
 		this.tableList.getValue().addAll(Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().getTableNames());
 
 		double minCheckboxWidth = 150;
 		for (String tableName : this.tableList)
 		{
-			if (!tableName.equalsIgnoreCase("All tables"))
+			LinkedHashSet<String> columnNames = Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().getColumnNames(tableName);
+			LinkedList<HBox> hBoxes = new LinkedList<>();
+
+			for (String columnName : columnNames)
 			{
-				LinkedHashSet<String> columnNames = Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().getColumnNames(tableName);
-				LinkedList<HBox> hBoxes = new LinkedList<>();
+				HBox hBox = new HBox(5);
+				CheckBox checkBox = new CheckBox(columnName);
+				Node editableNode;
 
-				for (String columnName : columnNames)
+				// Create DatePicker nodes for date-related columns and TextField nodes
+				// for all others:
+				if (columnName.toLowerCase().contains("date"))
 				{
-					HBox hBox = new HBox(5);
-					CheckBox checkBox = new CheckBox(columnName);
-					Node editableNode;
-
-					// Create DatePicker nodes for date-related columns and TextField nodes
-					// for all others:
-					if (columnName.toLowerCase().contains("date"))
-					{
-						editableNode = new DatePicker(LocalDate.now());
-					}
-					else
-					{
-						editableNode =  new TextField();
-					}
-
-					editableNode.disableProperty().bind(checkBox.selectedProperty().not());
-					hBox.getChildren().addAll(checkBox, editableNode);
-					HBox.setHgrow(editableNode, Priority.ALWAYS);
-
-					minCheckboxWidth = Math.max(minCheckboxWidth, checkBox.getLayoutBounds().getWidth());
-					if (checkBox.getMinWidth() < minCheckboxWidth)
-					{
-						checkBox.setMinWidth(minCheckboxWidth);
-						checkBox.setPrefWidth(minCheckboxWidth);
-					}
-
-					hBoxes.add(hBox);
+					editableNode = new DatePicker();
+				}
+				else
+				{
+					editableNode =  new TextField();
 				}
 
-				columnHBoxes.put(tableName, hBoxes);
+				editableNode.disableProperty().bind(checkBox.selectedProperty().not());
+				hBox.getChildren().addAll(checkBox, editableNode);
+				HBox.setHgrow(editableNode, Priority.ALWAYS);
+
+				minCheckboxWidth = Math.max(minCheckboxWidth, checkBox.getLayoutBounds().getWidth());
+				if (checkBox.getMinWidth() < minCheckboxWidth)
+				{
+					checkBox.setMinWidth(minCheckboxWidth);
+					checkBox.setPrefWidth(minCheckboxWidth);
+				}
+
+				hBoxes.add(hBox);
 			}
+
+			columnHBoxes.put(tableName, hBoxes);
 		}
 
 		if (choiceBox_tables.getItems().size() > 0)
@@ -117,25 +116,7 @@ public class FilterViewController implements Initializable
 	private void loadHBoxes(String tableName)
 	{
 		vbox_target.getChildren().clear();
-
-		if (tableName.equalsIgnoreCase("All tables"))
-		{
-			LinkedHashSet<HBox> uniqueHBoxes = new LinkedHashSet<>();
-
-			for (String table : this.tableList)
-			{
-				if (!table.equalsIgnoreCase("All tables"))
-				{
-					uniqueHBoxes.addAll(columnHBoxes.get(table));
-				}
-			}
-
-			vbox_target.getChildren().addAll(uniqueHBoxes);
-		}
-		else
-		{
-			vbox_target.getChildren().addAll(columnHBoxes.get(tableName));
-		}
+		vbox_target.getChildren().addAll(columnHBoxes.get(tableName));
 	}
 
     public void button_cancel_onAction(ActionEvent event)
@@ -143,4 +124,87 @@ public class FilterViewController implements Initializable
         Stage stage = (Stage)button_cancel.getScene().getWindow();
         stage.close();
     }
+
+	public void button_generate_onAction(ActionEvent event)
+	{
+		LinkedList<String> selectedColumnNames = new LinkedList<>();
+		LinkedList<String> values = new LinkedList<>();
+		String selectedTableName = this.choiceBox_tables.getSelectionModel().getSelectedItem();
+
+		// Generate list of selected columns and values:
+		for (Node node : vbox_target.getChildren())
+		{
+			if (node instanceof HBox)
+			{
+				HBox hbox = (HBox)node;
+
+				if (hbox.getChildren() != null && hbox.getChildren().size() > 1 && hbox.getChildren().get(0) instanceof CheckBox)
+				{
+					CheckBox checkBox = (CheckBox)hbox.getChildren().get(0);
+					Node editableNode = hbox.getChildren().get(1);
+
+					if (checkBox.selectedProperty().getValue())
+					{
+						selectedColumnNames.add(checkBox.getText());
+
+						if (editableNode instanceof DatePicker)
+						{
+							DatePicker datePicker = (DatePicker)editableNode;
+
+							if (datePicker.getValue() != null)
+							{
+								values.add(String.valueOf(datePicker.getValue().toEpochDay()));
+							}
+							else
+							{
+								values.add("");
+							}
+						}
+						else
+						{
+							TextField textField = (TextField)editableNode;
+							values.add(textField.getText());
+						}
+					}
+				}
+			}
+		}
+
+		// Build query:
+		int columnIndex = 0;
+		LinkedList<String> wheres = new LinkedList<>();
+		StringBuilder queryBuilder = new StringBuilder("SELECT \"");
+		queryBuilder.append(String.join("\", \"", selectedColumnNames));
+		queryBuilder.append("\" FROM \"");
+		queryBuilder.append(selectedTableName);
+		queryBuilder.append("\" WHERE ");
+
+		for (String value : values)
+		{
+			String columnName = selectedColumnNames.get(values.indexOf(value));
+
+			if (value.length() > 0)
+			{
+				wheres.add(String.format("\"%s\"=\"%s\"", columnName, value));
+			}
+		}
+
+		queryBuilder.append(String.join(" AND ", wheres));
+
+		// Execute query and push results to Report model:
+		final String query = queryBuilder.toString();
+		LinkedList<LinkedList<String>> results = DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(),
+			query);
+
+		ObservableList<String> observableColumnNames = FXCollections.observableArrayList(selectedColumnNames);
+		ObservableList<LinkedList<String>> observableData = FXCollections.observableArrayList(results);
+
+		reportModel.setData(observableData);
+		reportModel.setColumnNames(observableColumnNames);
+
+		mainController.bindReportTableView();
+
+		Stage window = (Stage)this.button_generateReport.getScene().getWindow();
+		window.close();
+	}
 }
