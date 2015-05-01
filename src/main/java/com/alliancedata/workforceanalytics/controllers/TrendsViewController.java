@@ -7,13 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
-
-import java.awt.*;
-import java.awt.TextArea;
 import java.net.URL;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
