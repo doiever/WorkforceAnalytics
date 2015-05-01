@@ -31,7 +31,7 @@
 				<Menu fx:id="menu_menu" mnemonicParsing="false" text="Menu">
 					<items>
 						<MenuItem mnemonicParsing="false" onAction="#hyperlink_filterData_OnAction" text="Generate Report" />
-						<MenuItem mnemonicParsing="false" text="Options" />
+						<MenuItem mnemonicParsing="false" text="Options" onAction="#option_views"/>
 					</items>
 				</Menu>
 				<Menu fx:id="menu_help" mnemonicParsing="false" text="Help">
@@ -95,7 +95,7 @@
 									<children>
 										<Hyperlink disable="true" onAction="#hyperlink_FindTrends" text="Find trends..." />
 										<Hyperlink disable="true" onAction="#hyperlink_FindSpecificTrend" text="Find a specific trend..." />
-                              <Hyperlink fx:id="hyperlink_analyzetermination" disable="false" layoutX="20.0" layoutY="48.0" onAction="#AnalyzeTrendTerm" text="Analyze Termination Trends" />
+                              <Hyperlink fx:id="hyperlink_analyzetermination" disable="true" layoutX="20.0" layoutY="48.0" onAction="#AnalyzeTrendTerm" text="Analyze Termination Trends" />
 									</children>
 								</VBox>
 							</content>

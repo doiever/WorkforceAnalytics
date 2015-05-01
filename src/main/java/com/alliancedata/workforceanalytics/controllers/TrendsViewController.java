@@ -2,16 +2,21 @@ package com.alliancedata.workforceanalytics.controllers;
 
 import com.alliancedata.workforceanalytics.Constants;
 import com.alliancedata.workforceanalytics.models.DatabaseHandler;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.text.TextFlow;
-
-import java.awt.*;
-import java.util.LinkedHashSet;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
+import java.net.URL;
 import java.util.LinkedList;
+import java.util.ResourceBundle;
 
-public class TrendsViewController {
+public class TrendsViewController implements Initializable {
 
-    @FXML public TextArea textflow_trendreporting;
+    @FXML public TextArea textarea_termination_reporting;
+    @FXML public javafx.scene.control.Button button_termination_cancel;
+    @FXML public Button button_termination_analyze;
 
     //:://////////////////////////////////////////////////////
     //::DEFINITIONS
@@ -95,7 +100,25 @@ public class TrendsViewController {
         Report += "The highest amount of termination was "+HighestTerminationAtLocation+" that occurred at location classified as "+HighestTerminationLocation+"\n";
         Report += "The most common reason for termination was "+ReasonDescription+", the amount of employees terminated for this reason was "+HighestAmountReason+"\n";
 
-        textflow_trendreporting.setText(Report);
+        textarea_termination_reporting.setText(Report);
+
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
+    public void Button_Trends_Termination_Cancel(ActionEvent actionEvent) {
+
+        Stage stage = (Stage)button_termination_cancel.getScene().getWindow();
+        stage.close();
+
+    }
+
+    public void Button_Trends_Termination_Analyze(ActionEvent actionEvent) {
+
+        FindTrendTermination();
 
     }
 
