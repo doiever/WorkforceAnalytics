@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="Workforce Analytic's Trend" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+         <children>
+            <ImageView layoutX="34.0" layoutY="3.0" preserveRatio="true">
+               <image>
+                  <Image url="/images/ads-logo.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="532.0" layoutY="336.0" mnemonicParsing="false" text="Okay" />
+            <TextArea fx:id="textflow_trendreporting" layoutX="21.0" layoutY="113.0" prefHeight="214.0" prefWidth="556.0" />
+         </children></AnchorPane>
+  </content>
+</TitledPane>

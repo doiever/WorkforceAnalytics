@@ -756,4 +756,12 @@ public class MainController implements Initializable
 		this.isLoadingData.setValue(false);
 		this.dataBind();
 	}
+
+    public void AnalyzeTrendTerm(ActionEvent actionEvent) {
+
+        TrendsViewController tvc = new TrendsViewController();
+
+        tvc.FindTrendTermination();
+
+    }
 }
