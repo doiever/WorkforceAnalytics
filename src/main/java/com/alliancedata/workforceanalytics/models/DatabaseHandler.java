@@ -3,6 +3,7 @@ package com.alliancedata.workforceanalytics.models;
 import com.alliancedata.workforceanalytics.Constants;
 import com.alliancedata.workforceanalytics.Utilities;
 import com.almworks.sqlite4java.*;
+import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -95,8 +96,8 @@ public class DatabaseHandler implements Serializable
 					}
 					catch (SQLiteException ex)
 					{
-						// TODO
-						ex.printStackTrace();
+						Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "SQL Error", null,
+							null, ex.getMessage());
 						return false;
 					}
 
@@ -120,7 +121,8 @@ public class DatabaseHandler implements Serializable
 			}
 			catch (InterruptedException ex)
 			{
-				// TODO
+				Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "Concurrency Error", null,
+					null, ex.getMessage());
 				ex.printStackTrace();
 			}
 			finally
@@ -293,14 +295,14 @@ public class DatabaseHandler implements Serializable
 		}
 		catch (IOException ex)
 		{
-			// TODO
-			ex.printStackTrace();
+			Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "File Error", null,
+				"Unable to write to disk.", ex.getMessage());
 			return null;
 		}
 		catch (SecurityException ex)
 		{
-			// TODO
-			ex.printStackTrace();
+			Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "Security Error", null,
+				"Unable to write to disk.", ex.getMessage());
 			return null;
 		}
 	}

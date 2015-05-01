@@ -14,112 +14,112 @@ import java.util.ResourceBundle;
 
 public class TrendsViewController implements Initializable {
 
-    @FXML public TextArea textarea_termination_reporting;
-    @FXML public javafx.scene.control.Button button_termination_cancel;
-    @FXML public Button button_termination_analyze;
+	@FXML public TextArea textarea_termination_reporting;
+	@FXML public javafx.scene.control.Button button_termination_cancel;
+	@FXML public Button button_termination_analyze;
 
-    //:://////////////////////////////////////////////////////
-    //::DEFINITIONS
-    //:://////////////////////////////////////////////////////
+	//:://////////////////////////////////////////////////////
+	//::DEFINITIONS
+	//:://////////////////////////////////////////////////////
 
-    public void FindTrendTermination(){
+	public void FindTrendTermination(){
 
-        String TableName = "Activity";
-        String SQL;
+		String TableName = "Activity";
+		String SQL;
 
-        SQL = "SELECT AVG(\"Std Hours/Week\") FROM "+TableName+" WHERE \"Action Descr\" = \"Termination\"";
-        int WorkWeekAvg = Integer.parseInt(DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), SQL).get(0).get(0));
+		SQL = "SELECT AVG(\"Std Hours/Week\") FROM "+TableName+" WHERE \"Action Descr\" = \"Termination\"";
+		int WorkWeekAvg = Integer.parseInt(DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), SQL).get(0).get(0));
 
-        SQL = "\"SELECT COUNT(*) FROM \"+TableName+\" WHERE \"Action Descr\" = \"Termination\"";
-        int TerminatedAmount = Integer.parseInt(DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), SQL).get(0).get(0));
+		SQL = "\"SELECT COUNT(*) FROM \"+TableName+\" WHERE \"Action Descr\" = \"Termination\"";
+		int TerminatedAmount = Integer.parseInt(DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), SQL).get(0).get(0));
 
-        SQL = "\"SELECT COUNT(*) FROM \"+TableName+\" WHERE \"Action Descr\" = \"Termination\" AND \"Org Relation\" = \"EMP\"";
-        int EMP = Integer.parseInt(DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), SQL).get(0).get(0));
+		SQL = "\"SELECT COUNT(*) FROM \"+TableName+\" WHERE \"Action Descr\" = \"Termination\" AND \"Org Relation\" = \"EMP\"";
+		int EMP = Integer.parseInt(DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), SQL).get(0).get(0));
 
-        SQL = "\"SELECT COUNT(*) FROM \"+TableName+\" WHERE \"Action Descr\" = \"Termination\" AND \"Org Relation\" = \"CWR\"";
-        int CWR = Integer.parseInt(DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), SQL).get(0).get(0));
+		SQL = "\"SELECT COUNT(*) FROM \"+TableName+\" WHERE \"Action Descr\" = \"Termination\" AND \"Org Relation\" = \"CWR\"";
+		int CWR = Integer.parseInt(DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), SQL).get(0).get(0));
 
-        SQL = "SELECT COUNT(DISTINCT \"Work Location_WFA\") FROM Activity WHERE \"Action Descr\" IN (\"Termination\")";
-        int WorkLocationAmount = Integer.parseInt(DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), SQL).get(0).get(0));
+		SQL = "SELECT COUNT(DISTINCT \"Work Location_WFA\") FROM Activity WHERE \"Action Descr\" IN (\"Termination\")";
+		int WorkLocationAmount = Integer.parseInt(DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), SQL).get(0).get(0));
 
-        SQL = "SELECT \"Work Location_WFA\", COUNT(\"Work Location_WFA\") FROM Activity WHERE \"Action Descr\" IN (\"Termination\") GROUP BY \"Work Location_WFA\"";
-        int HighestTerminationAtLocation = 0;
-        String HighestTerminationLocation = "";
+		SQL = "SELECT \"Work Location_WFA\", COUNT(\"Work Location_WFA\") FROM Activity WHERE \"Action Descr\" IN (\"Termination\") GROUP BY \"Work Location_WFA\"";
+		int HighestTerminationAtLocation = 0;
+		String HighestTerminationLocation = "";
 
-        LinkedList<LinkedList<String>> rawData;
-        rawData = DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), SQL);
+		LinkedList<LinkedList<String>> rawData;
+		rawData = DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), SQL);
 
-        for(int i=0; i<rawData.size(); i++){
+		for(int i=0; i<rawData.size(); i++){
 
-            for(int j=0; j<rawData.get(i).size(); j++){
+			for(int j=0; j<rawData.get(i).size(); j++){
 
-                int CurrentValue = Integer.parseInt(rawData.get(i+1).get(j));
-                String CurrentLocation = rawData.get(i).get(j);
+				int CurrentValue = Integer.parseInt(rawData.get(i+1).get(j));
+				String CurrentLocation = rawData.get(i).get(j);
 
-                if(HighestTerminationAtLocation < CurrentValue){
+				if(HighestTerminationAtLocation < CurrentValue){
 
-                    HighestTerminationAtLocation = CurrentValue;
-                    HighestTerminationLocation = CurrentLocation;
+					HighestTerminationAtLocation = CurrentValue;
+					HighestTerminationLocation = CurrentLocation;
 
-                }
+				}
 
-            }
+			}
 
-        }
+		}
 
-        SQL = "SELECT \"Reason Descr\", COUNT(\"Reason Descr\") FROM Activity WHERE \"Action Descr\" IN (\"Termination\") GROUP BY \"Reason Descr\"";
-        rawData = DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), SQL);
-        String ReasonDescription = "";
-        int HighestAmountReason = 0;
+		SQL = "SELECT \"Reason Descr\", COUNT(\"Reason Descr\") FROM Activity WHERE \"Action Descr\" IN (\"Termination\") GROUP BY \"Reason Descr\"";
+		rawData = DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), SQL);
+		String ReasonDescription = "";
+		int HighestAmountReason = 0;
 
-        for(int i=0; i<rawData.size(); i++){
+		for(int i=0; i<rawData.size(); i++){
 
-            for(int j=0; j<rawData.get(i).size(); j++){
+			for(int j=0; j<rawData.get(i).size(); j++){
 
-                int CurrentValue = Integer.parseInt(rawData.get(i+1).get(j));
-                String CurrentReason = rawData.get(i).get(j);
+				int CurrentValue = Integer.parseInt(rawData.get(i+1).get(j));
+				String CurrentReason = rawData.get(i).get(j);
 
-                if(HighestAmountReason < CurrentValue){
+				if(HighestAmountReason < CurrentValue){
 
-                    HighestAmountReason = CurrentValue;
-                    ReasonDescription = CurrentReason;
+					HighestAmountReason = CurrentValue;
+					ReasonDescription = CurrentReason;
 
-                }
+				}
 
-            }
+			}
 
-        }
+		}
 
-        String Report = "";
+		String Report = "";
 
-        Report += "Workforce Analytic's Trend: Termination\n";
-        Report += "There was "+TerminatedAmount+" termination(s) found.\n";
-        Report += EMP+" of them were classified as EMP\n";
-        Report += CWR+" of them were classified as CWR\n";
-        Report += "The average work week hours for those that were terminated was "+WorkWeekAvg+"\n";
-        Report += "The highest amount of termination was "+HighestTerminationAtLocation+" that occurred at location classified as "+HighestTerminationLocation+"\n";
-        Report += "The most common reason for termination was "+ReasonDescription+", the amount of employees terminated for this reason was "+HighestAmountReason+"\n";
+		Report += "Workforce Analytic's Trend: Termination\n";
+		Report += "There was "+TerminatedAmount+" termination(s) found.\n";
+		Report += EMP+" of them were classified as EMP\n";
+		Report += CWR+" of them were classified as CWR\n";
+		Report += "The average work week hours for those that were terminated was "+WorkWeekAvg+"\n";
+		Report += "The highest amount of termination was "+HighestTerminationAtLocation+" that occurred at location classified as "+HighestTerminationLocation+"\n";
+		Report += "The most common reason for termination was "+ReasonDescription+", the amount of employees terminated for this reason was "+HighestAmountReason+"\n";
 
-        textarea_termination_reporting.setText(Report);
+		textarea_termination_reporting.setText(Report);
 
-    }
+	}
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
 
-    }
+	}
 
-    public void Button_Trends_Termination_Cancel(ActionEvent actionEvent) {
+	public void Button_Trends_Termination_Cancel(ActionEvent actionEvent) {
 
-        Stage stage = (Stage)button_termination_cancel.getScene().getWindow();
-        stage.close();
+		Stage stage = (Stage)button_termination_cancel.getScene().getWindow();
+		stage.close();
 
-    }
+	}
 
-    public void Button_Trends_Termination_Analyze(ActionEvent actionEvent) {
+	public void Button_Trends_Termination_Analyze(ActionEvent actionEvent) {
 
-        FindTrendTermination();
+		FindTrendTermination();
 
-    }
+	}
 
 }

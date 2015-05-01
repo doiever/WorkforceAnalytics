@@ -2,6 +2,7 @@ package com.alliancedata.workforceanalytics;
 
 import com.alliancedata.workforceanalytics.models.DatabaseHandler;
 import com.alliancedata.workforceanalytics.models.Session;
+import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -54,13 +55,15 @@ public final class SessionManager implements Serializable
 			}
 			catch (IOException ex)
 			{
-				// TODO
-				ex.printStackTrace();
+				Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "File Error", null,
+					"Unable to read contents from disk.", ex.getMessage());
 			}
 			catch (ClassNotFoundException ex)
 			{
-				// TODO
-				ex.printStackTrace();
+				Utilities.showTextAreaDialog(Alert.AlertType.INFORMATION, "Sessions Error", null,
+					"You appear to have outdated Sessions data. " +
+					"While WorkforAnalytics will still function normally, you won't be able " +
+					" to use your previous session.", ex.getMessage());
 			}
 
 			// Transfer properties:
@@ -193,8 +196,8 @@ public final class SessionManager implements Serializable
 		}
 		catch (IOException ex)
 		{
-			// TODO
-			ex.printStackTrace();
+			Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "File Error", null,
+				"Unable to write contents to disk.", ex.getMessage());
 		}
 	}
 	// endregion

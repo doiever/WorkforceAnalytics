@@ -10,20 +10,19 @@ import java.util.ResourceBundle;
 
 public class AboutController implements Initializable
 {
-    // region View components
-    @FXML public Button button_ok;
+	// region View components
+	@FXML public Button button_ok;
+	// endregion
 
-    // endregion
+	@Override
+	public void initialize(URL location, ResourceBundle resources)
+	{
+	}
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
-    }
-
-    public void button_ok_onAction(ActionEvent event)
+	public void button_ok_onAction(ActionEvent event)
 	{
 		Stage stage = (Stage)button_ok.getScene().getWindow();
-        stage.close();
-    }
+		stage.close();
+	}
 
 }

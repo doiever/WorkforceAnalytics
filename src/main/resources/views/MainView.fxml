@@ -95,7 +95,7 @@
 									<children>
 										<Hyperlink disable="true" onAction="#hyperlink_FindTrends" text="Find trends..." />
 										<Hyperlink disable="true" onAction="#hyperlink_FindSpecificTrend" text="Find a specific trend..." />
-                              <Hyperlink fx:id="hyperlink_analyzetermination" disable="true" layoutX="20.0" layoutY="48.0" onAction="#AnalyzeTrendTerm" text="Analyze Termination Trends" />
+										<Hyperlink fx:id="hyperlink_analyzetermination" disable="true" layoutX="20.0" layoutY="48.0" onAction="#AnalyzeTrendTerm" text="Analyze Termination Trends" />
 									</children>
 								</VBox>
 							</content>
@@ -150,11 +150,11 @@
 										<TableView fx:id="tableView_activityData" tableMenuButtonVisible="true" />
 									</content>
 								</Tab>
-                        <Tab fx:id="tab_reportData" closable="false" disable="true" text="Report">
-                           <content>
-                              <TableView fx:id="tableView_reportData" tableMenuButtonVisible="true" />
-                           </content>
-                        </Tab>
+								<Tab fx:id="tab_reportData" closable="false" disable="true" text="Report">
+									<content>
+										<TableView fx:id="tableView_reportData" tableMenuButtonVisible="true" />
+									</content>
+								</Tab>
 							</tabs>
 							<padding>
 								<Insets bottom="-1.0" />
@@ -178,25 +178,25 @@
 				<Insets bottom="3.0" left="5.0" right="5.0" top="4.0" />
 			</padding>
 		</HBox>
-      <TextFlow fx:id="textFlow_placeholder" maxHeight="-Infinity" maxWidth="500.0" textAlignment="CENTER" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nothing here yet! ">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Text>
-            <Hyperlink onAction="#hyperlink_importData_OnAction" text="Import some data">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Hyperlink>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="to get started.">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Text>
-         </children>
-      </TextFlow>
-      <ProgressIndicator fx:id="progressIndicator" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+		<TextFlow fx:id="textFlow_placeholder" maxHeight="-Infinity" maxWidth="500.0" textAlignment="CENTER" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+			<children>
+				<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nothing here yet! ">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Text>
+				<Hyperlink onAction="#hyperlink_importData_OnAction" text="Import some data">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Hyperlink>
+				<Text strokeType="OUTSIDE" strokeWidth="0.0" text="to get started.">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Text>
+			</children>
+		</TextFlow>
+		<ProgressIndicator fx:id="progressIndicator" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
 	</children>
 </GridPane>

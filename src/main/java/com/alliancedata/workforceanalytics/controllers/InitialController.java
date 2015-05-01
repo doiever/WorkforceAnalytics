@@ -1,6 +1,7 @@
 package com.alliancedata.workforceanalytics.controllers;
 
 import com.alliancedata.workforceanalytics.Constants;
+import com.alliancedata.workforceanalytics.Utilities;
 import com.alliancedata.workforceanalytics.models.Session;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -100,8 +102,8 @@ public class InitialController implements Initializable
 		}
 		catch (IOException ex)
 		{
-			// TODO: Can't find Constants.MAIN_VIEW file.
-			ex.printStackTrace();
+			Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "View Error", null,
+				"Unable to load Main view.", ex.getMessage());
 		}
 	}
 }

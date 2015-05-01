@@ -143,10 +143,6 @@ public class DataImportModel implements Serializable
 					this.activityFilesProperty.add(file);
 					this.allFilesProperty.getValue().add(file);
 				}
-				else
-				{
-					// TODO: Log unknown file type
-				}
 
 			}
 		}

@@ -119,11 +119,11 @@ public class FilterViewController implements Initializable
 		vbox_target.getChildren().addAll(columnHBoxes.get(tableName));
 	}
 
-    public void button_cancel_onAction(ActionEvent event)
-    {
-        Stage stage = (Stage)button_cancel.getScene().getWindow();
-        stage.close();
-    }
+	public void button_cancel_onAction(ActionEvent event)
+	{
+		Stage stage = (Stage)button_cancel.getScene().getWindow();
+		stage.close();
+	}
 
 	public void button_generate_onAction(ActionEvent event)
 	{

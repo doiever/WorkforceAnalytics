@@ -259,8 +259,8 @@ public class MainController implements Initializable
 						int headcountFileCount = dataImportModel.getHeadcountFiles().size();
 						int activityFileCount = dataImportModel.getActivityFiles().size();
 						String statusText = String.format("Read %d rows from %d headcount file%s and %d rows from %d activity file%s.",
-								headcountRowCount, headcountFileCount, headcountFileCount != 1 ? "s" : "",
-								activityRowCount, activityFileCount, activityFileCount != 1 ? "s" : "");
+							headcountRowCount, headcountFileCount, headcountFileCount != 1 ? "s" : "",
+							activityRowCount, activityFileCount, activityFileCount != 1 ? "s" : "");
 						statusTextProperty.setValue(statusText);
 						populateTableView();
 					}
@@ -364,8 +364,8 @@ public class MainController implements Initializable
 			}
 			catch (IOException ex)
 			{
-				// TODO: Unable to read from a file
-				ex.printStackTrace();
+				Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "File Error", null,
+					"Unable to read contents from disk.", ex.getMessage());
 			}
 		}
 
@@ -402,8 +402,8 @@ public class MainController implements Initializable
 			}
 			catch (IOException ex)
 			{
-				// TODO: Unable to read from a file
-				ex.printStackTrace();
+				Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "File Error", null,
+					"Unable to read contents from disk.", ex.getMessage());
 			}
 		}
 
@@ -441,8 +441,8 @@ public class MainController implements Initializable
 			}
 			catch (IOException ex)
 			{
-				// TODO: Unable to read from a file
-				ex.printStackTrace();
+				Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "File Error", null,
+					"Unable to read contents from disk.", ex.getMessage());
 			}
 		}
 
@@ -480,43 +480,39 @@ public class MainController implements Initializable
 			}
 			catch (IOException ex)
 			{
-				// TODO: Unable to read from a file
-				ex.printStackTrace();
+				Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "File Error", null,
+					"Unable to read contents from disk.", ex.getMessage());
 			}
 		}
 
 		return data;
 	}
 
-    public void loadFilterView()
-    {
-        FXMLLoader loader = new FXMLLoader();
+	public void loadFilterView()
+	{
+		FXMLLoader loader = new FXMLLoader();
 
-        try
-        {
-	        Window mainWindow = this.gridPane_main.getScene().getWindow();
-	        Stage filterStage = new Stage();
-	        Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.FILTER_VIEW));
-	        Scene scene = new Scene(rootNode);
+		try
+		{
+			Window mainWindow = this.gridPane_main.getScene().getWindow();
+			Stage filterStage = new Stage();
+			Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.FILTER_VIEW));
+			Scene scene = new Scene(rootNode);
 
-	        filterStage.setTitle(Constants.APPLICATION_NAME);
-	        filterStage.initStyle(StageStyle.UTILITY);
-	        filterStage.setScene(scene);
-	        filterStage.initOwner(mainWindow);
-	        filterStage.initModality(Modality.WINDOW_MODAL);
-	        FilterViewController.mainController = this;
-	        filterStage.show();
-        }
-        catch (IOException ex)
-        {
-            // TODO: Can't find Constants.FILTER_VIEW file.
-            ex.printStackTrace();
-        }
-	    catch (Exception ex)
-	    {
-		    ex.printStackTrace();
-	    }
-    }
+			filterStage.setTitle(Constants.APPLICATION_NAME);
+			filterStage.initStyle(StageStyle.UTILITY);
+			filterStage.setScene(scene);
+			filterStage.initOwner(mainWindow);
+			filterStage.initModality(Modality.WINDOW_MODAL);
+			FilterViewController.mainController = this;
+			filterStage.show();
+		}
+		catch (Exception ex)
+		{
+			Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "View Error", null,
+				"Unable to load the Filter view.", ex.getMessage());
+		}
+	}
 
 	public void bindReportTableView()
 	{
@@ -566,14 +562,10 @@ public class MainController implements Initializable
 			aboutStage.initModality(Modality.WINDOW_MODAL);
 			aboutStage.show();
 		}
-		catch (IOException ex)
-		{
-			// TODO: Can't find Constants.ABOUT_VIEW file.
-			ex.printStackTrace();
-		}
 		catch (Exception ex)
 		{
-			ex.printStackTrace();
+			Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "View Error", null,
+				"Unable to load the About view.", ex.getMessage());
 		}
 	}
 
@@ -595,14 +587,10 @@ public class MainController implements Initializable
 			guideStage.initModality(Modality.WINDOW_MODAL);
 			guideStage.show();
 		}
-		catch (IOException ex)
-		{
-			// TODO: Can't find Constants.GUIDE_VIEW file.
-			ex.printStackTrace();
-		}
 		catch (Exception ex)
 		{
-			ex.printStackTrace();
+			Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "View Error", null,
+				"Unable to load the User Guide view.", ex.getMessage());
 		}
 	}
 
@@ -624,47 +612,43 @@ public class MainController implements Initializable
 			dataSummaryStage.initModality(Modality.WINDOW_MODAL);
 			dataSummaryStage.show();
 		}
-		catch (IOException ex)
-		{
-			// TODO: Can't find Constants.DATA_SUMMARY_VIEW file.
-			ex.printStackTrace();
-		}
 		catch (Exception ex)
 		{
-			ex.printStackTrace();
+			Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "View Error", null,
+				"Unable to load the Data Summary view.", ex.getMessage());
 		}
 	}
 
-    public void hyperlink_filterData_OnAction(ActionEvent event)
-    {
-        loadFilterView();
-    }
+	public void hyperlink_filterData_OnAction(ActionEvent event)
+	{
+		loadFilterView();
+	}
 
-    public void hyperlink_ExitSystem(ActionEvent event)
-    {
-        System.exit(0);
-    }
+	public void hyperlink_ExitSystem(ActionEvent event)
+	{
+		System.exit(0);
+	}
 
-    public void hyperlink_printdoc(ActionEvent event)
-    {
+	public void hyperlink_printdoc(ActionEvent event)
+	{
 
-        PrinterJob p = PrinterJob.createPrinterJob();
-	    Window owner = ((Node)event.getTarget()).getScene().getWindow();
+		PrinterJob p = PrinterJob.createPrinterJob();
+		Window owner = ((Node)event.getTarget()).getScene().getWindow();
 
-        if (p.showPrintDialog(owner))
-        {
-	        p.printPage(vbox_data);
-        }
-    }
+		if (p.showPrintDialog(owner))
+		{
+			p.printPage(vbox_data);
+		}
+	}
 
-    public void hyperlink_SaveCSV(ActionEvent event)
-    {
-	    Window owner = gridPane_main.getScene().getWindow();
+	public void hyperlink_SaveCSV(ActionEvent event)
+	{
+		Window owner = gridPane_main.getScene().getWindow();
 
 		// Get File to save to from user:
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Export Report");
-		fileChooser.setInitialDirectory(Constants.INITIAL_EXPORT_DATA_DIRECTORY);
+		fileChooser.setInitialDirectory(Constants.INITIAL_IMPORT_DATA_DIRECTORY);
 		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV file (*.csv)", "*.csv"));
 
 		File file = fileChooser.showSaveDialog(owner);
@@ -724,30 +708,30 @@ public class MainController implements Initializable
 		}
 	}
 
-    public void hyperlink_UserGuide(ActionEvent event)
-    {
+	public void hyperlink_UserGuide(ActionEvent event)
+	{
 		loadGuideView();
-    }
+	}
 
-    public void hyperlink_About(ActionEvent event)
-    {
+	public void hyperlink_About(ActionEvent event)
+	{
 		loadAboutView();
-    }
+	}
 
-    public void hyperlink_FindTrends(ActionEvent event)
-    {
+	public void hyperlink_FindTrends(ActionEvent event)
+	{
+		// NYI
+	}
 
-    }
+	public void hyperlink_FindSpecificTrend(ActionEvent event)
+	{
+		// NYI
+	}
 
-    public void hyperlink_FindSpecificTrend(ActionEvent event)
-    {
-
-    }
-
-    public void hyperlink_viewDataSummary_onAction(ActionEvent event)
-    {
+	public void hyperlink_viewDataSummary_onAction(ActionEvent event)
+	{
 		loadDataSummaryView();
-    }
+	}
 
 	public void button_startOver_OnAction(ActionEvent event)
 	{
@@ -775,54 +759,46 @@ public class MainController implements Initializable
 			dataSummaryStage.initModality(Modality.WINDOW_MODAL);
 			dataSummaryStage.show();
 		}
-		catch (IOException ex)
-		{
-			// TODO: Can't find Constants.DATA_SUMMARY_VIEW file.
-			ex.printStackTrace();
-		}
 		catch (Exception ex)
 		{
-			ex.printStackTrace();
+			Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "View Error", null,
+				"Unable to load the Trends view.", ex.getMessage());
 		}
 	}
 
-    public void AnalyzeTrendTerm(ActionEvent actionEvent) {
+	public void AnalyzeTrendTerm(ActionEvent actionEvent)
+	{
+		loadTrendView();
+	}
 
-        loadTrendView();
-
-    }
-
-	public void loadOptionView()
+	public void loadOptionsView()
 	{
 		FXMLLoader loader = new FXMLLoader();
 
 		try
 		{
 			Window mainWindow = this.gridPane_main.getScene().getWindow();
-			Stage dataSummaryStage = new Stage();
-			Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.OPTION_VIEW));
+			Stage optionsStage = new Stage();
+			Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.OPTIONS_VIEW));
 			Scene scene = new Scene(rootNode);
 
-			dataSummaryStage.setTitle("Data Summary");
-			dataSummaryStage.initStyle(StageStyle.UTILITY);
-			dataSummaryStage.setScene(scene);
-			dataSummaryStage.initOwner(mainWindow);
-			dataSummaryStage.initModality(Modality.WINDOW_MODAL);
-			dataSummaryStage.show();
-		}
-		catch (IOException ex)
-		{
-			// TODO: Can't find Constants.DATA_SUMMARY_VIEW file.
-			ex.printStackTrace();
+			optionsStage.setTitle("Options");
+			optionsStage.initStyle(StageStyle.UTILITY);
+			optionsStage.setResizable(false);
+			optionsStage.setScene(scene);
+			optionsStage.initOwner(mainWindow);
+			optionsStage.initModality(Modality.WINDOW_MODAL);
+			optionsStage.show();
 		}
 		catch (Exception ex)
 		{
-			ex.printStackTrace();
+			Utilities.showTextAreaDialog(Alert.AlertType.ERROR,  "View Error", null,
+				"Unable to load the Options view.", ex.getMessage());
 		}
 	}
 
-	public void option_views(ActionEvent actionEvent) {
-		loadOptionView();
+	public void option_views(ActionEvent actionEvent)
+	{
+		loadOptionsView();
 	}
-
 }

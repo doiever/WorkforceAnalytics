@@ -14,17 +14,18 @@ import java.util.ResourceBundle;
  */
 public class GuideController implements Initializable {
 
-    // region View components
-    @FXML
-    public Button guide_ok;
+	// region View components
+	@FXML
+	public Button guide_ok;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+	@Override
+	public void initialize(URL location, ResourceBundle resources)
+	{
+	}
 
-    }
-
-    public void hyperlink_CloseOK(ActionEvent actionEvent) {
-        Stage stage = (Stage) guide_ok.getScene().getWindow();
-        stage.close();
-    }
+	public void hyperlink_CloseOK(ActionEvent actionEvent)
+	{
+		Stage stage = (Stage) guide_ok.getScene().getWindow();
+		stage.close();
+	}
 }
