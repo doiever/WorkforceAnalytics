@@ -22,6 +22,7 @@ public final class Constants
     public static final String FILTER_VIEW = "/views/FilterView.fxml";
 	public static final String ABOUT_VIEW = "/views/AboutView.fxml";
 	public static final String GUIDE_VIEW = "/views/UserGuideView.fxml";
+	public static final String DATA_SUMMARY_VIEW = "/views/DataSummaryView.fxml";
 	// endregion
 
 	// region Sessions

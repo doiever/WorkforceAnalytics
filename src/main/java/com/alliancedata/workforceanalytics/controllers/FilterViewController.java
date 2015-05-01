@@ -177,19 +177,31 @@ public class FilterViewController implements Initializable
 		queryBuilder.append(String.join("\", \"", selectedColumnNames));
 		queryBuilder.append("\" FROM \"");
 		queryBuilder.append(selectedTableName);
-		queryBuilder.append("\" WHERE ");
+		queryBuilder.append("\"");
+
+		int valuesSum = 0;
 
 		for (String value : values)
 		{
-			String columnName = selectedColumnNames.get(values.indexOf(value));
-
-			if (value.length() > 0)
-			{
-				wheres.add(String.format("\"%s\"=\"%s\"", columnName, value));
-			}
+			valuesSum += value.length();
 		}
 
-		queryBuilder.append(String.join(" AND ", wheres));
+		if (valuesSum > 0)
+		{
+			queryBuilder.append(" WHERE ");
+
+			for (String value : values)
+			{
+				String columnName = selectedColumnNames.get(values.indexOf(value));
+
+				if (value.length() > 0)
+				{
+					wheres.add(String.format("\"%s\"=\"%s\"", columnName, value));
+				}
+			}
+
+			queryBuilder.append(String.join(" AND ", wheres));
+		}
 
 		// Execute query and push results to Report model:
 		final String query = queryBuilder.toString();

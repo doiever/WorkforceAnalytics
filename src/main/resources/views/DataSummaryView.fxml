@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane hgap="10.0" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alliancedata.workforceanalytics.controllers.DataSummaryController">
+	<columnConstraints>
+		<ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" />
+      <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
+	</columnConstraints>
+	<rowConstraints>
+		<RowConstraints valignment="TOP" vgrow="ALWAYS" />
+      <RowConstraints vgrow="NEVER" />
+	</rowConstraints>
+   <children>
+      <VBox>
+         <children>
+            <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="File count:" />
+            <Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="File count:" />
+         </children>
+         <GridPane.margin>
+            <Insets left="5.0" top="5.0" />
+         </GridPane.margin>
+      </VBox>
+      <VBox GridPane.columnIndex="1">
+         <GridPane.margin>
+            <Insets right="5.0" top="5.0" />
+         </GridPane.margin>
+         <children>
+            <Label maxWidth="1.7976931348623157E308" text="Label" />
+         </children>
+      </VBox>
+      <Button cancelButton="true" defaultButton="true" minWidth="75.0" mnemonicParsing="false" onAction="#button_OK_onAction" text="OK" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets bottom="5.0" right="5.0" top="5.0" />
+         </GridPane.margin>
+      </Button>
+   </children>
+</GridPane>

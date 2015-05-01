@@ -209,6 +209,7 @@ public class MainController implements Initializable
 		this.hyperlink_exportReport.disableProperty().bind(this.hasGeneratedReport.not());
 		this.hyperlink_printReport.disableProperty().bind(this.hasGeneratedReport.not());
 		this.tab_reportData.disableProperty().bind(this.hasGeneratedReport.not());
+		this.hyperlink_viewDataSummary.disableProperty().bind(this.hasGeneratedReport.not());
 	}
 
 	@FXML
@@ -605,6 +606,35 @@ public class MainController implements Initializable
 		}
 	}
 
+	public void loadDataSummaryView()
+	{
+		FXMLLoader loader = new FXMLLoader();
+
+		try
+		{
+			Window mainWindow = this.gridPane_main.getScene().getWindow();
+			Stage dataSummaryStage = new Stage();
+			Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.DATA_SUMMARY_VIEW));
+			Scene scene = new Scene(rootNode);
+
+			dataSummaryStage.setTitle("Data Summary");
+			dataSummaryStage.initStyle(StageStyle.UTILITY);
+			dataSummaryStage.setScene(scene);
+			dataSummaryStage.initOwner(mainWindow);
+			dataSummaryStage.initModality(Modality.WINDOW_MODAL);
+			dataSummaryStage.show();
+		}
+		catch (IOException ex)
+		{
+			// TODO: Can't find Constants.DATA_SUMMARY_VIEW file.
+			ex.printStackTrace();
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+	}
+
     public void hyperlink_filterData_OnAction(ActionEvent event)
     {
         loadFilterView();
@@ -714,9 +744,9 @@ public class MainController implements Initializable
 
     }
 
-    public void hyperlink_DataSummary(ActionEvent event)
+    public void hyperlink_viewDataSummary_onAction(ActionEvent event)
     {
-
+		loadDataSummaryView();
     }
 
 	public void button_startOver_OnAction(ActionEvent event)
