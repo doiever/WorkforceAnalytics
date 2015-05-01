@@ -29,6 +29,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextFlow;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -64,23 +65,111 @@ public class MainController implements Initializable
 	@FXML public HBox hbox_statusBar;
 	@FXML public Label label_status;
 	@FXML public Hyperlink hyperlink_importData;
-	@FXML public Hyperlink hyperlink_filterData;
+	@FXML public Hyperlink hyperlink_generateReport;
 	@FXML public TableView<LinkedList<String>> tableView_headcountData;
 	@FXML public TableView<LinkedList<String>> tableView_activityData;
 	@FXML public VBox vbox_data;
 	@FXML public TitledPane titledPane_data;
 	@FXML public ListView<File> listView_fileList;
-	@FXML public ProgressBar progressBar;
 	@FXML public Button button_useThisData;
 	@FXML public Button button_startOver;
+	@FXML public Accordion accordion_tasks;
+	@FXML public Button button_print;
+	@FXML public TextFlow textFlow_placeholder;
+	@FXML public SplitPane splitPane_data;
+	@FXML public Hyperlink hyperlink_viewDataSummary;
+	@FXML public TabPane tabPane_data;
+	@FXML public ProgressIndicator progressIndicator;
 	// endregion
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
 		// Set up bindings, listeners, and event handlers:
-		dataBind();
-		this.titledPane_data.expandedProperty().setValue(true);
+		this.accordion_tasks.setExpandedPane(this.titledPane_data);
+		this.dataBind();
+	}
+
+	private void dataBind()
+	{
+		// Bind node properties and content to data model:
+		this.statusTextProperty.setValue("Idle");
+		this.vbox_data.visibleProperty().bind(this.dataImportModel.hasDataProperty());
+		this.listView_fileList.itemsProperty().bind(this.dataImportModel.allFilesProperty());
+		this.label_status.textProperty().bind(this.statusTextProperty);
+		this.progressIndicator.visibleProperty().bind(this.isLoadingData);
+		this.button_print.disableProperty().bind(this.dataImportModel.hasDataProperty().not());
+		this.button_generateReport.disableProperty().bind(this.dataImportModel.hasDataProperty().not());
+		this.textFlow_placeholder.visibleProperty().bind(this.isLoadingData.not().and(this.dataImportModel.hasDataProperty().not()));
+		this.button_useThisData.disableProperty().bind(this.dataImportModel.hasDataProperty().not());
+		this.button_startOver.disableProperty().bind(this.dataImportModel.hasDataProperty().not());
+	}
+
+	@FXML
+	public void hyperlink_importData_OnAction(ActionEvent event)
+	{
+		// Get data files from user:
+		Window owner = ((Node)event.getTarget()).getScene().getWindow();
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv"));
+		fileChooser.setTitle("Import data files");
+		fileChooser.setInitialDirectory(Constants.INITIAL_IMPORT_DATA_DIRECTORY);
+
+		List<File> selectedFiles = fileChooser.showOpenMultipleDialog(owner);
+
+		if (selectedFiles == null || selectedFiles.size() <= 0) return;
+
+		ArrayList<File> files = new ArrayList<>(selectedFiles);
+		this.dataImportModel.setFiles(files);
+
+		// Update UI to a loading state:
+		this.isLoadingData.setValue(true);
+		this.statusTextProperty.setValue("Reading data...");
+
+		// Load data in the background:
+		Task getDataTask = new Task() {
+			@Override
+			protected Void call() throws Exception {
+				dataImportModel.setColumns(createHeadcountColumns(), Enums.FileType.Headcount);
+				dataImportModel.setColumns(createActivityColumns(), Enums.FileType.Activity);
+				dataImportModel.setData(getHeadcountData(), Enums.FileType.Headcount);
+				dataImportModel.setData(getActivityData(), Enums.FileType.Activity);
+
+				return null;
+			}
+		};
+
+		// Update UI once background tasks finish:
+		getDataTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent event) {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						int headcountRowCount = dataImportModel.getHeadcountData().size();
+						int activityRowCount = dataImportModel.getActivityData().size();
+						int headcountFileCount = dataImportModel.getHeadcountFiles().size();
+						int activityFileCount = dataImportModel.getActivityFiles().size();
+						String statusText = String.format("Read %d rows from %d headcount file%s and %d rows from %d activity file%s.",
+							headcountRowCount, headcountFileCount, headcountFileCount != 1 ? "s" : "",
+							activityRowCount, activityFileCount, activityFileCount != 1 ? "s" : "");
+						statusTextProperty.setValue(statusText);
+						populateTableView();
+					}
+				});
+			}
+		});
+
+		// Failure while reading data:
+		getDataTask.setOnFailed(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent event) {
+				String text = getDataTask.getException() == null ? getDataTask.getMessage() : getDataTask.getException().getMessage();
+				Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "Data Error", null, "An error occurred while reading data.", text);
+			}
+		});
+
+		new Thread(getDataTask).start();
 	}
 
 	@FXML
@@ -105,92 +194,8 @@ public class MainController implements Initializable
 		}
 	}
 
-	@FXML
-	public void hyperlink_importData_OnAction(ActionEvent event)
+	private void populateTableView()
 	{
-		// Get data files from user:
-		Window owner = ((Node)event.getTarget()).getScene().getWindow();
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Import data files");
-		fileChooser.setInitialDirectory(Constants.INITIAL_IMPORT_DATA_DIRECTORY);
-
-		List<File> selectedFiles = fileChooser.showOpenMultipleDialog(owner);
-
-		if (selectedFiles == null || selectedFiles.size() <= 0) return;
-
-		ArrayList<File> files = new ArrayList<>(selectedFiles);
-		this.dataImportModel.setFiles(files);
-
-		this.isLoadingData.setValue(true);
-		this.statusTextProperty.setValue("Reading data...");
-
-		// Load data in the background:
-		Task<Void> getDataTask = new Task<Void>() {
-			@Override
-			protected Void call() throws Exception {
-				dataImportModel.setColumns(createHeadcountColumns(), Enums.FileType.Headcount);
-				dataImportModel.setColumns(createActivityColumns(), Enums.FileType.Activity);
-				dataImportModel.setData(getHeadcountData(), Enums.FileType.Headcount);
-				dataImportModel.setData(getActivityData(), Enums.FileType.Activity);
-
-				return null;
-			}
-		};
-
-		this.progressBar.progressProperty().bind(getDataTask.progressProperty());
-
-		// Update UI once background tasks finish:
-		getDataTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-			@Override
-			public void handle(WorkerStateEvent event) {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						int headcountRowCount = dataImportModel.getHeadcountData().size();
-						int activityRowCount = dataImportModel.getActivityData().size();
-						int headcountFileCount = dataImportModel.getHeadcountFiles().size();
-						int activityFileCount = dataImportModel.getActivityFiles().size();
-						String statusText = String.format("Read %d rows from %d headcount file%s and %d rows from %d activity file%s.",
-							headcountRowCount, headcountFileCount, headcountFileCount > 1 ? "s" : "",
-							activityRowCount, activityFileCount, activityFileCount > 1 ? "s" : "");
-						statusTextProperty.setValue(statusText);
-						bindColumns();
-						isLoadingData.setValue(false);
-					}
-				});
-			}
-		});
-
-		// Failure while reading data:
-		getDataTask.setOnFailed(new EventHandler<WorkerStateEvent>() {
-			@Override
-			public void handle(WorkerStateEvent event) {
-				String text = getDataTask.getException() == null ? getDataTask.getMessage() : getDataTask.getException().getMessage();
-				Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "Data Error", null, "An error occurred while reading data.", text);
-			}
-		});
-
-		// getDataTask.run();
-		new Thread(getDataTask).start();
-	}
-
-	private void dataBind()
-	{
-		// Bind compontent content to data model:
-		this.vbox_data.visibleProperty().bindBidirectional(new SimpleBooleanProperty(true));
-		this.tableView_headcountData.itemsProperty().bindBidirectional(this.dataImportModel.headcountDataProperty());
-		this.tableView_activityData.itemsProperty().bindBidirectional(this.dataImportModel.activityDataProperty());
-		this.listView_fileList.itemsProperty().bindBidirectional(this.dataImportModel.allFilesProperty());
-		this.label_status.textProperty().bindBidirectional(this.statusTextProperty);
-		this.progressBar.visibleProperty().bindBidirectional(isLoadingData);
-	}
-
-	private void bindColumns()
-	{
-		// Since we can't bind a TableView's columns in the traditional JavaFX way (there is no
-		// ColumnsProperty), we have to bind each TableView's list of columns manually *after*
-		// the column data has been read from the files and TableColumn objects are created.
-
 		ObservableList<TableColumn<LinkedList<String>, ?>> observableHeadcountColumns = FXCollections.observableArrayList();
 		observableHeadcountColumns.addAll(this.dataImportModel.getHeadcountColumns());
 		ObservableList<TableColumn<LinkedList<String>, ?>> observableActivityColumns = FXCollections.observableArrayList();
@@ -198,6 +203,24 @@ public class MainController implements Initializable
 
 		Bindings.bindContentBidirectional(tableView_headcountData.getColumns(), observableHeadcountColumns);
 		Bindings.bindContentBidirectional(tableView_activityData.getColumns(), observableActivityColumns);
+
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				tableView_headcountData.getItems().addAll(dataImportModel.getHeadcountData());
+			}
+		});
+
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				tableView_activityData.getItems().addAll(dataImportModel.getActivityData());
+			}
+		});
+
+		isLoadingData.setValue(false);
+		dataImportModel.hasDataProperty().setValue(true);
+		this.tabPane_data.getSelectionModel().select(1);
 	}
 
 	@NotNull
@@ -433,4 +456,12 @@ public class MainController implements Initializable
     {
 
     }
+
+	public void button_startOver_OnAction(ActionEvent event)
+	{
+		// Reset to empty session:
+		this.dataImportModel = new DataImportModel();
+		this.isLoadingData.setValue(false);
+		this.dataBind();
+	}
 }

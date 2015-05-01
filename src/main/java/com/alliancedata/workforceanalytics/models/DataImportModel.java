@@ -221,5 +221,15 @@ public class DataImportModel implements Serializable
 			this.activityColumns.add(column);
 		}
 	}
+
+	/**
+	 * Clears all files from the list of Headcount files and the list of Activity files.
+	 */
+	public void clearAllFiles()
+	{
+		this.allFilesProperty.getValue().clear();
+		this.headcountFilesProperty().clear();
+		this.activityFilesProperty().clear();
+	}
 	// endregion
 }
