@@ -93,10 +93,10 @@ public class FilterViewController implements Initializable
     public static final String ORG_UNIT_WFA = "Org Unit_WFA";
     public static final String WFH_WFA = "WFH_WFA";
     public static final String LOCALITY = "";
-//            HireAndTermination
-//            EffectivePeriods
-//            ReasonDescription
-//            AreaExpertiseWFA
+            // HireAndTermination
+           // EffectivePeriods
+           // ReasonDescription
+           // AreaExpertiseWFA
 
 
 

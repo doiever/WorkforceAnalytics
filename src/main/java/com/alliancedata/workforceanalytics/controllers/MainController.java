@@ -404,6 +404,33 @@ public class MainController implements Initializable
 
     }
 
+	public void loadAboutView()
+	{
+		FXMLLoader loader = new FXMLLoader();
+
+		try
+		{
+			Stage mainStage = new Stage();
+			Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.ABOUT_VIEW));
+			Scene scene = new Scene(rootNode);
+
+			mainStage.setTitle(Constants.APPLICATION_NAME);
+			mainStage.initStyle(StageStyle.UTILITY);
+			mainStage.setScene(scene);
+			mainStage.show();
+		}
+		catch (IOException ex)
+		{
+			// TODO: Can't find Constants.MAIN_VIEW file.
+			ex.printStackTrace();
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+
+	}
+
     public void hyperlink_filterData_OnAction(ActionEvent event)
     {
         loadFilterView();
@@ -439,7 +466,7 @@ public class MainController implements Initializable
 
     public void hyperlink_About(ActionEvent event)
     {
-
+		loadAboutView();
     }
 
     public void hyperlink_FindTrends(ActionEvent event)

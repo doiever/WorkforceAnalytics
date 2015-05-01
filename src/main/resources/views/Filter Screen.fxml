@@ -157,7 +157,7 @@
       </ScrollPane>
       <HBox alignment="CENTER_RIGHT" spacing="5.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
          <children>
-            <Button fx:id="grid_button_Cancel" mnemonicParsing="false" text="Cancel" GridPane.rowIndex="2">
+            <Button fx:id="grid_button_Cancel" mnemonicParsing="false" text="Cancel" GridPane.rowIndex="2" onAction="#hyperlink_Cancel">
                <HBox.margin>
                   <Insets bottom="10.0" />
                </HBox.margin></Button>
