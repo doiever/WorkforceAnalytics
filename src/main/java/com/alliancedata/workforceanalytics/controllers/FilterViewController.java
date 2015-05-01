@@ -1,6 +1,9 @@
 package com.alliancedata.workforceanalytics.controllers;
 
 import com.alliancedata.workforceanalytics.Constants;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -8,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
+import org.controlsfx.control.CheckComboBox;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -94,11 +98,8 @@ public class FilterViewController implements Initializable
     public static final String L6_DEPARTMENT_NAME = "L6 Dept Name";
     public static final String ORG_UNIT_WFA = "Org Unit_WFA";
     public static final String WFH_WFA = "WFH_WFA";
-    public static final String LOCALITY = "";
-            // HireAndTermination
-           // EffectivePeriods
-           // ReasonDescription
-           // AreaExpertiseWFA
+
+
 
 
 
@@ -144,8 +145,17 @@ public class FilterViewController implements Initializable
     @FXML public CheckBox grindHandT;
     @FXML public CheckBox grid_AreaExper;
 	@FXML public DatePicker datePicker_endDate;
+    @FXML public DatePicker datePicker_startDate;
 	@FXML public Button grid_button_Cancel;
 	@FXML public Button grid_button_Gen;
+
+    @FXML public CheckBox ChkBox_AllDates;
+
+
+    //::////////////////////////////////////////////////////////////////////////////////
+    //::Class Data
+    //::////////////////////////////////////////////////////////////////////////////////
+
 
 
 	//::////////////////////////////////////////////////////////////////////////////////
@@ -200,6 +210,110 @@ public class FilterViewController implements Initializable
         grid_AreaExper.setVisible(false);
 
     }
+
+    private void CheckAllDateStatus(){
+
+        if(ChkBox_AllDates.isSelected()){
+
+            datePicker_startDate.se
+
+        }
+
+    }
+
+    // create the data to show in the CheckComboBox
+    private ObservableList<String> ParameterListGroupPayPosition = FXCollections.observableArrayList();
+    private ObservableList<String> ParameterListGroupDepartmentAndCode = FXCollections.observableArrayList();
+    private ObservableList<String> ParameterListGroupLocality = FXCollections.observableArrayList();
+    private ObservableList<String> ParameterListGroupJob = FXCollections.observableArrayList();
+    private ObservableList<String> ParameterListGroupHireAndTermination = FXCollections.observableArrayList();
+    private ObservableList<String> ParameterListGroupAcquisitions = FXCollections.observableArrayList();
+    private ObservableList<String> ParameterListGroupEffectivePeriod = FXCollections.observableArrayList();
+    private ObservableList<String> ParameterListGroupYOS = FXCollections.observableArrayList();
+    private ObservableList<String> ParameterListGroupTenure = FXCollections.observableArrayList();
+    private ObservableList<String> ParameterListGroupSupervisor = FXCollections.observableArrayList();
+    private ObservableList<String> ParameterListGroupDirectReports = FXCollections.observableArrayList();
+    private ObservableList<String> ParameterListGroupTotalReports = FXCollections.observableArrayList();
+    private ObservableList<String> ParameterListGroupDepartmentLevels = FXCollections.observableArrayList();
+
+    private void CreateComboCheckBox(String ComboBoxID, String columnName, ObservableList<String> List, ){
+
+        switch(columnName) {
+            case PAY_TYPE_WFA:                SetGroupPayPosition(columnName);              break;
+            case PAY_STATUS:                  SetGroupPayPosition(columnName);              break;
+            case REG_TEMP:                    SetGroupPayPosition(columnName);              break;
+            case DEPT_CODE:                   SetGroupDepartmentAndCode(columnName);        break;
+            case DEPARTMENT:                  SetGroupDepartmentAndCode(columnName);        break;
+            case COUNTRY:                     SetGroupLocality(columnName);                 break;
+            case STATE:                       SetGroupLocality(columnName);                 break;
+            case WORK_LOCATION:               SetGroupLocality(columnName);                 break;
+            case REGION_WFA:                  SetGroupLocality(columnName);                 break;
+            case JOB_COOE:                    SetGroupJob(columnName);                      break;
+            case JOB_LEVEL_WFA:               SetGroupJob(columnName);                      break;
+            case START_DATE:                  SetGroupHireAndTermination(columnName);       break;
+            case REHIRE_DATE:                 SetGroupHireAndTermination(columnName);       break;
+            case SERVICE_DATE:                SetGroupHireAndTermination(columnName);       break;
+            case TERM_DATE:                   SetGroupHireAndTermination(columnName);       break;
+            case LAST_DATE_WORKED:            SetGroupHireAndTermination(columnName);       break;
+            case ACQUISITION_DATE:            SetGroupAcquisition(columnName);              break;
+            case ACQUISITION_NAME:            SetGroupAcquisition(columnName);              break;
+            case PRODUCT_LOB_WFA:             SetGroupProducts(columnName);                 break;
+            case PRODUCT_GROUP_WFA:           SetGroupProducts(columnName);                 break;
+            case PRODUCT_WFA:                 SetGroupProducts(columnName);                 break;
+            case TERMINATION_CATEGORY_WFA:    SetGroupHireAndTermination(columnName);       break;
+            case HIRE_CATEGORY:               SetGroupHireAndTermination(columnName);       break;
+            case EFF_YEAR:                    SetGroupEffectivePeriod(columnName);          break;
+            case EFF_YEAR_QUARTER:            SetGroupEffectivePeriod(columnName);          break;
+            case EFF_YEAR_MONTH:              SetGroupEffectivePeriod(columnName);          break;
+            case YOS:                         SetGroupYOS(columnName);                      break;
+            case YOS_WFA:                     SetGroupYOS(columnName);                      break;
+            case ADS_TENURE:                  SetGroupTenure(columnName);                   break;
+            case ADS_TENURE_WFA:              SetGroupTenure(columnName);                   break;
+            case L0_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+            case L1_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+            case L2_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+            case L3_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+            case L4_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+            case L5_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+            case L6_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+            case L7_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+            case L8_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+            case L9_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
+            case L10_SUPV_ID:                 SetGroupSupervisor(columnName);               break;
+            case L11_SUPV_ID:                 SetGroupSupervisor(columnName);               break;
+            case SUPV_ID_CHAIN:               SetGroupSupervisor(columnName);               break;
+            case DIRECT_REPORTS:              SetGroupDirectReports(columnName);            break;
+            case DIRECT_REPORTS_WFA:          SetGroupDirectReports(columnName);            break;
+            case TOTAL_REPORTS:               SetGroupTotalReports(columnName);             break;
+            case TOTAL_REPORTS_WFA:           SetGroupTotalReports(columnName);             break;
+            case L0_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
+            case L1_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
+            case L2_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
+            case L3_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
+            case L4_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
+            case L5_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
+            case L6_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
+            default:                                                                        break;
+
+        }
+
+
+        // Create the CheckComboBox with the data
+        final CheckComboBox<String> checkComboBox = new CheckComboBox<String>(strings);
+
+        // and listen to the relevant events (e.g. when the selected indices or
+        // selected items change).
+        checkComboBox.getCheckModel().getSelectedItems().addListener(new ListChangeListener<String>() {
+
+            public void onChanged(ListChangeListener.Change<? extends String> c) {
+                System.out.println(checkComboBox.getCheckModel().getSelectedItems());
+            }
+
+        });
+
+    }
+
+
 
     private void SetGroupLocality(String ColumnName){
 
@@ -427,7 +541,7 @@ public class FilterViewController implements Initializable
                     case ID:                          grid_ID.setVisible(true);                     break;
                     case HEADCOUNT_ID:                grid_Headcount.setVisible(true);              break;
                     case PAY_STATUS:                  SetGroupPayPosition(columnName);              break;
-                    case REG_TEMP:                    SetGroupPayPosition(columnName);              continue;
+                    case REG_TEMP:                    SetGroupPayPosition(columnName);              break;
                     case ORGANIZATION_RELATION:       grid_Org.setVisible(true);                    break;
                     case COMP_TYPE:                   grid_CompType.setVisible(true);               break;
                     case STD_HOURS_PER_WEEK:          grid_STD.setVisible(true);                    break;
@@ -435,32 +549,32 @@ public class FilterViewController implements Initializable
                     case EFFECTIVE_DATE:              grid_Eff.setVisible(true);                    break;
                     case COSTCENTER:                  grid_CostCenter.setVisible(true);             break;
                     case LOB_WFA:                     grid_LOB.setVisible(true);                    break;
-                    case DEPT_CODE:                   SetGroupDepartmentAndCode(columnName);        continue;
+                    case DEPT_CODE:                   SetGroupDepartmentAndCode(columnName);        break;
                     case DEPARTMENT:                  SetGroupDepartmentAndCode(columnName);        break;
-                    case COUNTRY:                     SetGroupLocality(columnName);                 continue;
-                    case STATE:                       SetGroupLocality(columnName);                 continue;
-                    case WORK_LOCATION:               SetGroupLocality(columnName);                 continue;
-                    case REGION_WFA:                  SetGroupLocality(columnName);                 continue;
+                    case COUNTRY:                     SetGroupLocality(columnName);                 break;
+                    case STATE:                       SetGroupLocality(columnName);                 break;
+                    case WORK_LOCATION:               SetGroupLocality(columnName);                 break;
+                    case REGION_WFA:                  SetGroupLocality(columnName);                 break;
                     case JOB_COOE:                    SetGroupJob(columnName);                      break;
-                    case JOB_LEVEL_WFA:               SetGroupJob(columnName);                      continue;
-                    case START_DATE:                  SetGroupHireAndTermination(columnName);       continue;
-                    case REHIRE_DATE:                 SetGroupHireAndTermination(columnName);       continue;
-                    case SERVICE_DATE:                SetGroupHireAndTermination(columnName);       continue;
-                    case TERM_DATE:                   SetGroupHireAndTermination(columnName);       continue;
-                    case LAST_DATE_WORKED:            SetGroupHireAndTermination(columnName);       continue;
+                    case JOB_LEVEL_WFA:               SetGroupJob(columnName);                      break;
+                    case START_DATE:                  SetGroupHireAndTermination(columnName);       break;
+                    case REHIRE_DATE:                 SetGroupHireAndTermination(columnName);       break;
+                    case SERVICE_DATE:                SetGroupHireAndTermination(columnName);       break;
+                    case TERM_DATE:                   SetGroupHireAndTermination(columnName);       break;
+                    case LAST_DATE_WORKED:            SetGroupHireAndTermination(columnName);       break;
                     case ACQUISITION_DATE:            SetGroupAcquisition(columnName);              break; //two acquisition
                     case ACQUISITION_NAME:            SetGroupAcquisition(columnName);              break; //two acquisition
                     case PRODUCT_LOB_WFA:             SetGroupProducts(columnName);                 break; // two products
                     case PRODUCT_GROUP_WFA:           SetGroupProducts(columnName);                 break; // two products
                     case PRODUCT_WFA:                 SetGroupProducts(columnName);                 break; // two products
-                    case AREA_OF_EXPERTISE_WFA:       grid_AreaExper.setVisible(true);              continue;
+                    case AREA_OF_EXPERTISE_WFA:       grid_AreaExper.setVisible(true);              break;
                     case SLT_INDICATOR:               grid_SLT.setVisible(true);                    break;
-                    case PAY_TYPE_WFA:                SetGroupPayPosition(columnName);              continue;
+                    case PAY_TYPE_WFA:                SetGroupPayPosition(columnName);              break;
                     case HEADCOUNT:                   grid_Headcount.setVisible(true);              break;
                     case ACTION_DESCRIPTION:          grid_Action.setVisible(true);                 break;
                     case REASON_DESCRIPTION:          grid_Reason.setVisible(true);                 break;
-                    case TERMINATION_CATEGORY_WFA:    SetGroupHireAndTermination(columnName);       continue;
-                    case HIRE_CATEGORY:               SetGroupHireAndTermination(columnName);       continue;
+                    case TERMINATION_CATEGORY_WFA:    SetGroupHireAndTermination(columnName);       break;
+                    case HIRE_CATEGORY:               SetGroupHireAndTermination(columnName);       break;
                     case JOB_CHANGE_CATEGORY:         grid_JobChange.setVisible(true);              break;
                     case SKILLSET_WFA:                grid_Skillset.setVisible(true);               break;
                     case EFF_YEAR:                    SetGroupEffectivePeriod(columnName);          break; // three dates
