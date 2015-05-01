@@ -34,10 +34,8 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.*;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import javax.swing.*;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
@@ -593,10 +591,40 @@ public class MainController implements Initializable
         }
     }
 
+
+
     public void hyperlink_SaveCSV(ActionEvent event)
     {
 
-    }
+	// Make File to save from user
+	Window owner = ((Node)event.getTarget()).getScene().getWindow();
+	FileChooser fileChooser = new FileChooser();
+	fileChooser.setTitle("Export Report");
+	fileChooser.setInitialDirectory(Constants.INITIAL_EXPORT_DATA_DIRECTORY);
+
+	FileChooser.ExtensionFilter EF = new FileChooser.ExtensionFilter("CSV file (*.csv)", "*.csv");
+	fileChooser.getExtensionFilters().add(EF);
+
+	File file = fileChooser.showSaveDialog(owner);
+
+	if(file != null){
+		//SaveFile(/* Something here */, file);
+	}
+	}
+
+
+	//Save file method
+	private void SaveFile(LinkedList<LinkedList<String>> content,File file){
+		try{
+			FileWriter fileWriter = null;
+
+			fileWriter = new FileWriter(file);
+			//fileWriter.write(content);
+			fileWriter.close();
+		}catch(IOException ex){
+			/* Something here */
+		}
+	}
 
     public void hyperlink_UserGuide(ActionEvent event)
     {

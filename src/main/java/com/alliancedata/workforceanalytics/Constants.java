@@ -33,6 +33,7 @@ public final class Constants
 
 	// region Miscellaneous
 	public static final String RUNTIME_LIBRARY_PATH = "target/lib";
+	public static final File INITIAL_EXPORT_DATA_DIRECTORY = new File(System.getProperty("user.home") + "/Desktop");
 	public static final File INITIAL_IMPORT_DATA_DIRECTORY = new File(System.getProperty("user.home") + "/Desktop");
 	public static final EventHandler<WindowEvent> CLOSE_EVENT_HANDLER = new EventHandler<WindowEvent>() {
 		@Override
