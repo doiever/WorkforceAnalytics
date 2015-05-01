@@ -24,4 +24,5 @@ public class AboutController implements Initializable
 		Stage stage = (Stage)button_ok.getScene().getWindow();
         stage.close();
     }
+
 }

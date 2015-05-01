@@ -31,7 +31,7 @@
 				<Menu fx:id="menu_menu" mnemonicParsing="false" text="Menu">
 					<items>
 						<MenuItem mnemonicParsing="false" onAction="#hyperlink_filterData_OnAction" text="Generate Report" />
-						<MenuItem mnemonicParsing="false" text="Options" />
+						<MenuItem mnemonicParsing="false" text="Options" onAction="#option_views"/>
 					</items>
 				</Menu>
 				<Menu fx:id="menu_help" mnemonicParsing="false" text="Help">

@@ -3,13 +3,16 @@ package com.alliancedata.workforceanalytics.controllers;
 import com.alliancedata.workforceanalytics.Constants;
 import com.alliancedata.workforceanalytics.models.DatabaseHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.text.TextFlow;
 
 import java.awt.*;
+import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.ResourceBundle;
 
-public class TrendsViewController {
+public class TrendsViewController implements Initializable {
 
     @FXML public TextArea textflow_trendreporting;
 
@@ -99,4 +102,8 @@ public class TrendsViewController {
 
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
 }

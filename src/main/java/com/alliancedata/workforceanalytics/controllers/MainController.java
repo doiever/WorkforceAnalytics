@@ -757,11 +757,71 @@ public class MainController implements Initializable
 		this.dataBind();
 	}
 
+	public void loadTrendView()
+	{
+		FXMLLoader loader = new FXMLLoader();
+
+		try
+		{
+			Window mainWindow = this.gridPane_main.getScene().getWindow();
+			Stage dataSummaryStage = new Stage();
+			Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.TREND_VIEW));
+			Scene scene = new Scene(rootNode);
+
+			dataSummaryStage.setTitle("Data Summary");
+			dataSummaryStage.initStyle(StageStyle.UTILITY);
+			dataSummaryStage.setScene(scene);
+			dataSummaryStage.initOwner(mainWindow);
+			dataSummaryStage.initModality(Modality.WINDOW_MODAL);
+			dataSummaryStage.show();
+		}
+		catch (IOException ex)
+		{
+			// TODO: Can't find Constants.DATA_SUMMARY_VIEW file.
+			ex.printStackTrace();
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+	}
+
     public void AnalyzeTrendTerm(ActionEvent actionEvent) {
 
-        TrendsViewController tvc = new TrendsViewController();
-
-        tvc.FindTrendTermination();
+        loadTrendView();
 
     }
+
+	public void loadOptionView()
+	{
+		FXMLLoader loader = new FXMLLoader();
+
+		try
+		{
+			Window mainWindow = this.gridPane_main.getScene().getWindow();
+			Stage dataSummaryStage = new Stage();
+			Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.OPTION_VIEW));
+			Scene scene = new Scene(rootNode);
+
+			dataSummaryStage.setTitle("Data Summary");
+			dataSummaryStage.initStyle(StageStyle.UTILITY);
+			dataSummaryStage.setScene(scene);
+			dataSummaryStage.initOwner(mainWindow);
+			dataSummaryStage.initModality(Modality.WINDOW_MODAL);
+			dataSummaryStage.show();
+		}
+		catch (IOException ex)
+		{
+			// TODO: Can't find Constants.DATA_SUMMARY_VIEW file.
+			ex.printStackTrace();
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+	}
+
+	public void option_views(ActionEvent actionEvent) {
+		loadOptionView();
+	}
 }
