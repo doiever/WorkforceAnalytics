@@ -198,7 +198,7 @@ public class MainController implements Initializable
 		this.button_print.disableProperty().bind(this.hasCreatedDatabase.not());
 		this.button_generateReport.disableProperty().bind(this.hasCreatedDatabase.not());
 		this.hyperlink_generateReport.disableProperty().bind(this.hasCreatedDatabase.not());
-		this.textFlow_placeholder.visibleProperty().bind(this.dataImportModel.hasDataProperty().not());
+		this.textFlow_placeholder.visibleProperty().bind(Bindings.or(this.dataImportModel.hasDataProperty(), this.isLoadingData).not());
 		this.button_useThisData.disableProperty().bind(this.dataImportModel.hasDataProperty().not());
 		this.button_startOver.disableProperty().bind(this.dataImportModel.hasDataProperty().not());
 		this.toolbar_confirmData.managedProperty().bind(this.toolbar_confirmData.visibleProperty());
