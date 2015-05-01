@@ -1,13 +1,14 @@
 package com.alliancedata.workforceanalytics.controllers;
 
+import com.sun.javafx.css.Style;
+import com.sun.javafx.css.StyleManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -38,10 +39,11 @@ public class OptionController implements Initializable {
     }
 
     public void button_normal(ActionEvent actionEvent) {
-        setUserAgentStylesheet(STYLESHEET_CASPIAN);
+        setUserAgentStylesheet(STYLESHEET_MODENA);
     }
 
-    public void button_highcontrast(ActionEvent actionEvent) {
-        setUserAgentStylesheet(STYLESHEET_MODENA);
+    public void button_greycontrast(ActionEvent actionEvent) {
+
+        setUserAgentStylesheet(STYLESHEET_CASPIAN);
     }
 }

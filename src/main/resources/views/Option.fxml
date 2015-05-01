@@ -19,7 +19,7 @@
             <Insets bottom="15.0" right="15.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="op_nv" mnemonicParsing="false" text="Normal View" GridPane.halignment="CENTER" GridPane.valignment="CENTER"  onAction="#button_highcontrast"/>
-      <Button fx:id="op_hc" mnemonicParsing="false" text="High Contrast View" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" onAction="#button_normal" />
+      <Button fx:id="op_nv" mnemonicParsing="false" text="Default View" GridPane.halignment="CENTER" GridPane.valignment="CENTER"  onAction="#button_normal"/>
+      <Button fx:id="op_hc" mnemonicParsing="false" text="Grey View" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" onAction="#button_greycontrast" />
    </children>
 </GridPane>

@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 
 public class TrendsViewController implements Initializable {
 
-    @FXML public TextArea textflow_trendreporting;
+    @FXML public javafx.scene.control.TextArea textflow_trendreporting;
     @FXML public javafx.scene.control.Button button_termination_cancel;
     @FXML public Button button_termination_analyze;
 
