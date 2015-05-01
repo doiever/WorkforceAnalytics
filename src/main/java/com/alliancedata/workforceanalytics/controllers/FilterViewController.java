@@ -1,11 +1,13 @@
 package com.alliancedata.workforceanalytics.controllers;
 
 import com.alliancedata.workforceanalytics.Constants;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
+import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -93,10 +95,10 @@ public class FilterViewController implements Initializable
     public static final String ORG_UNIT_WFA = "Org Unit_WFA";
     public static final String WFH_WFA = "WFH_WFA";
     public static final String LOCALITY = "";
-            HireAndTermination
-            EffectivePeriods
-            ReasonDescription
-            AreaExpertiseWFA
+            // HireAndTermination
+           // EffectivePeriods
+           // ReasonDescription
+           // AreaExpertiseWFA
 
 
 
@@ -156,6 +158,11 @@ public class FilterViewController implements Initializable
 	{
 		FilterViewParameters("Activity");
 	}
+
+    public void hyperlink_Cancel(ActionEvent actionEvent) {
+        Stage stage = (Stage) grid_button_Cancel.getScene().getWindow();
+        stage.close();
+    }
 
     private void trueOptionsAllInvisible(){
 
