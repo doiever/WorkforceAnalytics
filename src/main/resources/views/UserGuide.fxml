@@ -5,20 +5,19 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <GridPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alliancedata.workforceanalytics.controllers.GuideController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
    </columnConstraints>
    <rowConstraints>
-      <RowConstraints maxHeight="395.0" minHeight="10.0" prefHeight="371.0" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="112.0" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
+      <RowConstraints vgrow="ALWAYS" />
+      <RowConstraints vgrow="NEVER" />
    </rowConstraints>
    <children>
-      <TextArea editable="false" prefHeight="400.0" prefWidth="600.0" text="User Guide for WorkForce Analytics:&#10;&#10;Main Window:&#10;Data:&#10;     Import Data: Allows you to import your CSV files in to the database to be used for generating reports.&#10;     Generate Report: Opens up the generate reports window.&#10;     View Data Summary: Feature not implemented at this time.&#10;Trends:&#10;     Find Trends: Feature not implemented at this time.&#10;     Find Specific Trends: Feature not implemented at this time.&#10;Export:&#10;     Export Reports: Allows you to export your generated reports to a CSV file for use or view later.&#10;     Print Reports: Allows you to print your generated reports.&#10;&#10;Generate Report Window:&#10;Time: The start and end dates are used to pick a specific date range that was defined in the CSV files imported&#10;in to the database. Additionally you can check the &quot;All Dates&quot; check box to pick all date ranges in the database.&#10;&#10;Filter check boxes: Each box is a filed that is a header in the CSV files imported to the database. Some of these&#10;check boxes cover groups of related fields and are explained in tool tips on hover over.&#10;&#10;Generate: After selecting the time fields and filters to be applied to the report selecting this button will&#10;generate the report." />
-      <Button fx:id="guide_ok" mnemonicParsing="false" text="OK" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" onAction="#hyperlink_CloseOK">
+      <TextArea editable="false" prefHeight="400.0" prefWidth="600.0" text="User Guide for WorkForce Analytics:&#10;&#10;Main Window:&#10;Data:&#10;     Import Data: Allows you to import your CSV files in to the database to be used for generating reports.&#10;     Generate Report: Opens up the generate reports window.&#10;     View Data Summary: Feature not implemented at this time.&#10;Trends:&#10;     Find Trends: Feature not implemented at this time.&#10;     Find Specific Trends: Feature not implemented at this time.&#10;Export:&#10;     Export Reports: Allows you to export your generated reports to a CSV file for use or view later.&#10;     Print Reports: Allows you to print your generated reports.&#10;&#10;Generate Report Window:&#10;Time: The start and end dates are used to pick a specific date range that was defined in the CSV files imported&#10;in to the database. Additionally you can check the &quot;All Dates&quot; check box to pick all date ranges in the database.&#10;&#10;Filter check boxes: Each box is a field that is a header in the CSV files imported to the database. Some of these&#10;check boxes cover groups of related fields and are explained in tool tips on hover over.&#10;&#10;Generate: After selecting the time fields and filters to be applied to the report selecting this button will&#10;generate a report.&#10;" />
+      <Button fx:id="guide_ok" mnemonicParsing="false" onAction="#hyperlink_CloseOK" text="OK" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
-            <Insets bottom="15.0" right="15.0" />
+            <Insets bottom="15.0" right="15.0" top="15.0" />
          </GridPane.margin>
       </Button>
    </children>

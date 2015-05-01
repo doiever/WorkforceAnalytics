@@ -10,12 +10,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class FilterViewController implements Initializable
@@ -156,7 +158,37 @@ public class FilterViewController implements Initializable
     //::Class Data
     //::////////////////////////////////////////////////////////////////////////////////
 
+    //Dynamically generated list of parameters for comboboxes
+    public ObservableList<String> ParameterListGroupPayPosition = FXCollections.observableArrayList();
+    public ObservableList<String> ParameterListGroupDepartmentAndCode = FXCollections.observableArrayList();
+    public ObservableList<String> ParameterListGroupLocality = FXCollections.observableArrayList();
+    public ObservableList<String> ParameterListGroupJob = FXCollections.observableArrayList();
+    public ObservableList<String> ParameterListGroupHireAndTermination = FXCollections.observableArrayList();
+    public ObservableList<String> ParameterListGroupAcquisitions = FXCollections.observableArrayList();
+    public ObservableList<String> ParameterListGroupEffectivePeriod = FXCollections.observableArrayList();
+    public ObservableList<String> ParameterListGroupYOS = FXCollections.observableArrayList();
+    public ObservableList<String> ParameterListGroupTenure = FXCollections.observableArrayList();
+    public ObservableList<String> ParameterListGroupSupervisor = FXCollections.observableArrayList();
+    public ObservableList<String> ParameterListGroupDirectReports = FXCollections.observableArrayList();
+    public ObservableList<String> ParameterListGroupTotalReports = FXCollections.observableArrayList();
+    public ObservableList<String> ParameterListGroupDepartmentLevels = FXCollections.observableArrayList();
+    public ObservableList<String> ParameterListGroupProducts = FXCollections.observableArrayList();
 
+    // Comboboxes generated for each group
+    public CheckComboBox<String> PayPositionComboBox;
+    public CheckComboBox<String> DepartmentAndCodeComboBox;
+    public CheckComboBox<String> LocalityComboBox;
+    public CheckComboBox<String> JobComboBox;
+    public CheckComboBox<String> HireAndTerminationComboBox;
+    public CheckComboBox<String> AcquisitionComboBox;
+    public CheckComboBox<String> EffectivePeriodComboBox;
+    public CheckComboBox<String> YOSComboBox;
+    public CheckComboBox<String> TenureComboBox;
+    public CheckComboBox<String> SupervisorComboBox;
+    public CheckComboBox<String> DirectReportsComboBox;
+    public CheckComboBox<String> TotalReportsComboBox;
+    public CheckComboBox<String> DepartmentLevelComboBox;
+    public CheckComboBox<String> ProductsComboBox;
 
 	//::////////////////////////////////////////////////////////////////////////////////
     //::DEFINITIONS
@@ -211,105 +243,111 @@ public class FilterViewController implements Initializable
 
     }
 
-    private void CheckAllDateStatus(){
+    @FXML
+    public void CheckAllDateStatus(){
 
         if(ChkBox_AllDates.isSelected()){
 
-            datePicker_startDate.se
+            datePicker_startDate.setVisible(false);
+            datePicker_endDate.setVisible(false);
+
+        }
+        else{
+
+            datePicker_startDate.setVisible(true);
+            datePicker_endDate.setVisible(true);
 
         }
 
     }
 
-    // create the data to show in the CheckComboBox
-    private ObservableList<String> ParameterListGroupPayPosition = FXCollections.observableArrayList();
-    private ObservableList<String> ParameterListGroupDepartmentAndCode = FXCollections.observableArrayList();
-    private ObservableList<String> ParameterListGroupLocality = FXCollections.observableArrayList();
-    private ObservableList<String> ParameterListGroupJob = FXCollections.observableArrayList();
-    private ObservableList<String> ParameterListGroupHireAndTermination = FXCollections.observableArrayList();
-    private ObservableList<String> ParameterListGroupAcquisitions = FXCollections.observableArrayList();
-    private ObservableList<String> ParameterListGroupEffectivePeriod = FXCollections.observableArrayList();
-    private ObservableList<String> ParameterListGroupYOS = FXCollections.observableArrayList();
-    private ObservableList<String> ParameterListGroupTenure = FXCollections.observableArrayList();
-    private ObservableList<String> ParameterListGroupSupervisor = FXCollections.observableArrayList();
-    private ObservableList<String> ParameterListGroupDirectReports = FXCollections.observableArrayList();
-    private ObservableList<String> ParameterListGroupTotalReports = FXCollections.observableArrayList();
-    private ObservableList<String> ParameterListGroupDepartmentLevels = FXCollections.observableArrayList();
+    private void GenerateComboCheckBox(){
 
-    private void CreateComboCheckBox(String ComboBoxID, String columnName, ObservableList<String> List, ){
+        ParameterListGroupPayPosition.add(PAY_TYPE_WFA);
+        ParameterListGroupPayPosition.add(PAY_STATUS);
+        ParameterListGroupPayPosition.add(REG_TEMP);
 
-        switch(columnName) {
-            case PAY_TYPE_WFA:                SetGroupPayPosition(columnName);              break;
-            case PAY_STATUS:                  SetGroupPayPosition(columnName);              break;
-            case REG_TEMP:                    SetGroupPayPosition(columnName);              break;
-            case DEPT_CODE:                   SetGroupDepartmentAndCode(columnName);        break;
-            case DEPARTMENT:                  SetGroupDepartmentAndCode(columnName);        break;
-            case COUNTRY:                     SetGroupLocality(columnName);                 break;
-            case STATE:                       SetGroupLocality(columnName);                 break;
-            case WORK_LOCATION:               SetGroupLocality(columnName);                 break;
-            case REGION_WFA:                  SetGroupLocality(columnName);                 break;
-            case JOB_COOE:                    SetGroupJob(columnName);                      break;
-            case JOB_LEVEL_WFA:               SetGroupJob(columnName);                      break;
-            case START_DATE:                  SetGroupHireAndTermination(columnName);       break;
-            case REHIRE_DATE:                 SetGroupHireAndTermination(columnName);       break;
-            case SERVICE_DATE:                SetGroupHireAndTermination(columnName);       break;
-            case TERM_DATE:                   SetGroupHireAndTermination(columnName);       break;
-            case LAST_DATE_WORKED:            SetGroupHireAndTermination(columnName);       break;
-            case ACQUISITION_DATE:            SetGroupAcquisition(columnName);              break;
-            case ACQUISITION_NAME:            SetGroupAcquisition(columnName);              break;
-            case PRODUCT_LOB_WFA:             SetGroupProducts(columnName);                 break;
-            case PRODUCT_GROUP_WFA:           SetGroupProducts(columnName);                 break;
-            case PRODUCT_WFA:                 SetGroupProducts(columnName);                 break;
-            case TERMINATION_CATEGORY_WFA:    SetGroupHireAndTermination(columnName);       break;
-            case HIRE_CATEGORY:               SetGroupHireAndTermination(columnName);       break;
-            case EFF_YEAR:                    SetGroupEffectivePeriod(columnName);          break;
-            case EFF_YEAR_QUARTER:            SetGroupEffectivePeriod(columnName);          break;
-            case EFF_YEAR_MONTH:              SetGroupEffectivePeriod(columnName);          break;
-            case YOS:                         SetGroupYOS(columnName);                      break;
-            case YOS_WFA:                     SetGroupYOS(columnName);                      break;
-            case ADS_TENURE:                  SetGroupTenure(columnName);                   break;
-            case ADS_TENURE_WFA:              SetGroupTenure(columnName);                   break;
-            case L0_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
-            case L1_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
-            case L2_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
-            case L3_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
-            case L4_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
-            case L5_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
-            case L6_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
-            case L7_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
-            case L8_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
-            case L9_SUPV_ID:                  SetGroupSupervisor(columnName);               break;
-            case L10_SUPV_ID:                 SetGroupSupervisor(columnName);               break;
-            case L11_SUPV_ID:                 SetGroupSupervisor(columnName);               break;
-            case SUPV_ID_CHAIN:               SetGroupSupervisor(columnName);               break;
-            case DIRECT_REPORTS:              SetGroupDirectReports(columnName);            break;
-            case DIRECT_REPORTS_WFA:          SetGroupDirectReports(columnName);            break;
-            case TOTAL_REPORTS:               SetGroupTotalReports(columnName);             break;
-            case TOTAL_REPORTS_WFA:           SetGroupTotalReports(columnName);             break;
-            case L0_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
-            case L1_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
-            case L2_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
-            case L3_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
-            case L4_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
-            case L5_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
-            case L6_DEPARTMENT_NAME:          SetGroupDeptLevel(columnName);                break;
-            default:                                                                        break;
+        ParameterListGroupDepartmentAndCode.add(DEPT_CODE);
+        ParameterListGroupDepartmentAndCode.add(DEPARTMENT);
 
-        }
+        ParameterListGroupLocality.add(COUNTRY);
+        ParameterListGroupLocality.add(STATE);
+        ParameterListGroupLocality.add(WORK_LOCATION);
+        ParameterListGroupLocality.add(REGION_WFA);
 
+        ParameterListGroupJob.add(JOB_COOE);
+        ParameterListGroupJob.add(JOB_LEVEL_WFA);
 
-        // Create the CheckComboBox with the data
-        final CheckComboBox<String> checkComboBox = new CheckComboBox<String>(strings);
+        ParameterListGroupHireAndTermination.add(START_DATE);
+        ParameterListGroupHireAndTermination.add(REHIRE_DATE);
+        ParameterListGroupHireAndTermination.add(SERVICE_DATE);
+        ParameterListGroupHireAndTermination.add(TERM_DATE);
+        ParameterListGroupHireAndTermination.add(LAST_DATE_WORKED);
+        ParameterListGroupHireAndTermination.add(TERMINATION_CATEGORY_WFA);
+        ParameterListGroupHireAndTermination.add(HIRE_CATEGORY);
 
-        // and listen to the relevant events (e.g. when the selected indices or
-        // selected items change).
-        checkComboBox.getCheckModel().getSelectedItems().addListener(new ListChangeListener<String>() {
+        ParameterListGroupAcquisitions.add(ACQUISITION_DATE);
+        ParameterListGroupAcquisitions.add(ACQUISITION_NAME);
 
-            public void onChanged(ListChangeListener.Change<? extends String> c) {
-                System.out.println(checkComboBox.getCheckModel().getSelectedItems());
-            }
+        ParameterListGroupProducts.add(PRODUCT_LOB_WFA);
+        ParameterListGroupProducts.add(PRODUCT_GROUP_WFA);
+        ParameterListGroupProducts.add(PRODUCT_WFA);
 
-        });
+        ParameterListGroupHireAndTermination.add(TERMINATION_CATEGORY_WFA);
+        ParameterListGroupHireAndTermination.add(HIRE_CATEGORY);
+
+        ParameterListGroupEffectivePeriod.add(EFF_YEAR);
+        ParameterListGroupEffectivePeriod.add(EFF_YEAR_QUARTER);
+        ParameterListGroupEffectivePeriod.add(EFF_YEAR_MONTH);
+
+        ParameterListGroupYOS.add(YOS);
+        ParameterListGroupYOS.add(YOS_WFA);
+
+        ParameterListGroupTenure.add(ADS_TENURE);
+        ParameterListGroupTenure.add(ADS_TENURE_WFA);
+
+        ParameterListGroupSupervisor.add(L0_SUPV_ID);
+        ParameterListGroupSupervisor.add(L1_SUPV_ID);
+        ParameterListGroupSupervisor.add(L2_SUPV_ID);
+        ParameterListGroupSupervisor.add(L3_SUPV_ID);
+        ParameterListGroupSupervisor.add(L4_SUPV_ID);
+        ParameterListGroupSupervisor.add(L5_SUPV_ID);
+        ParameterListGroupSupervisor.add(L6_SUPV_ID);
+        ParameterListGroupSupervisor.add(L7_SUPV_ID);
+        ParameterListGroupSupervisor.add(L8_SUPV_ID);
+        ParameterListGroupSupervisor.add(L9_SUPV_ID);
+        ParameterListGroupSupervisor.add(L10_SUPV_ID);
+        ParameterListGroupSupervisor.add(L11_SUPV_ID);
+        ParameterListGroupSupervisor.add(SUPV_ID_CHAIN);
+
+        ParameterListGroupDirectReports.add(DIRECT_REPORTS);
+        ParameterListGroupDirectReports.add(DIRECT_REPORTS_WFA);
+
+        ParameterListGroupTotalReports.add(TOTAL_REPORTS);
+        ParameterListGroupTotalReports.add(TOTAL_REPORTS_WFA);
+
+        ParameterListGroupDepartmentLevels.add(L0_DEPARTMENT_NAME);
+        ParameterListGroupDepartmentLevels.add(L1_DEPARTMENT_NAME);
+        ParameterListGroupDepartmentLevels.add(L2_DEPARTMENT_NAME);
+        ParameterListGroupDepartmentLevels.add(L3_DEPARTMENT_NAME);
+        ParameterListGroupDepartmentLevels.add(L4_DEPARTMENT_NAME);
+        ParameterListGroupDepartmentLevels.add(L5_DEPARTMENT_NAME);
+        ParameterListGroupDepartmentLevels.add(L6_DEPARTMENT_NAME);
+
+        PayPositionComboBox = new CheckComboBox<String>(ParameterListGroupPayPosition);
+        DepartmentAndCodeComboBox = new CheckComboBox<String>(ParameterListGroupDepartmentAndCode);
+        LocalityComboBox = new CheckComboBox<String>(ParameterListGroupLocality);
+        JobComboBox = new CheckComboBox<String>(ParameterListGroupJob);
+        HireAndTerminationComboBox = new CheckComboBox<String>(ParameterListGroupHireAndTermination);
+        AcquisitionComboBox = new CheckComboBox<String>(ParameterListGroupAcquisitions);
+        ProductsComboBox = new CheckComboBox<String>(ParameterListGroupProducts);
+        EffectivePeriodComboBox = new CheckComboBox<String>(ParameterListGroupDepartmentAndCode);
+        YOSComboBox = new CheckComboBox<String>(ParameterListGroupYOS);
+        TenureComboBox = new CheckComboBox<String>(ParameterListGroupTenure);
+        SupervisorComboBox = new CheckComboBox<String>(ParameterListGroupSupervisor);
+        DirectReportsComboBox = new CheckComboBox<String>(ParameterListGroupDirectReports);
+        TotalReportsComboBox = new CheckComboBox<String>(ParameterListGroupTotalReports);
+        DepartmentLevelComboBox = new CheckComboBox<String>(ParameterListGroupDepartmentLevels);
 
     }
 
@@ -317,7 +355,7 @@ public class FilterViewController implements Initializable
 
     private void SetGroupLocality(String ColumnName){
 
-        grid_Local.setVisible(true);
+        if(!grid_Local.isVisible())     grid_Local.setVisible(true);
 
         switch(ColumnName){
 
@@ -332,7 +370,7 @@ public class FilterViewController implements Initializable
 
     private void SetGroupDepartmentAndCode(String ColumnName){
 
-        grid_Dept.setVisible(true);
+        if(!grid_Dept.isVisible())      grid_Dept.setVisible(true);
 
         switch(ColumnName){
 
@@ -345,7 +383,7 @@ public class FilterViewController implements Initializable
 
     private void SetGroupPayPosition(String ColumnName){
 
-        grid_Pay.setVisible(true);
+        if(!grid_Pay.isVisible())   grid_Pay.setVisible(true);
 
         switch(ColumnName){
 
@@ -359,7 +397,7 @@ public class FilterViewController implements Initializable
 
     private void SetGroupJob(String ColumnName){
 
-        grid_Job.setVisible(true);
+        if(!grid_Job.isVisible())   grid_Job.setVisible(true);
 
         switch(ColumnName) {
 
@@ -372,7 +410,7 @@ public class FilterViewController implements Initializable
 
     private void SetGroupHireAndTermination(String ColumnName){
 
-        grindHandT.setVisible(true);
+        if(!grindHandT.isVisible())     grindHandT.setVisible(true);
 
         switch(ColumnName){
 
@@ -386,7 +424,7 @@ public class FilterViewController implements Initializable
 
     private void SetGroupAcquisition(String ColumnName){
 
-        grid_Acq.setVisible(true);
+        if(!grid_Acq.isVisible())   grid_Acq.setVisible(true);
 
         switch(ColumnName){
 
@@ -399,7 +437,7 @@ public class FilterViewController implements Initializable
 
     private void SetGroupProducts(String ColumnName){
 
-        grid_Product.setVisible(true);
+        if(!grid_Product.isVisible())   grid_Product.setVisible(true);
 
         switch(ColumnName){
 
@@ -413,7 +451,7 @@ public class FilterViewController implements Initializable
 
     private void SetGroupEffectivePeriod(String ColumnName){
 
-        grid_EffPer.setVisible(true);
+        if(!grid_EffPer.isVisible())    grid_EffPer.setVisible(true);
 
         switch(ColumnName){
 
@@ -427,7 +465,7 @@ public class FilterViewController implements Initializable
 
     private void SetGroupYOS(String ColumnName){
 
-        grid_YOS.setVisible(true);
+        if(!grid_YOS.isVisible())   grid_YOS.setVisible(true);
 
         switch(ColumnName){
 
@@ -440,7 +478,7 @@ public class FilterViewController implements Initializable
 
     private void SetGroupTenure(String ColumnName){
 
-        grid_Tenure.setVisible(true);
+        if(!grid_Tenure.isVisible())    grid_Tenure.setVisible(true);
 
         switch(ColumnName){
 
@@ -453,7 +491,7 @@ public class FilterViewController implements Initializable
 
     private void SetGroupSupervisor(String ColumnName){
 
-        grid_Super.setVisible(true);
+        if(!grid_Super.isVisible())     grid_Super.setVisible(true);
 
         switch(ColumnName){
 
@@ -477,7 +515,7 @@ public class FilterViewController implements Initializable
 
     private void SetGroupDirectReports(String ColumnName){
 
-        grid_Direct.setVisible(true);
+        if(!grid_Direct.isVisible())    grid_Direct.setVisible(true);
 
         switch(ColumnName){
 
@@ -491,7 +529,7 @@ public class FilterViewController implements Initializable
 
     private void SetGroupTotalReports(String ColumnName){
 
-        grid_TotalReport.setVisible(true);
+        if(!grid_TotalReport.isVisible())   grid_TotalReport.setVisible(true);
 
         switch(ColumnName){
 
@@ -504,7 +542,7 @@ public class FilterViewController implements Initializable
 
     private void SetGroupDeptLevel(String ColumnName){
 
-        grid_DeptLevel.setVisible(true);
+        if(!grid_DeptLevel.isVisible())     grid_DeptLevel.setVisible(true);
 
         switch(ColumnName){
 
@@ -523,6 +561,9 @@ public class FilterViewController implements Initializable
     public void FilterViewParameters(String TableName) {
 
         try {
+
+            //Generates combo checkboxes for grouped parameters.
+            GenerateComboCheckBox();
 
             //true all options in the view to invisible
             //We will turn them on as we find them.
