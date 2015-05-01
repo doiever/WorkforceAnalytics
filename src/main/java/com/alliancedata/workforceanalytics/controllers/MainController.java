@@ -5,6 +5,7 @@ import com.alliancedata.workforceanalytics.Enums;
 import com.alliancedata.workforceanalytics.LinkedListValueFactory;
 import com.alliancedata.workforceanalytics.Utilities;
 import com.alliancedata.workforceanalytics.models.DataImportModel;
+import com.alliancedata.workforceanalytics.models.DatabaseHandler;
 import com.sun.javafx.collections.ObservableListWrapper;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -52,6 +53,8 @@ public class MainController implements Initializable
 	private DataImportModel dataImportModel = new DataImportModel();
 	private StringProperty statusTextProperty = new SimpleStringProperty("Idle");
 	private BooleanProperty isLoadingData = new SimpleBooleanProperty(false);
+	public static BooleanProperty isUsingPreviousSession = new SimpleBooleanProperty(false);
+	public BooleanProperty hasCreatedDatabase = new SimpleBooleanProperty(false);
 	// endregion
 
 	// region View components
@@ -80,29 +83,127 @@ public class MainController implements Initializable
 	@FXML public Hyperlink hyperlink_viewDataSummary;
 	@FXML public TabPane tabPane_data;
 	@FXML public ProgressIndicator progressIndicator;
+	@FXML public ToolBar toolbar_confirmData;
 	// endregion
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources)
 	{
+		// Load previous session's data:
+		if (isUsingPreviousSession.getValue())
+		{
+			loadPreviousSessionData();
+		}
+
 		// Set up bindings, listeners, and event handlers:
 		this.accordion_tasks.setExpandedPane(this.titledPane_data);
 		this.dataBind();
 	}
 
+	private void loadPreviousSessionData()
+	{
+		// Get columns and data from existing database:
+		LinkedHashSet<String> headcountColumnNames = Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().getColumnNames("Headcount");
+		LinkedHashSet<String> activityColumnsNames = Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().getColumnNames("Activity");
+		LinkedList<LinkedList<String>> rawHeadcountData = DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), "SELECT * FROM Headcount;");
+		LinkedList<LinkedList<String>> rawActivityData = DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), "SELECT * FROM Activity;");
+
+		LinkedHashSet<TableColumn<LinkedList<String>, ?>> headcountColumns = new LinkedHashSet<>();
+		LinkedHashSet<TableColumn<LinkedList<String>, ?>> activityColumns = new LinkedHashSet<>();
+
+		int columnIndex = 0;
+		for (String columnName : headcountColumnNames)
+		{
+			TableColumn<LinkedList<String>, String> column = new TableColumn<>(columnName);
+			column.setCellValueFactory(new LinkedListValueFactory(columnIndex++));
+			headcountColumns.add(column);
+		}
+
+		columnIndex = 0;
+		for (String columnName : activityColumnsNames)
+		{
+			TableColumn<LinkedList<String>, String> column = new TableColumn<>(columnName);
+			column.setCellValueFactory(new LinkedListValueFactory(columnIndex++));
+			activityColumns.add(column);
+		}
+
+		// Add columns and data to the import model:
+		ObservableList<LinkedList<String>> headcountData = FXCollections.observableArrayList(rawHeadcountData);
+		ObservableList<LinkedList<String>> activityData = FXCollections.observableArrayList(rawActivityData);
+
+		this.dataImportModel.setFiles(Constants.SESSION_MANAGER.getCurrentSession().getFiles());
+		this.dataImportModel.setColumns(headcountColumns, Enums.FileType.Headcount);
+		this.dataImportModel.setColumns(activityColumns, Enums.FileType.Activity);
+		this.dataImportModel.setData(headcountData, Enums.FileType.Headcount);
+		this.dataImportModel.setData(activityData, Enums.FileType.Activity);
+
+		// Update UI to a loading state:
+		this.isLoadingData.setValue(true);
+		this.statusTextProperty.setValue("Reading data...");
+
+		// Load data in the background:
+		Task getDataTask = new Task() {
+			@Override
+			protected Void call() throws Exception {
+				dataImportModel.setColumns(createHeadcountColumns(), Enums.FileType.Headcount);
+				dataImportModel.setColumns(createActivityColumns(), Enums.FileType.Activity);
+				dataImportModel.setData(getHeadcountData(), Enums.FileType.Headcount);
+				dataImportModel.setData(getActivityData(), Enums.FileType.Activity);
+
+				return null;
+			}
+		};
+
+		// Update UI once background tasks finish:
+		getDataTask.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent event) {
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						int headcountRowCount = dataImportModel.getHeadcountData().size();
+						int activityRowCount = dataImportModel.getActivityData().size();
+						int headcountFileCount = dataImportModel.getHeadcountFiles().size();
+						int activityFileCount = dataImportModel.getActivityFiles().size();
+						String statusText = String.format("Read %d rows from %d headcount file%s and %d rows from %d activity file%s.",
+							headcountRowCount, headcountFileCount, headcountFileCount != 1 ? "s" : "",
+							activityRowCount, activityFileCount, activityFileCount != 1 ? "s" : "");
+						statusTextProperty.setValue(statusText);
+						populateTableView();
+					}
+				});
+			}
+		});
+
+		// Failure while reading data:
+		getDataTask.setOnFailed(new EventHandler<WorkerStateEvent>() {
+			@Override
+			public void handle(WorkerStateEvent event) {
+				String text = getDataTask.getException() == null ? getDataTask.getMessage() : getDataTask.getException().getMessage();
+				Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "Data Error", null, "An error occurred while reading data.", text);
+			}
+		});
+
+		new Thread(getDataTask).start();
+	}
+
 	private void dataBind()
 	{
-		// Bind node properties and content to data model:
+		// Bind node properties and content:
 		this.statusTextProperty.setValue("Idle");
 		this.vbox_data.visibleProperty().bind(this.dataImportModel.hasDataProperty());
 		this.listView_fileList.itemsProperty().bind(this.dataImportModel.allFilesProperty());
 		this.label_status.textProperty().bind(this.statusTextProperty);
 		this.progressIndicator.visibleProperty().bind(this.isLoadingData);
-		this.button_print.disableProperty().bind(this.dataImportModel.hasDataProperty().not());
-		this.button_generateReport.disableProperty().bind(this.dataImportModel.hasDataProperty().not());
+		this.button_print.disableProperty().bind(this.hasCreatedDatabase.not());
+		this.button_generateReport.disableProperty().bind(this.hasCreatedDatabase.not());
+		this.hyperlink_generateReport.disableProperty().bind(this.hasCreatedDatabase.not());
 		this.textFlow_placeholder.visibleProperty().bind(this.isLoadingData.not().and(this.dataImportModel.hasDataProperty().not()));
 		this.button_useThisData.disableProperty().bind(this.dataImportModel.hasDataProperty().not());
 		this.button_startOver.disableProperty().bind(this.dataImportModel.hasDataProperty().not());
+		this.toolbar_confirmData.managedProperty().bind(this.toolbar_confirmData.visibleProperty());
+		this.toolbar_confirmData.visibleProperty().bind(this.hasCreatedDatabase.not());
+		this.hyperlink_importData.disableProperty().bind(this.hasCreatedDatabase);
 	}
 
 	@FXML
@@ -121,6 +222,7 @@ public class MainController implements Initializable
 
 		ArrayList<File> files = new ArrayList<>(selectedFiles);
 		this.dataImportModel.setFiles(files);
+		Constants.SESSION_MANAGER.getCurrentSession().setFiles(files);
 
 		// Update UI to a loading state:
 		this.isLoadingData.setValue(true);
@@ -192,6 +294,9 @@ public class MainController implements Initializable
 			Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "Database Error", null, "Unable to write to the database file.",
 				Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().getDatabaseFile().getAbsolutePath());
 		}
+
+		this.hasCreatedDatabase.setValue(true);
+		this.statusTextProperty.setValue("Database created!");
 	}
 
 	private void populateTableView()
@@ -428,7 +533,6 @@ public class MainController implements Initializable
 		{
 			ex.printStackTrace();
 		}
-
 	}
 
     public void hyperlink_filterData_OnAction(ActionEvent event)

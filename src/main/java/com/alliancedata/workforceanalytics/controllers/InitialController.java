@@ -61,7 +61,7 @@ public class InitialController implements Initializable
 		Session newSession = Constants.SESSION_MANAGER.createSession();
 		Constants.SESSION_MANAGER.setCurrentSession(newSession);
 
-		this.loadMainView();
+		this.loadMainView(false);
 	}
 
 	public void button_usePreviousSession_onAction(ActionEvent event)
@@ -69,7 +69,7 @@ public class InitialController implements Initializable
 		// Use previous session as current session:
 		Constants.SESSION_MANAGER.setCurrentSession(Constants.SESSION_MANAGER.getPreviousSession());
 
-		this.loadMainView();
+		this.loadMainView(true);
 	}
 
 	public void button_exit_onAction(ActionEvent event)
@@ -80,15 +80,17 @@ public class InitialController implements Initializable
 	/**
 	 * Closes the Initial view and opens the Main view in a new stage.
 	 */
-	public void loadMainView()
+	public void loadMainView(boolean usePreviousSession)
 	{
 		FXMLLoader loader = new FXMLLoader();
+		MainController.isUsingPreviousSession.set(usePreviousSession);
 
 		try
 		{
 			Stage mainStage = new Stage();
 			Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.MAIN_VIEW));
 			Scene scene = new Scene(rootNode);
+
 
 			mainStage.setTitle(Constants.APPLICATION_NAME);
 			mainStage.setOnCloseRequest(Constants.CLOSE_EVENT_HANDLER);
