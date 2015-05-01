@@ -44,7 +44,7 @@ public class FilterViewController implements Initializable
     public static final String STATE = "State";
     public static final String WORK_LOCATION = "Work_Location_WFA";
     public static final String REGION_WFA = "Region_WFA";
-    public static final String JOB_COOE = "Job Code";
+    public static final String JOB_CODE = "Job Code";
     public static final String JOB_LEVEL_WFA = "Job Level_WFA";
     public static final String START_DATE = "Start Date";
     public static final String REHIRE_DATE = "Rehire Date";
@@ -241,6 +241,21 @@ public class FilterViewController implements Initializable
         grindHandT.setVisible(false);
         grid_AreaExper.setVisible(false);
 
+        PayPositionComboBox.setVisible(false);
+        DepartmentAndCodeComboBox.setVisible(false);
+        LocalityComboBox.setVisible(false);
+        JobComboBox.setVisible(false);
+        HireAndTerminationComboBox.setVisible(false);
+        AcquisitionComboBox.setVisible(false);
+        EffectivePeriodComboBox.setVisible(false);
+        YOSComboBox.setVisible(false);
+        TenureComboBox.setVisible(false);
+        SupervisorComboBox.setVisible(false);
+        DirectReportsComboBox.setVisible(false);
+        TotalReportsComboBox.setVisible(false);
+        DepartmentLevelComboBox.setVisible(false);
+        ProductsComboBox.setVisible(false);
+
     }
 
     @FXML
@@ -263,6 +278,9 @@ public class FilterViewController implements Initializable
 
     private void GenerateComboCheckBox(){
 
+        /*
+        Generated dynamically.
+
         ParameterListGroupPayPosition.add(PAY_TYPE_WFA);
         ParameterListGroupPayPosition.add(PAY_STATUS);
         ParameterListGroupPayPosition.add(REG_TEMP);
@@ -275,7 +293,7 @@ public class FilterViewController implements Initializable
         ParameterListGroupLocality.add(WORK_LOCATION);
         ParameterListGroupLocality.add(REGION_WFA);
 
-        ParameterListGroupJob.add(JOB_COOE);
+        ParameterListGroupJob.add(JOB_CODE);
         ParameterListGroupJob.add(JOB_LEVEL_WFA);
 
         ParameterListGroupHireAndTermination.add(START_DATE);
@@ -333,6 +351,7 @@ public class FilterViewController implements Initializable
         ParameterListGroupDepartmentLevels.add(L4_DEPARTMENT_NAME);
         ParameterListGroupDepartmentLevels.add(L5_DEPARTMENT_NAME);
         ParameterListGroupDepartmentLevels.add(L6_DEPARTMENT_NAME);
+        */
 
         PayPositionComboBox = new CheckComboBox<String>(ParameterListGroupPayPosition);
         DepartmentAndCodeComboBox = new CheckComboBox<String>(ParameterListGroupDepartmentAndCode);
@@ -351,18 +370,36 @@ public class FilterViewController implements Initializable
 
     }
 
+    private boolean GetComboBoxCheckBoxChecked(String CheckBoxName, CheckComboBox<String> ComboBox){
 
+        return ComboBox.getItemBooleanProperty(CheckBoxName).getValue();
+
+    }
+
+    private void SetComboBoxCheckBoxCheckedValue(String CheckBoxName, CheckComboBox<String> ComboBox, boolean Value){
+
+        ComboBox.getItemBooleanProperty(CheckBoxName).setValue(Value);
+
+    }
+
+    private void SetComboBoxCheckBoxVisibility(String CheckBoxName, CheckComboBox<String> ComboBox, boolean Visible){
+
+        if(Visible)     ComboBox.getItems().add(CheckBoxName);
+        else            ComboBox.getItems().remove(CheckBoxName);
+
+    }
 
     private void SetGroupLocality(String ColumnName){
 
-        if(!grid_Local.isVisible())     grid_Local.setVisible(true);
+        if(!grid_Local.isVisible())         grid_Local.setVisible(true);
+        if(!LocalityComboBox.isVisible())   LocalityComboBox.setVisible(true);
 
         switch(ColumnName){
 
-            case COUNTRY:
-            case STATE:
-            case WORK_LOCATION:
-            case REGION_WFA:
+            case COUNTRY:           SetComboBoxCheckBoxVisibility(COUNTRY, LocalityComboBox, true);         break;
+            case STATE:             SetComboBoxCheckBoxVisibility(STATE, LocalityComboBox, true);           break;
+            case WORK_LOCATION:     SetComboBoxCheckBoxVisibility(WORK_LOCATION, LocalityComboBox, true);   break;
+            case REGION_WFA:        SetComboBoxCheckBoxVisibility(REGION_WFA, LocalityComboBox, true);      break;
 
         }
 
@@ -370,12 +407,13 @@ public class FilterViewController implements Initializable
 
     private void SetGroupDepartmentAndCode(String ColumnName){
 
-        if(!grid_Dept.isVisible())      grid_Dept.setVisible(true);
+        if(!grid_Dept.isVisible())                      grid_Dept.setVisible(true);
+        if(!DepartmentAndCodeComboBox.isVisible())      DepartmentAndCodeComboBox.setVisible(true);
 
         switch(ColumnName){
 
-            case DEPT_CODE:
-            case DEPARTMENT:
+            case DEPT_CODE:     SetComboBoxCheckBoxVisibility(DEPT_CODE, DepartmentAndCodeComboBox, true);      break;
+            case DEPARTMENT:    SetComboBoxCheckBoxVisibility(DEPARTMENT, DepartmentAndCodeComboBox, true);     break;
 
         }
 
@@ -383,13 +421,14 @@ public class FilterViewController implements Initializable
 
     private void SetGroupPayPosition(String ColumnName){
 
-        if(!grid_Pay.isVisible())   grid_Pay.setVisible(true);
+        if(!grid_Pay.isVisible())                   grid_Pay.setVisible(true);
+        if(!PayPositionComboBox.isVisible())        PayPositionComboBox.setVisible(true);
 
         switch(ColumnName){
 
-            case PAY_STATUS:
-            case REG_TEMP:
-            case PAY_TYPE_WFA:
+            case PAY_STATUS:    SetComboBoxCheckBoxVisibility(PAY_STATUS, PayPositionComboBox, true);       break;
+            case REG_TEMP:      SetComboBoxCheckBoxVisibility(REG_TEMP, PayPositionComboBox, true);         break;
+            case PAY_TYPE_WFA:  SetComboBoxCheckBoxVisibility(PAY_TYPE_WFA, PayPositionComboBox, true);     break;
 
         }
 
@@ -397,12 +436,13 @@ public class FilterViewController implements Initializable
 
     private void SetGroupJob(String ColumnName){
 
-        if(!grid_Job.isVisible())   grid_Job.setVisible(true);
+        if(!grid_Job.isVisible())           grid_Job.setVisible(true);
+        if(!JobComboBox.isVisible())        JobComboBox.setVisible(true);
 
         switch(ColumnName) {
 
-            case JOB_COOE:
-            case JOB_LEVEL_WFA:
+            case JOB_CODE:          SetComboBoxCheckBoxVisibility(JOB_CODE, JobComboBox, true);             break;
+            case JOB_LEVEL_WFA:     SetComboBoxCheckBoxVisibility(JOB_LEVEL_WFA, JobComboBox, true);        break;
 
         }
 
@@ -410,26 +450,32 @@ public class FilterViewController implements Initializable
 
     private void SetGroupHireAndTermination(String ColumnName){
 
-        if(!grindHandT.isVisible())     grindHandT.setVisible(true);
+        if(!grindHandT.isVisible())                         grindHandT.setVisible(true);
+        if(!HireAndTerminationComboBox.isVisible())         HireAndTerminationComboBox.setVisible(true);
 
         switch(ColumnName){
 
-            case TERMINATION_CATEGORY_WFA:
-            case HIRE_CATEGORY:
+            case TERMINATION_CATEGORY_WFA:                  SetComboBoxCheckBoxVisibility(TERMINATION_CATEGORY_WFA, HireAndTerminationComboBox, true);      break;
+            case HIRE_CATEGORY:                             SetComboBoxCheckBoxVisibility(HIRE_CATEGORY, HireAndTerminationComboBox, true);                 break;
+            case START_DATE:                                SetComboBoxCheckBoxVisibility(START_DATE, HireAndTerminationComboBox, true);                    break;
+            case REHIRE_DATE:                               SetComboBoxCheckBoxVisibility(REHIRE_DATE, HireAndTerminationComboBox, true);                   break;
+            case SERVICE_DATE:                              SetComboBoxCheckBoxVisibility(SERVICE_DATE, HireAndTerminationComboBox, true);                  break;
+            case TERM_DATE:                                 SetComboBoxCheckBoxVisibility(TERM_DATE, HireAndTerminationComboBox, true);                     break;
+            case LAST_DATE_WORKED:                          SetComboBoxCheckBoxVisibility(LAST_DATE_WORKED, HireAndTerminationComboBox, true);              break;
 
         }
-
 
     }
 
     private void SetGroupAcquisition(String ColumnName){
 
-        if(!grid_Acq.isVisible())   grid_Acq.setVisible(true);
+        if(!grid_Acq.isVisible())                       grid_Acq.setVisible(true);
+        if(!AcquisitionComboBox.isVisible())            AcquisitionComboBox.setVisible(true);
 
         switch(ColumnName){
 
-            case ACQUISITION_DATE:
-            case ACQUISITION_NAME:
+            case ACQUISITION_DATE:                      SetComboBoxCheckBoxVisibility(ACQUISITION_DATE, AcquisitionComboBox, true);     break;
+            case ACQUISITION_NAME:                      SetComboBoxCheckBoxVisibility(ACQUISITION_NAME, AcquisitionComboBox, true);     break;
 
         }
 
@@ -437,13 +483,14 @@ public class FilterViewController implements Initializable
 
     private void SetGroupProducts(String ColumnName){
 
-        if(!grid_Product.isVisible())   grid_Product.setVisible(true);
+        if(!grid_Product.isVisible())                   grid_Product.setVisible(true);
+        if(!ProductsComboBox.isVisible())               ProductsComboBox.setVisible(true);
 
         switch(ColumnName){
 
-            case PRODUCT_LOB_WFA:
-            case PRODUCT_GROUP_WFA:
-            case PRODUCT_WFA:
+            case PRODUCT_LOB_WFA:                       SetComboBoxCheckBoxVisibility(PRODUCT_LOB_WFA, ProductsComboBox, true);         break;
+            case PRODUCT_GROUP_WFA:                     SetComboBoxCheckBoxVisibility(PRODUCT_GROUP_WFA, ProductsComboBox, true);       break;
+            case PRODUCT_WFA:                           SetComboBoxCheckBoxVisibility(PRODUCT_WFA, ProductsComboBox, true);             break;
 
         }
 
@@ -451,13 +498,14 @@ public class FilterViewController implements Initializable
 
     private void SetGroupEffectivePeriod(String ColumnName){
 
-        if(!grid_EffPer.isVisible())    grid_EffPer.setVisible(true);
+        if(!grid_EffPer.isVisible())                    grid_EffPer.setVisible(true);
+        if(!EffectivePeriodComboBox.isVisible())        EffectivePeriodComboBox.setVisible(true);
 
         switch(ColumnName){
 
-            case EFF_YEAR:
-            case EFF_YEAR_QUARTER:
-            case EFF_YEAR_MONTH:
+            case EFF_YEAR:                              SetComboBoxCheckBoxVisibility(EFF_YEAR, EffectivePeriodComboBox, true);             break;
+            case EFF_YEAR_QUARTER:                      SetComboBoxCheckBoxVisibility(EFF_YEAR_QUARTER, EffectivePeriodComboBox, true);     break;
+            case EFF_YEAR_MONTH:                        SetComboBoxCheckBoxVisibility(EFF_YEAR_MONTH, EffectivePeriodComboBox, true);       break;
 
         }
 
@@ -465,12 +513,13 @@ public class FilterViewController implements Initializable
 
     private void SetGroupYOS(String ColumnName){
 
-        if(!grid_YOS.isVisible())   grid_YOS.setVisible(true);
+        if(!grid_YOS.isVisible())           grid_YOS.setVisible(true);
+        if(!YOSComboBox.isVisible())        YOSComboBox.setVisible(true);
 
         switch(ColumnName){
 
-            case YOS:
-            case YOS_WFA:
+            case YOS:                       SetComboBoxCheckBoxVisibility(YOS, YOSComboBox, true);          break;
+            case YOS_WFA:                   SetComboBoxCheckBoxVisibility(YOS_WFA, YOSComboBox, true);      break;
 
         }
 
@@ -478,12 +527,13 @@ public class FilterViewController implements Initializable
 
     private void SetGroupTenure(String ColumnName){
 
-        if(!grid_Tenure.isVisible())    grid_Tenure.setVisible(true);
+        if(!grid_Tenure.isVisible())            grid_Tenure.setVisible(true);
+        if(!TenureComboBox.isVisible())         TenureComboBox.setVisible(true);
 
         switch(ColumnName){
 
-            case ADS_TENURE:
-            case ADS_TENURE_WFA:
+            case ADS_TENURE:                    SetComboBoxCheckBoxVisibility(ADS_TENURE, TenureComboBox, true);            break;
+            case ADS_TENURE_WFA:                SetComboBoxCheckBoxVisibility(ADS_TENURE_WFA, TenureComboBox, true);        break;
 
         }
 
@@ -491,23 +541,24 @@ public class FilterViewController implements Initializable
 
     private void SetGroupSupervisor(String ColumnName){
 
-        if(!grid_Super.isVisible())     grid_Super.setVisible(true);
+        if(!grid_Super.isVisible())                 grid_Super.setVisible(true);
+        if(!SupervisorComboBox.isVisible())         SupervisorComboBox.setVisible(true);
 
         switch(ColumnName){
 
-            case L0_SUPV_ID:
-            case L1_SUPV_ID:
-            case L2_SUPV_ID:
-            case L3_SUPV_ID:
-            case L4_SUPV_ID:
-            case L5_SUPV_ID:
-            case L6_SUPV_ID:
-            case L7_SUPV_ID:
-            case L8_SUPV_ID:
-            case L9_SUPV_ID:
-            case L10_SUPV_ID:
-            case L11_SUPV_ID:
-            case SUPV_ID_CHAIN:
+            case L0_SUPV_ID:                SetComboBoxCheckBoxVisibility(L0_SUPV_ID, SupervisorComboBox, true);        break;
+            case L1_SUPV_ID:                SetComboBoxCheckBoxVisibility(L1_SUPV_ID, SupervisorComboBox, true);        break;
+            case L2_SUPV_ID:                SetComboBoxCheckBoxVisibility(L2_SUPV_ID, SupervisorComboBox, true);        break;
+            case L3_SUPV_ID:                SetComboBoxCheckBoxVisibility(L3_SUPV_ID, SupervisorComboBox, true);        break;
+            case L4_SUPV_ID:                SetComboBoxCheckBoxVisibility(L4_SUPV_ID, SupervisorComboBox, true);        break;
+            case L5_SUPV_ID:                SetComboBoxCheckBoxVisibility(L5_SUPV_ID, SupervisorComboBox, true);        break;
+            case L6_SUPV_ID:                SetComboBoxCheckBoxVisibility(L6_SUPV_ID, SupervisorComboBox, true);        break;
+            case L7_SUPV_ID:                SetComboBoxCheckBoxVisibility(L7_SUPV_ID, SupervisorComboBox, true);        break;
+            case L8_SUPV_ID:                SetComboBoxCheckBoxVisibility(L8_SUPV_ID, SupervisorComboBox, true);        break;
+            case L9_SUPV_ID:                SetComboBoxCheckBoxVisibility(L9_SUPV_ID, SupervisorComboBox, true);        break;
+            case L10_SUPV_ID:               SetComboBoxCheckBoxVisibility(L10_SUPV_ID, SupervisorComboBox, true);       break;
+            case L11_SUPV_ID:               SetComboBoxCheckBoxVisibility(L11_SUPV_ID, SupervisorComboBox, true);       break;
+            case SUPV_ID_CHAIN:             SetComboBoxCheckBoxVisibility(SUPV_ID_CHAIN, SupervisorComboBox, true);     break;
 
         }
 
@@ -515,13 +566,14 @@ public class FilterViewController implements Initializable
 
     private void SetGroupDirectReports(String ColumnName){
 
-        if(!grid_Direct.isVisible())    grid_Direct.setVisible(true);
+        if(!grid_Direct.isVisible())                    grid_Direct.setVisible(true);
+        if(!DirectReportsComboBox.isVisible())          DirectReportsComboBox.setVisible(true);
 
         switch(ColumnName){
 
 
-            case DIRECT_REPORTS:
-            case DIRECT_REPORTS_WFA:
+            case DIRECT_REPORTS:                        SetComboBoxCheckBoxVisibility(DIRECT_REPORTS, DirectReportsComboBox, true);         break;
+            case DIRECT_REPORTS_WFA:                    SetComboBoxCheckBoxVisibility(DIRECT_REPORTS_WFA, DirectReportsComboBox, true);     break;
 
         }
 
@@ -529,12 +581,13 @@ public class FilterViewController implements Initializable
 
     private void SetGroupTotalReports(String ColumnName){
 
-        if(!grid_TotalReport.isVisible())   grid_TotalReport.setVisible(true);
+        if(!grid_TotalReport.isVisible())               grid_TotalReport.setVisible(true);
+        if(!TotalReportsComboBox.isVisible())           TotalReportsComboBox.setVisible(true);
 
         switch(ColumnName){
 
-            case TOTAL_REPORTS:
-            case TOTAL_REPORTS_WFA:
+            case TOTAL_REPORTS:                         SetComboBoxCheckBoxVisibility(TOTAL_REPORTS, TotalReportsComboBox, true);           break;
+            case TOTAL_REPORTS_WFA:                     SetComboBoxCheckBoxVisibility(TOTAL_REPORTS_WFA, TotalReportsComboBox, true);       break;
 
         }
 
@@ -542,17 +595,18 @@ public class FilterViewController implements Initializable
 
     private void SetGroupDeptLevel(String ColumnName){
 
-        if(!grid_DeptLevel.isVisible())     grid_DeptLevel.setVisible(true);
+        if(!grid_DeptLevel.isVisible())                 grid_DeptLevel.setVisible(true);
+        if(!DepartmentLevelComboBox.isVisible())        DepartmentLevelComboBox.setVisible(true);
 
         switch(ColumnName){
 
-            case L0_DEPARTMENT_NAME:
-            case L1_DEPARTMENT_NAME:
-            case L2_DEPARTMENT_NAME:
-            case L3_DEPARTMENT_NAME:
-            case L4_DEPARTMENT_NAME:
-            case L5_DEPARTMENT_NAME:
-            case L6_DEPARTMENT_NAME:
+            case L0_DEPARTMENT_NAME:                    SetComboBoxCheckBoxVisibility(L0_DEPARTMENT_NAME, DepartmentLevelComboBox, true);       break;
+            case L1_DEPARTMENT_NAME:                    SetComboBoxCheckBoxVisibility(L1_DEPARTMENT_NAME, DepartmentLevelComboBox, true);       break;
+            case L2_DEPARTMENT_NAME:                    SetComboBoxCheckBoxVisibility(L2_DEPARTMENT_NAME, DepartmentLevelComboBox, true);       break;
+            case L3_DEPARTMENT_NAME:                    SetComboBoxCheckBoxVisibility(L3_DEPARTMENT_NAME, DepartmentLevelComboBox, true);       break;
+            case L4_DEPARTMENT_NAME:                    SetComboBoxCheckBoxVisibility(L4_DEPARTMENT_NAME, DepartmentLevelComboBox, true);       break;
+            case L5_DEPARTMENT_NAME:                    SetComboBoxCheckBoxVisibility(L5_DEPARTMENT_NAME, DepartmentLevelComboBox, true);       break;
+            case L6_DEPARTMENT_NAME:                    SetComboBoxCheckBoxVisibility(L6_DEPARTMENT_NAME, DepartmentLevelComboBox, true);       break;
 
         }
 
@@ -596,13 +650,15 @@ public class FilterViewController implements Initializable
                     case STATE:                       SetGroupLocality(columnName);                 break;
                     case WORK_LOCATION:               SetGroupLocality(columnName);                 break;
                     case REGION_WFA:                  SetGroupLocality(columnName);                 break;
-                    case JOB_COOE:                    SetGroupJob(columnName);                      break;
+                    case JOB_CODE:                    SetGroupJob(columnName);                      break;
                     case JOB_LEVEL_WFA:               SetGroupJob(columnName);                      break;
                     case START_DATE:                  SetGroupHireAndTermination(columnName);       break;
                     case REHIRE_DATE:                 SetGroupHireAndTermination(columnName);       break;
                     case SERVICE_DATE:                SetGroupHireAndTermination(columnName);       break;
                     case TERM_DATE:                   SetGroupHireAndTermination(columnName);       break;
                     case LAST_DATE_WORKED:            SetGroupHireAndTermination(columnName);       break;
+                    case TERMINATION_CATEGORY_WFA:    SetGroupHireAndTermination(columnName);       break;
+                    case HIRE_CATEGORY:               SetGroupHireAndTermination(columnName);       break;
                     case ACQUISITION_DATE:            SetGroupAcquisition(columnName);              break; //two acquisition
                     case ACQUISITION_NAME:            SetGroupAcquisition(columnName);              break; //two acquisition
                     case PRODUCT_LOB_WFA:             SetGroupProducts(columnName);                 break; // two products
@@ -614,8 +670,6 @@ public class FilterViewController implements Initializable
                     case HEADCOUNT:                   grid_Headcount.setVisible(true);              break;
                     case ACTION_DESCRIPTION:          grid_Action.setVisible(true);                 break;
                     case REASON_DESCRIPTION:          grid_Reason.setVisible(true);                 break;
-                    case TERMINATION_CATEGORY_WFA:    SetGroupHireAndTermination(columnName);       break;
-                    case HIRE_CATEGORY:               SetGroupHireAndTermination(columnName);       break;
                     case JOB_CHANGE_CATEGORY:         grid_JobChange.setVisible(true);              break;
                     case SKILLSET_WFA:                grid_Skillset.setVisible(true);               break;
                     case EFF_YEAR:                    SetGroupEffectivePeriod(columnName);          break; // three dates
