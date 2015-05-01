@@ -16,7 +16,7 @@
                </image>
             </ImageView>
             <Button fx:id="button_termination_cancel" layoutX="532.0" layoutY="336.0" mnemonicParsing="false" onAction="#Button_Trends_Termination_Cancel" text="Cancel" />
-            <TextArea fx:id="textarea_trend_termination_reporting" editable="false" layoutX="21.0" layoutY="113.0" prefHeight="214.0" prefWidth="556.0" />
+            <TextArea fx:id="textarea_termination_reporting" editable="false" layoutX="21.0" layoutY="113.0" prefHeight="214.0" prefWidth="556.0" />
             <Button fx:id="button_termination_analyze" layoutX="468.0" layoutY="336.0" mnemonicParsing="false" onAction="#Button_Trends_Termination_Analyze" text="Analyze" />
          </children></AnchorPane>
   </content>

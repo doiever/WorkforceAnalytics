@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 
 public class TrendsViewController implements Initializable {
 
-    @FXML public TextArea textarea_trend_termination_reporting;
+    @FXML public TextArea textarea_termination_reporting;
     @FXML public javafx.scene.control.Button button_termination_cancel;
     @FXML public Button button_termination_analyze;
 
@@ -105,7 +105,7 @@ public class TrendsViewController implements Initializable {
         Report += "The highest amount of termination was "+HighestTerminationAtLocation+" that occurred at location classified as "+HighestTerminationLocation+"\n";
         Report += "The most common reason for termination was "+ReasonDescription+", the amount of employees terminated for this reason was "+HighestAmountReason+"\n";
 
-        textarea_trend_termination_reporting.setText(Report);
+        textarea_termination_reporting.setText(Report);
 
     }
 
