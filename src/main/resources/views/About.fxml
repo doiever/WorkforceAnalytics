@@ -7,20 +7,20 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="301.0" prefWidth="422.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="com.alliancedata.workforceanalytics.controllers.AboutController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="301.0" prefWidth="422.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alliancedata.workforceanalytics.controllers.AboutController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
-      <RowConstraints maxHeight="249.0" minHeight="10.0" prefHeight="72.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="260.0" minHeight="10.0" prefHeight="175.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="145.0" minHeight="10.0" prefHeight="55.0" vgrow="SOMETIMES" />
+      <RowConstraints vgrow="NEVER" />
+    <RowConstraints vgrow="ALWAYS" />
+    <RowConstraints vgrow="NEVER" />
   </rowConstraints>
    <children>
-      <Button fx:id="about_ok" mnemonicParsing="false" text="OK" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM" onAction="#hyperlink_CloseOK">
+      <Button fx:id="about_ok" mnemonicParsing="false" onAction="#hyperlink_CloseOK" text="OK" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
          <GridPane.margin>
-            <Insets bottom="15.0" right="15.0" />
+            <Insets bottom="15.0" right="15.0" top="15.0" />
          </GridPane.margin>
       </Button>
       <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" text="Product Version:&#10;WorkForce Analytics 1.0&#10;&#10;Build Information:&#10;Version 1.0&#10;Date 5/1/2015&#10;&#10;Language and Environments:&#10;Java with JavaFX&#10;ControllsFX&#10;IntelliJ IDEA 14.1&#10;Maven&#10;SQLite for Java&#10;&#10;Created:&#10;Made for Alliance Data&#10;&#10;Creators:&#10;Allen Choi&#10;Jake Solis&#10;Nick Miller&#10;Sebastian Young&#10;Siddharth Sharma&#10;&#10;" GridPane.columnSpan="2" GridPane.rowIndex="1" />
