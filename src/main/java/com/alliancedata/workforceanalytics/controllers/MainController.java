@@ -100,6 +100,8 @@ public class MainController implements Initializable
 	private void loadPreviousSessionData()
 	{
 		// Get columns and data from existing database:
+		this.hasCreatedDatabase.setValue(true);
+
 		LinkedHashSet<String> headcountColumnNames = Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().getColumnNames("Headcount");
 		LinkedHashSet<String> activityColumnsNames = Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().getColumnNames("Activity");
 		LinkedList<LinkedList<String>> rawHeadcountData = DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), "SELECT * FROM Headcount;");
