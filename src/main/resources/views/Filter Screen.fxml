@@ -23,7 +23,7 @@
             <Insets top="10.0" />
          </GridPane.margin>
       </DatePicker>
-      <DatePicker promptText="Start date" GridPane.halignment="CENTER">
+      <DatePicker fx:id="datePicker_startDate" promptText="Start date" GridPane.halignment="CENTER">
          <GridPane.margin>
             <Insets top="10.0" />
          </GridPane.margin>
@@ -157,7 +157,7 @@
       </ScrollPane>
       <HBox alignment="CENTER_RIGHT" spacing="5.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
          <children>
-            <Button fx:id="grid_button_Cancel" mnemonicParsing="false" text="Cancel" GridPane.rowIndex="2" onAction="#hyperlink_Cancel">
+            <Button fx:id="grid_button_Cancel" mnemonicParsing="false" onAction="#hyperlink_Cancel" text="Cancel" GridPane.rowIndex="2">
                <HBox.margin>
                   <Insets bottom="10.0" />
                </HBox.margin></Button>
@@ -170,7 +170,7 @@
             <Insets right="10.0" />
          </GridPane.margin>
       </HBox>
-      <CheckBox mnemonicParsing="false" prefHeight="17.0" prefWidth="79.0" text="All Dates" GridPane.columnIndex="2">
+      <CheckBox fx:id="ChkBox_AllDates" mnemonicParsing="false" onAction="#CheckAllDateStatus" prefHeight="17.0" prefWidth="79.0" text="All Dates" GridPane.columnIndex="2">
          <GridPane.margin>
             <Insets top="10.0" />
          </GridPane.margin>
