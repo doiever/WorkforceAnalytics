@@ -5,24 +5,23 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AboutController implements Initializable
 {
     // region View components
-    @FXML public Button about_ok;
+    @FXML public Button button_ok;
+	// endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-
     }
 
-    public void hyperlink_CloseOK(ActionEvent actionEvent)
+    public void button_ok_onAction(ActionEvent event)
 	{
-        Stage stage = (Stage) about_ok.getScene().getWindow();
+		Stage stage = (Stage)button_ok.getScene().getWindow();
         stage.close();
     }
 }

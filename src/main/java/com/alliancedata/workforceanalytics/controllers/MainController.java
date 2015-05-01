@@ -31,10 +31,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.Window;
+import javafx.stage.*;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
@@ -488,18 +485,21 @@ public class MainController implements Initializable
 
         try
         {
-            Stage mainStage = new Stage();
-            Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.FILTER_VIEW));
-            Scene scene = new Scene(rootNode);
+	        Window mainWindow = this.gridPane_main.getScene().getWindow();
+	        Stage filterStage = new Stage();
+	        Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.FILTER_VIEW));
+	        Scene scene = new Scene(rootNode);
 
-            mainStage.setTitle(Constants.APPLICATION_NAME);
-	        mainStage.initStyle(StageStyle.UTILITY);
-            mainStage.setScene(scene);
-            mainStage.show();
+	        filterStage.setTitle(Constants.APPLICATION_NAME);
+	        filterStage.initStyle(StageStyle.UTILITY);
+	        filterStage.setScene(scene);
+	        filterStage.initOwner(mainWindow);
+	        filterStage.initModality(Modality.WINDOW_MODAL);
+	        filterStage.show();
         }
         catch (IOException ex)
         {
-            // TODO: Can't find Constants.MAIN_VIEW file.
+            // TODO: Can't find Constants.FILTER_VIEW file.
             ex.printStackTrace();
         }
 	    catch (Exception ex)
@@ -515,18 +515,21 @@ public class MainController implements Initializable
 
 		try
 		{
-			Stage mainStage = new Stage();
+			Window mainWindow = this.gridPane_main.getScene().getWindow();
+			Stage aboutStage = new Stage();
 			Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.ABOUT_VIEW));
 			Scene scene = new Scene(rootNode);
 
-			mainStage.setTitle(Constants.APPLICATION_NAME);
-			mainStage.initStyle(StageStyle.UTILITY);
-			mainStage.setScene(scene);
-			mainStage.show();
+			aboutStage.setTitle(Constants.APPLICATION_NAME);
+			aboutStage.initStyle(StageStyle.UTILITY);
+			aboutStage.setScene(scene);
+			aboutStage.initOwner(mainWindow);
+			aboutStage.initModality(Modality.WINDOW_MODAL);
+			aboutStage.show();
 		}
 		catch (IOException ex)
 		{
-			// TODO: Can't find Constants.MAIN_VIEW file.
+			// TODO: Can't find Constants.ABOUT_VIEW file.
 			ex.printStackTrace();
 		}
 		catch (Exception ex)
@@ -541,18 +544,21 @@ public class MainController implements Initializable
 
 		try
 		{
-			Stage mainStage = new Stage();
+			Window mainWindow = this.gridPane_main.getScene().getWindow();
+			Stage guideStage = new Stage();
 			Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.GUIDE_VIEW));
 			Scene scene = new Scene(rootNode);
 
-			mainStage.setTitle(Constants.APPLICATION_NAME);
-			mainStage.initStyle(StageStyle.UTILITY);
-			mainStage.setScene(scene);
-			mainStage.show();
+			guideStage.setTitle("User Guide");
+			guideStage.initStyle(StageStyle.UTILITY);
+			guideStage.setScene(scene);
+			guideStage.initOwner(mainWindow);
+			guideStage.initModality(Modality.WINDOW_MODAL);
+			guideStage.show();
 		}
 		catch (IOException ex)
 		{
-			// TODO: Can't find Constants.MAIN_VIEW file.
+			// TODO: Can't find Constants.GUIDE_VIEW file.
 			ex.printStackTrace();
 		}
 		catch (Exception ex)
