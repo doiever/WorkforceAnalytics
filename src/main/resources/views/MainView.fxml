@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -9,7 +10,7 @@
 <GridPane fx:id="gridPane_main" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alliancedata.workforceanalytics.controllers.MainController">
 	<columnConstraints>
 		<ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
-		<ColumnConstraints halignment="LEFT" />
+		<ColumnConstraints halignment="LEFT" hgrow="NEVER" />
 	</columnConstraints>
 	<rowConstraints>
 		<RowConstraints valignment="TOP" vgrow="NEVER" />
@@ -21,24 +22,22 @@
 			<menus>
 				<Menu fx:id="menu_file" mnemonicParsing="false" text="File">
 					<items>
-						<MenuItem mnemonicParsing="false" text="Add Data" />
-						<MenuItem mnemonicParsing="false" text="Save Report" />
-						<MenuItem mnemonicParsing="false" text="Open Report" />
-						<MenuItem mnemonicParsing="false" text="Print" />
-						<MenuItem mnemonicParsing="false" text="Exit" />
+						<MenuItem mnemonicParsing="false" onAction="#hyperlink_importData_OnAction" text="Import Data" />
+						<MenuItem mnemonicParsing="false" onAction="#hyperlink_SaveCSV" text="Export Report" />
+						<MenuItem mnemonicParsing="false" onAction="#hyperlink_printdoc" text="Print" />
+						<MenuItem mnemonicParsing="false" onAction="#hyperlink_ExitSystem" text="Exit" />
 					</items>
 				</Menu>
 				<Menu fx:id="menu_menu" mnemonicParsing="false" text="Menu">
 					<items>
-						<MenuItem mnemonicParsing="false" text="Generate Report" />
-						<MenuItem mnemonicParsing="false" text="Add to Quick Bar" />
-						<MenuItem mnemonicParsing="false" text="Options" />
+						<MenuItem mnemonicParsing="false" onAction="#hyperlink_filterData_OnAction" text="Generate Report" />
+						<MenuItem mnemonicParsing="false" text="Options" onAction="#option_views"/>
 					</items>
 				</Menu>
 				<Menu fx:id="menu_help" mnemonicParsing="false" text="Help">
 					<items>
-						<MenuItem mnemonicParsing="false" text="User Guide" />
-						<MenuItem mnemonicParsing="false" text="About" />
+						<MenuItem mnemonicParsing="false" onAction="#hyperlink_UserGuide" text="User Guide" />
+						<MenuItem mnemonicParsing="false" onAction="#hyperlink_About" text="About" />
 					</items>
 				</Menu>
 			</menus>
@@ -51,33 +50,41 @@
 		</MenuBar>
 		<ToolBar fx:id="toolBar_main" GridPane.columnIndex="1" GridPane.vgrow="NEVER">
 			<items>
-				<Button mnemonicParsing="false" text="Print...">
+				<Button fx:id="button_print" mnemonicParsing="false" onAction="#hyperlink_printdoc" text="Print">
 					<graphic>
 						<Glyph fontFamily="FontAwesome" icon="print" />
 					</graphic>
 				</Button>
-				<Button fx:id="button_generateReport" mnemonicParsing="false" text="Generate reports">
+				<Button fx:id="button_generateReport" mnemonicParsing="false" onAction="#hyperlink_filterData_OnAction" text="Generate Report">
 					<graphic>
 						<Glyph fontFamily="FontAwesome" icon="file_text" />
 					</graphic>
 				</Button>
 			</items>
 		</ToolBar>
-		<SplitPane dividerPositions="0.18" GridPane.columnSpan="2" GridPane.rowIndex="1">
+		<SplitPane fx:id="splitPane_data" dividerPositions="0.18" GridPane.columnSpan="2" GridPane.rowIndex="1">
 			<items>
-				<Accordion SplitPane.resizableWithParent="false">
+				<Accordion fx:id="accordion_tasks" SplitPane.resizableWithParent="false">
 					<panes>
 						<TitledPane fx:id="titledPane_data" text="Data">
 							<content>
-								<VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+								<VBox spacing="5.0">
 									<children>
-										<Hyperlink fx:id="hyperlink_importData" onAction="#hyperlink_importData_OnAction" text="Import data from files">
+										<Hyperlink fx:id="hyperlink_importData" maxWidth="1.7976931348623157E308" onAction="#hyperlink_importData_OnAction" text="Import data">
 											<graphic>
 												<Glyph fontFamily="FontAwesome" icon="database" />
 											</graphic>
 										</Hyperlink>
-										<Hyperlink fx:id="hyperlink_filterData" disable="true" text="Filter data" />
-										<Hyperlink disable="true" text="Data summary" />
+										<Hyperlink fx:id="hyperlink_generateReport" maxWidth="1.7976931348623157E308" onAction="#hyperlink_filterData_OnAction" text="Generate Report...">
+											<graphic>
+												<Glyph fontFamily="FontAwesome" icon="filter" />
+											</graphic>
+										</Hyperlink>
+										<Hyperlink fx:id="hyperlink_viewDataSummary" maxWidth="1.7976931348623157E308" onAction="#hyperlink_viewDataSummary_onAction" text="View data summary...">
+											<graphic>
+												<Glyph fontFamily="FontAwesome" icon="cube" />
+											</graphic>
+										</Hyperlink>
 									</children>
 								</VBox>
 							</content>
@@ -86,17 +93,9 @@
 							<content>
 								<VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
 									<children>
-										<Hyperlink text="Find trends" />
-										<Hyperlink text="Find a specific trend" />
-									</children>
-								</VBox>
-							</content>
-						</TitledPane>
-						<TitledPane layoutX="10.0" layoutY="35.0" text="Reporting">
-							<content>
-								<VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
-									<children>
-										<Hyperlink text="Generate a report" />
+										<Hyperlink disable="true" onAction="#hyperlink_FindTrends" text="Find trends..." />
+										<Hyperlink disable="true" onAction="#hyperlink_FindSpecificTrend" text="Find a specific trend..." />
+										<Hyperlink fx:id="hyperlink_analyzetermination" disable="true" layoutX="20.0" layoutY="48.0" onAction="#AnalyzeTrendTerm" text="Analyze Termination Trends" />
 									</children>
 								</VBox>
 							</content>
@@ -105,9 +104,8 @@
 							<content>
 								<VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
 									<children>
-										<Hyperlink text="Export reports" />
-										<Hyperlink text="Export data" />
-										<Hyperlink text="Print reports" />
+										<Hyperlink fx:id="hyperlink_exportReport" onAction="#hyperlink_SaveCSV" text="Export report" />
+										<Hyperlink fx:id="hyperlink_printReport" onAction="#hyperlink_printdoc" text="Print report" />
 									</children>
 								</VBox>
 							</content>
@@ -116,26 +114,26 @@
 				</Accordion>
 				<VBox fx:id="vbox_data" StackPane.alignment="CENTER">
 					<children>
-						<ToolBar VBox.vgrow="NEVER">
+						<ToolBar fx:id="toolbar_confirmData" VBox.vgrow="NEVER">
 							<items>
 								<Label maxWidth="1.7976931348623157E308" text="Click Start over to clear all files. Otherwise, click Use this data to proceed." wrapText="true" HBox.hgrow="ALWAYS">
 									<padding>
 										<Insets left="5.0" right="5.0" />
 									</padding>
 								</Label>
-								<Button fx:id="button_startOver" cancelButton="true" mnemonicParsing="false" text="Start over">
+								<Button fx:id="button_startOver" cancelButton="true" mnemonicParsing="false" onAction="#button_startOver_OnAction" text="Start over">
 									<graphic>
 										<Glyph fontFamily="FontAwesome" icon="ban" style="-fx-text-fill: darkred;" />
 									</graphic>
 								</Button>
-								<Button fx:id="button_useThisData" defaultButton="true" mnemonicParsing="false" text="Use this data" onAction="#button_useThisData_onAction">
+								<Button fx:id="button_useThisData" defaultButton="true" mnemonicParsing="false" onAction="#button_useThisData_onAction" text="Use this data">
 									<graphic>
 										<Glyph fontFamily="FontAwesome" icon="check" style="-fx-text-fill: forestgreen;" />
 									</graphic>
 								</Button>
 							</items>
 						</ToolBar>
-						<TabPane side="BOTTOM" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
+						<TabPane fx:id="tabPane_data" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" VBox.vgrow="ALWAYS">
 							<tabs>
 								<Tab text="File list">
 									<content>
@@ -152,6 +150,11 @@
 										<TableView fx:id="tableView_activityData" tableMenuButtonVisible="true" />
 									</content>
 								</Tab>
+								<Tab fx:id="tab_reportData" closable="false" disable="true" text="Report">
+									<content>
+										<TableView fx:id="tableView_reportData" tableMenuButtonVisible="true" />
+									</content>
+								</Tab>
 							</tabs>
 							<padding>
 								<Insets bottom="-1.0" />
@@ -166,8 +169,7 @@
 		</SplitPane>
 		<HBox fx:id="hbox_statusBar" spacing="5.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
 			<children>
-				<Label fx:id="label_status" maxWidth="1.7976931348623157E308" text="Idle" HBox.hgrow="ALWAYS" />
-				<ProgressBar fx:id="progressBar" minWidth="150.0" progress="0.0" />
+				<Label fx:id="label_status" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
 			</children>
 			<GridPane.margin>
 				<Insets />
@@ -176,5 +178,25 @@
 				<Insets bottom="3.0" left="5.0" right="5.0" top="4.0" />
 			</padding>
 		</HBox>
+		<TextFlow fx:id="textFlow_placeholder" maxHeight="-Infinity" maxWidth="500.0" textAlignment="CENTER" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+			<children>
+				<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nothing here yet! ">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Text>
+				<Hyperlink onAction="#hyperlink_importData_OnAction" text="Import some data">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Hyperlink>
+				<Text strokeType="OUTSIDE" strokeWidth="0.0" text="to get started.">
+					<font>
+						<Font size="18.0" />
+					</font>
+				</Text>
+			</children>
+		</TextFlow>
+		<ProgressIndicator fx:id="progressIndicator" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
 	</children>
 </GridPane>

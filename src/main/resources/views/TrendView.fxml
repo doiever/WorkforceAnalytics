@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="Workforce Analytic's Trend" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alliancedata.workforceanalytics.controllers.TrendsViewController">
+	<content>
+		<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+			<children>
+				<ImageView layoutX="34.0" layoutY="3.0" preserveRatio="true">
+					<image>
+						<Image url="/images/ads-logo.png" />
+					</image>
+				</ImageView>
+				<Button fx:id="button_termination_cancel" layoutX="532.0" layoutY="336.0" mnemonicParsing="false" onAction="#Button_Trends_Termination_Cancel" text="Cancel" />
+				<TextArea fx:id="textarea_termination_reporting" editable="false" layoutX="21.0" layoutY="113.0" prefHeight="214.0" prefWidth="556.0" />
+				<Button fx:id="button_termination_analyze" layoutX="468.0" layoutY="336.0" mnemonicParsing="false" onAction="#Button_Trends_Termination_Analyze" text="Analyze" />
+			</children></AnchorPane>
+	</content>
+</TitledPane>

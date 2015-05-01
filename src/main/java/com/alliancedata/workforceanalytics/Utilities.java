@@ -6,6 +6,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
+import java.text.DecimalFormat;
+
 /**
  * Contains static application-wide helper methods.
  */
@@ -51,8 +53,6 @@ public class Utilities
 		textArea.setEditable(false);
 		textArea.setWrapText(true);
 
-//		textArea.setMaxWidth(Double.MAX_VALUE);
-//		textArea.setMaxHeight(Double.MAX_VALUE);
 		GridPane.setVgrow(textArea, Priority.ALWAYS);
 		GridPane.setHgrow(textArea, Priority.ALWAYS);
 
@@ -65,5 +65,13 @@ public class Utilities
 		alert.getDialogPane().setExpandableContent(content);
 
 		alert.showAndWait();
+	}
+
+	public static String getFileSize(long size)
+	{
+		if (size <= 0) return "0";
+		final String[] units = new String[] { "bytes", "KB", "MB", "GB", "TB" };
+		int digitGroups = (int)(Math.log10(size) / Math.log10(1024));
+		return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
 	}
 }

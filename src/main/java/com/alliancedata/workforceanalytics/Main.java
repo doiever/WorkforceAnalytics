@@ -62,7 +62,7 @@ public class Main extends Application
 		FXMLLoader loader = new FXMLLoader();
 
 		// If no previous session exists, skip prompt to use previous session and show Main view:
-		if (Constants.SESSION_MANAGER.getPreviousSession() == null)
+		if (Constants.SESSION_MANAGER.getPreviousSession() == null || Constants.SESSION_MANAGER.getPreviousSession().getDatabaseHandler().getDatabaseFile().length() == 0)
 		{
 			// Create a new session:
 			Session newSession = Constants.SESSION_MANAGER.createSession();

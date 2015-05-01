@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import org.controlsfx.control.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane hgap="10.0" prefHeight="600.0" prefWidth="800.0" vgap="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alliancedata.workforceanalytics.controllers.FilterViewController">
+	<columnConstraints>
+		<ColumnConstraints hgrow="NEVER" />
+		<ColumnConstraints hgrow="NEVER" />
+		<ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
+	</columnConstraints>
+	<rowConstraints>
+		<RowConstraints vgrow="NEVER" />
+		<RowConstraints vgrow="SOMETIMES" />
+		<RowConstraints vgrow="NEVER" />
+	</rowConstraints>
+	<children>
+		<HBox spacing="5.0">
+			<children>
+				<Label maxHeight="1.7976931348623157E308" text="Table:">
+					<HBox.margin>
+						<Insets right="5.0" />
+					</HBox.margin>
+				</Label>
+				<ChoiceBox fx:id="choiceBox_tables" prefWidth="150.0" />
+			</children>
+			<GridPane.margin>
+				<Insets left="5.0" top="10.0" />
+			</GridPane.margin>
+		</HBox>
+		<ScrollPane fx:id="scrollPane_columns" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" maxWidth="1.7976931348623157E308" GridPane.columnSpan="3" GridPane.rowIndex="1">
+			<content>
+				<VBox fx:id="vbox_target" maxWidth="1.7976931348623157E308" spacing="5.0" />
+			</content>
+			<padding>
+				<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+			</padding></ScrollPane>
+		<HBox alignment="CENTER_RIGHT" spacing="5.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
+			<children>
+				<Button fx:id="button_cancel" cancelButton="true" mnemonicParsing="false" onAction="#button_cancel_onAction" text="Cancel" GridPane.rowIndex="2">
+					<HBox.margin>
+						<Insets bottom="10.0" />
+					</HBox.margin></Button>
+				<Button fx:id="button_generateReport" defaultButton="true" mnemonicParsing="false" onAction="#button_generate_onAction" text="Generate" GridPane.rowIndex="2">
+					<HBox.margin>
+						<Insets bottom="10.0" />
+					</HBox.margin></Button>
+			</children>
+			<GridPane.margin>
+				<Insets right="10.0" />
+			</GridPane.margin>
+		</HBox>
+	</children>
+</GridPane>

@@ -19,10 +19,16 @@ public final class Constants
 	// region Views
 	public static final String INITIAL_VIEW = "/views/InitialView.fxml";
 	public static final String MAIN_VIEW = "/views/MainView.fxml";
+	public static final String FILTER_VIEW = "/views/FilterView.fxml";
+	public static final String ABOUT_VIEW = "/views/AboutView.fxml";
+	public static final String GUIDE_VIEW = "/views/UserGuideView.fxml";
+	public static final String DATA_SUMMARY_VIEW = "/views/DataSummaryView.fxml";
+	public static final String OPTIONS_VIEW = "/views/OptionsView.fxml";
+	public static final String TREND_VIEW = "/views/TrendView.fxml";
 	// endregion
 
 	// region Sessions
-	public static final String CONFIGURATION_DIRECTORY = System.getProperty("user.home") + "/.wfa";
+	public static final String CONFIGURATION_DIRECTORY = getConfigurationDirectory();
 	public static final String SESSIONS_DIRECTORY = CONFIGURATION_DIRECTORY + "/sessions";
 	public static final String SESSION_MANAGER_FILE = CONFIGURATION_DIRECTORY + "/SessionManager.bin";
 	public static final SessionManager SESSION_MANAGER = SessionManager.getInstance();
@@ -30,6 +36,7 @@ public final class Constants
 
 	// region Miscellaneous
 	public static final String RUNTIME_LIBRARY_PATH = "target/lib";
+	public static final String PRIMARY_KEY_ATTRIBUTES = "PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE";
 	public static final File INITIAL_IMPORT_DATA_DIRECTORY = new File(System.getProperty("user.home") + "/Desktop");
 	public static final EventHandler<WindowEvent> CLOSE_EVENT_HANDLER = new EventHandler<WindowEvent>() {
 		@Override
@@ -44,6 +51,24 @@ public final class Constants
 			Platform.exit();
 		}
 	};
-	public static final String PRIMARY_KEY_ATTRIBUTES = "PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE";
 	// endregion
+
+	/**
+	 * Gets a safe, writable, platform-independent configuration directory.
+	 * @return A string containing the absolute path to the platform's configuration directory.
+	 */
+	private static String getConfigurationDirectory()
+	{
+		String home = System.getenv("APPDATA");
+
+		if (home == null || home.length() == 0)
+		{
+			home = System.getProperty("user.home");
+		}
+
+		File CONFIG_HOME = new File(home, ".wfa").getAbsoluteFile();
+		CONFIG_HOME.mkdirs();
+
+		return CONFIG_HOME.getAbsolutePath();
+	}
 }

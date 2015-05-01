@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.web.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane hgap="10.0" prefHeight="200.0" prefWidth="350.0" vgap="10.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alliancedata.workforceanalytics.controllers.DataSummaryController">
+	<columnConstraints>
+		<ColumnConstraints halignment="RIGHT" prefWidth="100.0" />
+		<ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
+	</columnConstraints>
+	<rowConstraints>
+		<RowConstraints valignment="TOP" vgrow="ALWAYS" />
+		<RowConstraints vgrow="NEVER" />
+	</rowConstraints>
+	<children>
+		<VBox spacing="5.0">
+			<children>
+				<Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="File count:">
+					<font>
+						<Font name="System Bold" size="12.0" />
+					</font></Label>
+				<Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Table count:">
+					<font>
+						<Font name="System Bold" size="12.0" />
+					</font></Label>
+				<Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Database size:">
+					<font>
+						<Font name="System Bold" size="12.0" />
+					</font></Label>
+				<Label alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Files:">
+					<font>
+						<Font name="System Bold" size="12.0" />
+					</font></Label>
+			</children>
+			<GridPane.margin>
+				<Insets left="10.0" top="10.0" />
+			</GridPane.margin>
+		</VBox>
+		<VBox spacing="5.0" GridPane.columnIndex="1">
+			<GridPane.margin>
+				<Insets right="10.0" top="10.0" />
+			</GridPane.margin>
+			<children>
+				<Label fx:id="label_fileCount" maxWidth="1.7976931348623157E308" />
+				<Label fx:id="label_tableCount" maxWidth="1.7976931348623157E308" />
+				<Label fx:id="label_databaseSize" maxWidth="1.7976931348623157E308" />
+				<ListView fx:id="listView_files" VBox.vgrow="ALWAYS">
+					<VBox.margin>
+						<Insets top="3.0" />
+					</VBox.margin>
+				</ListView>
+			</children>
+		</VBox>
+		<Button cancelButton="true" defaultButton="true" minWidth="75.0" mnemonicParsing="false" onAction="#button_OK_onAction" text="OK" GridPane.columnSpan="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+			<GridPane.margin>
+				<Insets bottom="10.0" right="10.0" />
+			</GridPane.margin>
+		</Button>
+	</children>
+</GridPane>

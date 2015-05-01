@@ -143,10 +143,6 @@ public class DataImportModel implements Serializable
 					this.activityFilesProperty.add(file);
 					this.allFilesProperty.getValue().add(file);
 				}
-				else
-				{
-					// TODO: Log unknown file type
-				}
 
 			}
 		}
@@ -220,6 +216,16 @@ public class DataImportModel implements Serializable
 		{
 			this.activityColumns.add(column);
 		}
+	}
+
+	/**
+	 * Clears all files from the list of Headcount files and the list of Activity files.
+	 */
+	public void clearAllFiles()
+	{
+		this.allFilesProperty.getValue().clear();
+		this.headcountFilesProperty().clear();
+		this.activityFilesProperty().clear();
 	}
 	// endregion
 }

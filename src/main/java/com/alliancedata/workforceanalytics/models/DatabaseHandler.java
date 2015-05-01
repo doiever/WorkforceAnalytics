@@ -1,14 +1,15 @@
 package com.alliancedata.workforceanalytics.models;
 
-import com.alliancedata.workforceanalytics.*;
-import com.almworks.sqlite4java.SQLiteConnection;
-import com.almworks.sqlite4java.SQLiteException;
-import com.almworks.sqlite4java.SQLiteJob;
-import com.almworks.sqlite4java.SQLiteQueue;
+import com.alliancedata.workforceanalytics.Constants;
+import com.alliancedata.workforceanalytics.Utilities;
+import com.almworks.sqlite4java.*;
+import javafx.scene.control.Alert;
 import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.StringJoiner;
 
@@ -19,7 +20,6 @@ import java.util.StringJoiner;
 public class DatabaseHandler implements Serializable
 {
 	// region Fields
-	private transient SQLiteConnection connection;
 	private File databaseFile = null;
 	private boolean hasHeadcountData = false;
 	// endregion
@@ -72,13 +72,13 @@ public class DatabaseHandler implements Serializable
 		String populateQuery = buildPopulateQuery(headcountData, activityData);
 
 		// Execute queries to create and populate tables:
-		boolean schemaCreated = executeQuery(createSchemaQuery);
-		boolean populated = executeQuery(populateQuery);
+		boolean schemaCreated = executeLameQuery(createSchemaQuery);
+		boolean populated = executeLameQuery(populateQuery);
 
 		return schemaCreated && populated;
 	}
 
-	public boolean executeQuery(@NotNull String query)
+	public boolean executeLameQuery(@NotNull String query)
 	{
 		Boolean success = null;
 		SQLiteQueue queue = new SQLiteQueue(this.getDatabaseFile());
@@ -96,8 +96,8 @@ public class DatabaseHandler implements Serializable
 					}
 					catch (SQLiteException ex)
 					{
-						// TODO
-						ex.printStackTrace();
+						Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "SQL Error", null,
+							null, ex.getMessage());
 						return false;
 					}
 
@@ -121,7 +121,8 @@ public class DatabaseHandler implements Serializable
 			}
 			catch (InterruptedException ex)
 			{
-				// TODO
+				Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "Concurrency Error", null,
+					null, ex.getMessage());
 				ex.printStackTrace();
 			}
 			finally
@@ -131,6 +132,150 @@ public class DatabaseHandler implements Serializable
 		}
 
 		return success;
+	}
+
+	@NotNull
+	public LinkedHashSet<String> getColumnNames(@NotNull String tableName)
+	{
+		final String query = "PRAGMA table_info(" + tableName + ");";
+		LinkedHashSet<String> columns = new LinkedHashSet<>();
+		SQLiteQueue queue = null;
+
+		SQLiteJob<LinkedHashSet<String>> getColumnNamesJob = new SQLiteJob<LinkedHashSet<String>>() {
+			@Override
+			protected LinkedHashSet<String> job(SQLiteConnection connection) throws Throwable {
+				final LinkedHashSet<String> finalColumns = new LinkedHashSet<>();
+				SQLiteStatement statement = connection.prepare(query);
+
+				while (statement.step())
+				{
+					for (int i = 0; i < statement.columnCount(); i++)
+					{
+						finalColumns.add(statement.columnString(1));
+					}
+				}
+
+				return finalColumns;
+			}
+		};
+
+		try
+		{
+			queue = new SQLiteQueue(this.getDatabaseFile());
+			queue.start();
+
+			columns = queue.execute(getColumnNamesJob).complete();
+		}
+		finally
+		{
+			if (queue != null)
+			{
+				queue.stop(true);
+			}
+		}
+
+		return columns;
+	}
+
+	@NotNull
+	public LinkedHashSet<String> getTableNames()
+	{
+		final String query = "SELECT name FROM sqlite_master WHERE type='table';";
+		LinkedHashSet<String> tableNames = new LinkedHashSet<>();
+		SQLiteQueue queue = null;
+
+		SQLiteJob<LinkedHashSet<String>> getTableNamesJob = new SQLiteJob<LinkedHashSet<String>>() {
+			@Override
+			protected LinkedHashSet<String> job(SQLiteConnection connection) throws Throwable {
+				final LinkedHashSet<String> finalTableNames = new LinkedHashSet<>();
+				SQLiteStatement statement = connection.prepare(query);
+
+				while (statement.step())
+				{
+					for (int i = 0; i < statement.columnCount(); i++)
+					{
+						finalTableNames.add(statement.columnString(0));
+					}
+				}
+
+				return finalTableNames;
+			}
+		};
+
+		try
+		{
+			queue = new SQLiteQueue(this.getDatabaseFile());
+			queue.start();
+
+			tableNames = queue.execute(getTableNamesJob).complete();
+		}
+		finally
+		{
+			if (queue != null)
+			{
+				queue.stop(true);
+			}
+		}
+
+		// Remove sqlite_sequence from table list:
+		if (tableNames.contains("sqlite_sequence"))
+		{
+			tableNames.remove("sqlite_sequence");
+		}
+
+		return tableNames;
+	}
+
+	/**
+	 * Executes a query against the specified session's database and returns the results as a list of lists of Strings.
+	 * @param session The session from which the target database is obtained and queried against.
+	 * @param query The query to execute.
+	 * @return A {@code LinkedList<LinkedList<String>>} containing data.
+	 */
+	@NotNull
+	public static LinkedList<LinkedList<String>> executeQuery(@NotNull Session session, @NotNull String query)
+	{
+		LinkedList<LinkedList<String>> data = new LinkedList<>();
+		SQLiteQueue queue = null;
+
+		SQLiteJob<LinkedList<LinkedList<String>>> queryJob = new SQLiteJob<LinkedList<LinkedList<String>>>() {
+			@Override
+			protected LinkedList<LinkedList<String>> job(SQLiteConnection connection) throws Throwable {
+				final LinkedList<LinkedList<String>> finalData = new LinkedList<>();
+				SQLiteStatement statement = connection.prepare(query);
+
+				while (statement.step())
+				{
+					LinkedList<String> row = new LinkedList<>();
+
+					for (int i = 0; i < statement.columnCount(); i++)
+					{
+						row.add(statement.columnString(i));
+					}
+
+					finalData.add(row);
+				}
+
+				return finalData;
+			}
+		};
+
+		try
+		{
+			queue = new SQLiteQueue(session.getDatabaseHandler().getDatabaseFile());
+			queue.start();
+
+			data = queue.execute(queryJob).complete();
+		}
+		finally
+		{
+			if (queue != null)
+			{
+				queue.stop(true);
+			}
+		}
+
+		return data;
 	}
 
 	/**
@@ -150,14 +295,14 @@ public class DatabaseHandler implements Serializable
 		}
 		catch (IOException ex)
 		{
-			// TODO
-			ex.printStackTrace();
+			Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "File Error", null,
+				"Unable to write to disk.", ex.getMessage());
 			return null;
 		}
 		catch (SecurityException ex)
 		{
-			// TODO
-			ex.printStackTrace();
+			Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "Security Error", null,
+				"Unable to write to disk.", ex.getMessage());
 			return null;
 		}
 	}

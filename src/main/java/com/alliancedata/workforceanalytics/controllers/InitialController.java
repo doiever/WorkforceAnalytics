@@ -1,6 +1,7 @@
 package com.alliancedata.workforceanalytics.controllers;
 
 import com.alliancedata.workforceanalytics.Constants;
+import com.alliancedata.workforceanalytics.Utilities;
 import com.alliancedata.workforceanalytics.models.Session;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -11,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -61,7 +63,7 @@ public class InitialController implements Initializable
 		Session newSession = Constants.SESSION_MANAGER.createSession();
 		Constants.SESSION_MANAGER.setCurrentSession(newSession);
 
-		this.loadMainView();
+		this.loadMainView(false);
 	}
 
 	public void button_usePreviousSession_onAction(ActionEvent event)
@@ -69,7 +71,7 @@ public class InitialController implements Initializable
 		// Use previous session as current session:
 		Constants.SESSION_MANAGER.setCurrentSession(Constants.SESSION_MANAGER.getPreviousSession());
 
-		this.loadMainView();
+		this.loadMainView(true);
 	}
 
 	public void button_exit_onAction(ActionEvent event)
@@ -80,15 +82,17 @@ public class InitialController implements Initializable
 	/**
 	 * Closes the Initial view and opens the Main view in a new stage.
 	 */
-	public void loadMainView()
+	public void loadMainView(boolean usePreviousSession)
 	{
 		FXMLLoader loader = new FXMLLoader();
+		MainController.isUsingPreviousSession.set(usePreviousSession);
 
 		try
 		{
 			Stage mainStage = new Stage();
 			Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.MAIN_VIEW));
 			Scene scene = new Scene(rootNode);
+
 
 			mainStage.setTitle(Constants.APPLICATION_NAME);
 			mainStage.setOnCloseRequest(Constants.CLOSE_EVENT_HANDLER);
@@ -98,8 +102,8 @@ public class InitialController implements Initializable
 		}
 		catch (IOException ex)
 		{
-			// TODO: Can't find Constants.MAIN_VIEW file.
-			ex.printStackTrace();
+			Utilities.showTextAreaDialog(Alert.AlertType.ERROR, "View Error", null,
+				"Unable to load Main view.", ex.getMessage());
 		}
 	}
 }
