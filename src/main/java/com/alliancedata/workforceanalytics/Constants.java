@@ -19,7 +19,7 @@ public final class Constants
 	// region Views
 	public static final String INITIAL_VIEW = "/views/InitialView.fxml";
 	public static final String MAIN_VIEW = "/views/MainView.fxml";
-    public static final String FILTER_VIEW = "/views/Filter Screen.fxml";
+    public static final String FILTER_VIEW = "/views/FilterView.fxml";
 	public static final String ABOUT_VIEW = "/views/AboutView.fxml";
 	public static final String GUIDE_VIEW = "/views/UserGuideView.fxml";
 	// endregion

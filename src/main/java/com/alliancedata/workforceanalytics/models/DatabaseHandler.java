@@ -175,6 +175,55 @@ public class DatabaseHandler implements Serializable
 		return columns;
 	}
 
+	@NotNull
+	public LinkedHashSet<String> getTableNames()
+	{
+		final String query = "SELECT name FROM sqlite_master WHERE type='table';";
+		LinkedHashSet<String> tableNames = new LinkedHashSet<>();
+		SQLiteQueue queue = null;
+
+		SQLiteJob<LinkedHashSet<String>> getTableNamesJob = new SQLiteJob<LinkedHashSet<String>>() {
+			@Override
+			protected LinkedHashSet<String> job(SQLiteConnection connection) throws Throwable {
+				final LinkedHashSet<String> finalTableNames = new LinkedHashSet<>();
+				SQLiteStatement statement = connection.prepare(query);
+
+				while (statement.step())
+				{
+					for (int i = 0; i < statement.columnCount(); i++)
+					{
+						finalTableNames.add(statement.columnString(0));
+					}
+				}
+
+				return finalTableNames;
+			}
+		};
+
+		try
+		{
+			queue = new SQLiteQueue(this.getDatabaseFile());
+			queue.start();
+
+			tableNames = queue.execute(getTableNamesJob).complete();
+		}
+		finally
+		{
+			if (queue != null)
+			{
+				queue.stop(true);
+			}
+		}
+
+		// Remove sqlite_sequence from table list:
+		if (tableNames.contains("sqlite_sequence"))
+		{
+			tableNames.remove("sqlite_sequence");
+		}
+
+		return tableNames;
+	}
+
 	/**
 	 * Executes a query against the specified session's database and returns the results as a list of lists of Strings.
 	 * @param session The session from which the target database is obtained and queried against.
