@@ -3,6 +3,7 @@ package com.alliancedata.workforceanalytics;
 import com.alliancedata.workforceanalytics.models.DatabaseHandler;
 import com.alliancedata.workforceanalytics.models.Session;
 import org.jetbrains.annotations.NotNull;
+
 import java.io.*;
 import java.nio.file.Paths;
 
@@ -22,10 +23,9 @@ public final class SessionManager implements Serializable
 
 	/**
 	 * Version of the {@code SessionManager} class, used for serialization/deserialization validation.
-	 * Don't change this unless you're making structural changes to the {@code SessionManager} class
-	 * with the intent of changing serializable/transient fields, as version mismatches between this
-	 * field and any serialized {@code SessionManager} objects will throw an {@code InvalidClassException}.
-	 * <br><br>See the documentation for the
+	 * Don't change this unless you're making structural changes to a serializable class with the intent
+	 * of changing serializable/transient fields, as version mismatches between this field and any serialized
+	 * {@code SessionManager} objects will throw an {@code InvalidClassException}.<br><br>See the documentation for the
 	 * <a href="https://docs.oracle.com/javase/8/docs/api/java/io/Serializable.html">{@code java.io.Serializable}</a>
 	 * interface for more info.
 	 */

@@ -1,8 +1,12 @@
 package com.alliancedata.workforceanalytics.models;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Implementation of a user Session.
@@ -15,6 +19,7 @@ public class Session implements Serializable
 	private int id = -1;
 	private Date date = new Date();
 	private DatabaseHandler databaseHandler = null;
+	private List<File> files = new LinkedList<>();
 	// endregion
 
 	// region Constructors
@@ -27,6 +32,7 @@ public class Session implements Serializable
 	{
 		this.id = id;
 		this.databaseHandler = databaseHandler;
+		this.files = files;
 	}
 	// endregion
 
@@ -55,6 +61,24 @@ public class Session implements Serializable
 	public DatabaseHandler getDatabaseHandler()
 	{
 		return this.databaseHandler;
+	}
+
+	/**
+	 * Gets the Session's list of files.
+	 */
+	@NotNull
+	public List<File> getFiles()
+	{
+		return this.files;
+	}
+
+	/**
+	 * Sets the Session's list of files.
+	 * @param files The list of files.
+	 */
+	public void setFiles(List<File> files)
+	{
+		this.files = files;
 	}
 	// endregion
 }

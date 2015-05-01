@@ -53,7 +53,10 @@
                     </rowConstraints>
                      <children>
                         <CheckBox fx:id="grid_ID" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="ID" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                        <CheckBox fx:id="grid_Pay" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="100.0" text="Pay Position" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Pay" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" prefHeight="17.0" prefWidth="100.0" text="Pay Position" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                           <tooltip>
+                              <Tooltip text="Pay Status, Reg/Temp, Pay Type_WFA" />
+                           </tooltip></CheckBox>
                         <CheckBox fx:id="grid_CompType" mnemonicParsing="false" text="Comp Type" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                         <CheckBox fx:id="grid_STD" mnemonicParsing="false" text="STD Hours/Week" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
                         <CheckBox fx:id="grid_FTE" mnemonicParsing="false" text="FTE Std_WFA" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
@@ -72,10 +75,19 @@
                     </rowConstraints>
                      <children>
                         <CheckBox fx:id="grid_Eff" mnemonicParsing="false" text="Eff Date" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                        <CheckBox fx:id="grid_Dept" mnemonicParsing="false" text="Department" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Dept" mnemonicParsing="false" text="Department" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                           <tooltip>
+                              <Tooltip text="Department Code, Department" />
+                           </tooltip></CheckBox>
                         <CheckBox fx:id="grid_CostCenter" mnemonicParsing="false" text="CostCenter-PS11" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                        <CheckBox fx:id="grid_Local" mnemonicParsing="false" text="Locality" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                        <CheckBox fx:id="grid_Job" mnemonicParsing="false" text="Job" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Local" mnemonicParsing="false" text="Locality" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <tooltip>
+                              <Tooltip text="Country, State, Work Location_WFA, Region_WFA" />
+                           </tooltip></CheckBox>
+                        <CheckBox fx:id="grid_Job" mnemonicParsing="false" text="Job" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                           <tooltip>
+                              <Tooltip text="Job Code, Job Level_WFA" />
+                           </tooltip></CheckBox>
                         <CheckBox fx:id="grid_LOB" mnemonicParsing="false" text="LOB_WFA" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
                      </children>
                   </GridPane>
@@ -90,8 +102,14 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <CheckBox fx:id="grid_Acq" mnemonicParsing="false" text="Acquisitions" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                        <CheckBox fx:id="grid_Product" mnemonicParsing="false" text="Products" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Acq" mnemonicParsing="false" text="Acquisitions" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <tooltip>
+                              <Tooltip text="Acquisition Date, Acquisition Name" />
+                           </tooltip></CheckBox>
+                        <CheckBox fx:id="grid_Product" mnemonicParsing="false" text="Products" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                           <tooltip>
+                              <Tooltip text="Product LOB_WFA, Product Group_WFA, Product_WFA" />
+                           </tooltip></CheckBox>
                         <CheckBox fx:id="grid_SLT" mnemonicParsing="false" text="SLT Indicator" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                         <CheckBox fx:id="grid_Headcount" mnemonicParsing="false" text="Headcount" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
                         <CheckBox fx:id="grid_Action" mnemonicParsing="false" text="Action Descr" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
@@ -110,11 +128,23 @@
                     </rowConstraints>
                      <children>
                         <CheckBox fx:id="grid_Skillset" mnemonicParsing="false" text="Skillset_WFA" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                        <CheckBox fx:id="grid_YOS" mnemonicParsing="false" text="YOS" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                        <CheckBox fx:id="grid_EffPer" mnemonicParsing="false" text="Effective Periods" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_YOS" mnemonicParsing="false" text="YOS" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <tooltip>
+                              <Tooltip text="YOS, YOS_WFA" />
+                           </tooltip></CheckBox>
+                        <CheckBox fx:id="grid_EffPer" mnemonicParsing="false" text="Effective Periods" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                           <tooltip>
+                              <Tooltip text="Eff Year, Eff Year-Qtr, Eff Year-Mo" />
+                           </tooltip></CheckBox>
                         <CheckBox fx:id="grid_RptLevel" mnemonicParsing="false" text="Rpt Level" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                        <CheckBox fx:id="grid_Super" mnemonicParsing="false" text="Supervisor" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-                        <CheckBox fx:id="grid_Tenure" mnemonicParsing="false" text="Tenure" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Super" mnemonicParsing="false" text="Supervisor" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                           <tooltip>
+                              <Tooltip text="L0 Supv ID, L1 Supv ID, L2 Supv ID, L3 Supv ID, L4 Supv ID, L5 Supv ID, L6 Supv ID, L7 Supv ID, L8 Supv ID, L9 Supv ID, L10 Supv ID, L11 Supv ID, Supv ID Chain" />
+                           </tooltip></CheckBox>
+                        <CheckBox fx:id="grid_Tenure" mnemonicParsing="false" text="Tenure" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                           <tooltip>
+                              <Tooltip text="ADS Tenure, ADS Tenure_WFA" />
+                           </tooltip></CheckBox>
                      </children>
                   </GridPane>
                   <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -128,9 +158,18 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <CheckBox fx:id="grid_Direct" mnemonicParsing="false" text="Direct Reports" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                        <CheckBox fx:id="grid_TotalReport" mnemonicParsing="false" text="Total Reports" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                        <CheckBox fx:id="grid_DeptLevel" mnemonicParsing="false" text="Dept Level" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grid_Direct" mnemonicParsing="false" text="Direct Reports" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                           <tooltip>
+                              <Tooltip text="Direct Reports, Direct Reports_WFA" />
+                           </tooltip></CheckBox>
+                        <CheckBox fx:id="grid_TotalReport" mnemonicParsing="false" text="Total Reports" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                           <tooltip>
+                              <Tooltip text="Total Reports, Total Reports_WFA" />
+                           </tooltip></CheckBox>
+                        <CheckBox fx:id="grid_DeptLevel" mnemonicParsing="false" text="Dept Level" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <tooltip>
+                              <Tooltip text="L0 Dept Name, L1 Dept Name, L2 Dept Name, L3 Dept Name, L4 Dept Name, L5 Dept Name , L6 Dept Name" />
+                           </tooltip></CheckBox>
                         <CheckBox fx:id="grid_OrgUnit" mnemonicParsing="false" text="Org Unit_WFA" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                         <CheckBox fx:id="grid_WFH" mnemonicParsing="false" text="WFH_WFA" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
                      </children>
@@ -147,7 +186,10 @@
                     </rowConstraints>
                      <children>
                         <CheckBox fx:id="grid_JobChange" mnemonicParsing="false" text="Job Change Category_WFA" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-                        <CheckBox fx:id="grindHandT" mnemonicParsing="false" text="Hire and Termination" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                        <CheckBox fx:id="grindHandT" mnemonicParsing="false" text="Hire and Termination" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <tooltip>
+                              <Tooltip text="Start Date, Rehire Date, Service Date, Term Date, Last Date Worked, Termination Category_WFA, Hire Category_WFA" />
+                           </tooltip></CheckBox>
                         <CheckBox fx:id="grid_AreaExper" mnemonicParsing="false" text="Area of Expertise_WFA" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="TOP" />
                      </children>
                   </GridPane>
