@@ -825,17 +825,4 @@ public class MainController implements Initializable
 		loadOptionView();
 	}
 
-	public void Button_Trends_Termination_Cancel(ActionEvent actionEvent) {
-
-		Stage stage = (Stage)button_termination_cancel.getScene().getWindow();
-		stage.close();
-
-	}
-
-	public void Button_Trends_Termination_Analyze(ActionEvent actionEvent) {
-
-		FindTrendTermination();
-
-	}
-
 }
