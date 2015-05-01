@@ -596,7 +596,7 @@ public class MainController implements Initializable
     {
 
 	// Make File to save from user
-	Window owner = ((Node)event.getTarget()).getScene().getWindow();
+	Window owner = gridPane_main.getScene().getWindow();
 	FileChooser fileChooser = new FileChooser();
 	fileChooser.setTitle("Export Report");
 	fileChooser.setInitialDirectory(Constants.INITIAL_EXPORT_DATA_DIRECTORY);
