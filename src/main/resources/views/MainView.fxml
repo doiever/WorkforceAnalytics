@@ -55,7 +55,7 @@
 						<Glyph fontFamily="FontAwesome" icon="print" />
 					</graphic>
 				</Button>
-				<Button fx:id="button_generateReport" mnemonicParsing="false" onAction="#hyperlink_filterData_OnAction" text="Generate report">
+				<Button fx:id="button_generateReport" mnemonicParsing="false" onAction="#hyperlink_filterData_OnAction" text="Generate Report">
 					<graphic>
 						<Glyph fontFamily="FontAwesome" icon="file_text" />
 					</graphic>
@@ -75,7 +75,7 @@
 												<Glyph fontFamily="FontAwesome" icon="database" />
 											</graphic>
 										</Hyperlink>
-										<Hyperlink fx:id="hyperlink_generateReport" maxWidth="1.7976931348623157E308" onAction="#hyperlink_filterData_OnAction" text="Filter data...">
+										<Hyperlink fx:id="hyperlink_generateReport" maxWidth="1.7976931348623157E308" onAction="#hyperlink_filterData_OnAction" text="Generate Report...">
 											<graphic>
 												<Glyph fontFamily="FontAwesome" icon="filter" />
 											</graphic>
