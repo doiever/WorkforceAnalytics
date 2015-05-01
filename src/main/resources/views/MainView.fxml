@@ -95,7 +95,7 @@
 									<children>
 										<Hyperlink disable="true" onAction="#hyperlink_FindTrends" text="Find trends..." />
 										<Hyperlink disable="true" onAction="#hyperlink_FindSpecificTrend" text="Find a specific trend..." />
-                              <Hyperlink fx:id="hyperlink_analyzetermination" disable="true" layoutX="20.0" layoutY="48.0" onAction="#AnalyzeTrendTerm" text="Analyze Termination Trends" />
+                              <Hyperlink fx:id="hyperlink_analyzetermination" disable="false" layoutX="20.0" layoutY="48.0" onAction="#AnalyzeTrendTerm" text="Analyze Termination Trends" />
 									</children>
 								</VBox>
 							</content>
