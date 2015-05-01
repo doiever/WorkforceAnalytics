@@ -26,7 +26,9 @@ public final class Constants
 	// endregion
 
 	// region Sessions
-	public static final String CONFIGURATION_DIRECTORY = System.getProperty("user.home") + "/.wfa";
+	public static final String CONFIGURATION_DIRECTORY = getConfigurationDirectory();
+
+
 	public static final String SESSIONS_DIRECTORY = CONFIGURATION_DIRECTORY + "/sessions";
 	public static final String SESSION_MANAGER_FILE = CONFIGURATION_DIRECTORY + "/SessionManager.bin";
 	public static final SessionManager SESSION_MANAGER = SessionManager.getInstance();
@@ -52,4 +54,19 @@ public final class Constants
 	public static final String PRIMARY_KEY_ATTRIBUTES = "PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE";
 	// endregion
 
+
+	private static String getConfigurationDirectory()
+	{
+		String home = System.getenv("APPDATA");
+
+		if (home == null || home.length() == 0)
+		{
+			home = System.getProperty("user.home");
+		}
+
+		File CONFIG_HOME = new File(home, ".wfa").getAbsoluteFile();
+		CONFIG_HOME.mkdirs();
+
+		return CONFIG_HOME.getAbsolutePath();
+	}
 }

@@ -101,7 +101,6 @@ public final class SessionManager implements Serializable
 	 * Gets the current session.
 	 * @return A {@code Session} object referring to the user's current session.
 	 */
-	@NotNull
 	public Session getCurrentSession()
 	{
 		return this.currentSession;
