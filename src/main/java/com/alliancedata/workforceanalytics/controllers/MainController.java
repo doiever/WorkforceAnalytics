@@ -151,8 +151,8 @@ public class MainController implements Initializable
 						int headcountFileCount = dataImportModel.getHeadcountFiles().size();
 						int activityFileCount = dataImportModel.getActivityFiles().size();
 						String statusText = String.format("Read %d rows from %d headcount file%s and %d rows from %d activity file%s.",
-							headcountRowCount, headcountFileCount, headcountFileCount != 1 ? "s" : "",
-							activityRowCount, activityFileCount, activityFileCount != 1 ? "s" : "");
+								headcountRowCount, headcountFileCount, headcountFileCount != 1 ? "s" : "",
+								activityRowCount, activityFileCount, activityFileCount != 1 ? "s" : "");
 						statusTextProperty.setValue(statusText);
 						populateTableView();
 					}
@@ -431,6 +431,33 @@ public class MainController implements Initializable
 
 	}
 
+	public void loadGuideView()
+	{
+		FXMLLoader loader = new FXMLLoader();
+
+		try
+		{
+			Stage mainStage = new Stage();
+			Parent rootNode = (Parent)loader.load(getClass().getResourceAsStream(Constants.GUIDE_VIEW));
+			Scene scene = new Scene(rootNode);
+
+			mainStage.setTitle(Constants.APPLICATION_NAME);
+			mainStage.initStyle(StageStyle.UTILITY);
+			mainStage.setScene(scene);
+			mainStage.show();
+		}
+		catch (IOException ex)
+		{
+			// TODO: Can't find Constants.MAIN_VIEW file.
+			ex.printStackTrace();
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+
+	}
+
     public void hyperlink_filterData_OnAction(ActionEvent event)
     {
         loadFilterView();
@@ -461,7 +488,7 @@ public class MainController implements Initializable
 
     public void hyperlink_UserGuide(ActionEvent event)
     {
-
+		loadGuideView();
     }
 
     public void hyperlink_About(ActionEvent event)
