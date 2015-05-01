@@ -1,9 +1,6 @@
 package com.alliancedata.workforceanalytics.controllers;
 
-import com.alliancedata.workforceanalytics.Constants;
-import com.alliancedata.workforceanalytics.Enums;
-import com.alliancedata.workforceanalytics.LinkedListValueFactory;
-import com.alliancedata.workforceanalytics.Utilities;
+import com.alliancedata.workforceanalytics.*;
 import com.alliancedata.workforceanalytics.models.DataImportModel;
 import com.alliancedata.workforceanalytics.models.DatabaseHandler;
 import com.sun.javafx.collections.ObservableListWrapper;
@@ -38,6 +35,8 @@ import javax.swing.*;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
+
+import static com.alliancedata.workforceanalytics.models.DatabaseHandler.executeQuery;
 
 /**
  * Controller class for the Main view.
@@ -102,8 +101,8 @@ public class MainController implements Initializable
 
 		LinkedHashSet<String> headcountColumnNames = Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().getColumnNames("Headcount");
 		LinkedHashSet<String> activityColumnsNames = Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().getColumnNames("Activity");
-		LinkedList<LinkedList<String>> rawHeadcountData = DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), "SELECT * FROM Headcount;");
-		LinkedList<LinkedList<String>> rawActivityData = DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), "SELECT * FROM Activity;");
+		LinkedList<LinkedList<String>> rawHeadcountData = executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), "SELECT * FROM Headcount;");
+		LinkedList<LinkedList<String>> rawActivityData = executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), "SELECT * FROM Activity;");
 
 		LinkedHashSet<TableColumn<LinkedList<String>, ?>> headcountColumns = new LinkedHashSet<>();
 		LinkedHashSet<TableColumn<LinkedList<String>, ?>> activityColumns = new LinkedHashSet<>();
@@ -608,7 +607,8 @@ public class MainController implements Initializable
 	File file = fileChooser.showSaveDialog(owner);
 
 	if(file != null){
-		//SaveFile(/* Something here */, file);
+		LinkedList<LinkedList<String>> SF = DatabaseHandler.executeQuery(Constants.SESSION_MANAGER.getCurrentSession(), "SELECT * FROM Activity;");
+		SaveFile(SF, file);
 	}
 	}
 
@@ -617,12 +617,24 @@ public class MainController implements Initializable
 	private void SaveFile(LinkedList<LinkedList<String>> content,File file){
 		try{
 			FileWriter fileWriter = null;
-
 			fileWriter = new FileWriter(file);
-			//fileWriter.write(content);
+
+			LinkedHashSet<String> CN = Constants.SESSION_MANAGER.getCurrentSession().getDatabaseHandler().getColumnNames("Activity");
+			String Header = String.join(",", CN);
+
+			fileWriter.write(Header);
+			fileWriter.write('\n');
+
+			for(LinkedList<String> row : content){
+				String rowString = String.join(",",row);
+				fileWriter.write(rowString);
+				fileWriter.write('\n');
+			}
+
+			fileWriter.flush();
 			fileWriter.close();
 		}catch(IOException ex){
-			/* Something here */
+			ex.printStackTrace();
 		}
 	}
 
