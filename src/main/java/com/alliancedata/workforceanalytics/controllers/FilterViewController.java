@@ -1,11 +1,13 @@
 package com.alliancedata.workforceanalytics.controllers;
 
 import com.alliancedata.workforceanalytics.Constants;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
+import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -506,5 +508,10 @@ public class FilterViewController implements Initializable
         {
             System.out.println(e);
         }
+    }
+
+    public void hyperlink_Cancel(ActionEvent actionEvent) {
+        Stage stage = (Stage) grid_button_Cancel.getScene().getWindow();
+        stage.close();
     }
 }
