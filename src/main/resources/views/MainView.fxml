@@ -105,7 +105,7 @@
 				</Accordion>
 				<VBox fx:id="vbox_data" StackPane.alignment="CENTER">
 					<children>
-						<ToolBar VBox.vgrow="NEVER">
+						<ToolBar fx:id="toolbar_confirmData" VBox.vgrow="NEVER">
 							<items>
 								<Label maxWidth="1.7976931348623157E308" text="Click Start over to clear all files. Otherwise, click Use this data to proceed." wrapText="true" HBox.hgrow="ALWAYS">
 									<padding>
